@@ -11,3 +11,5 @@ pin "process", to: "https://ga.jspm.io/npm:@jspm/core@2.0.0-beta.24/nodelibs/bro
 pin "scheduler", to: "https://ga.jspm.io/npm:scheduler@0.23.0/index.js"
 
 pin_all_from "app/javascript/components", under: "components"
+pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@5.2.0/dist/js/bootstrap.esm.js"
+pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/lib/index.js"
