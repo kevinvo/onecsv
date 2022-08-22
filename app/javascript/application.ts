@@ -5,4 +5,4 @@
 // import "controllers"
 //
 
-import "./components/hello_react"
+import "./components/index"
