@@ -1,10 +1,11 @@
 import React, { useState, Component } from "react"
 import FileUploader from "./upload_file";
+import DisplayFile from "./display_file";
 
 function SelectFile() {
   return (
     <>
-      <div className="container" style={{"margin-top": "60px"}}>
+      <div className="container" style={{"marginTop": "60px"}}>
         <h6>Import a file</h6>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
@@ -15,6 +16,8 @@ function SelectFile() {
           </ol>
         </nav>
         <FileUploader />
+
+        <DisplayFile />
       </div>
     </>
   );
