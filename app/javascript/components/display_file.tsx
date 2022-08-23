@@ -5,6 +5,8 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+import BreadCrumb from "./bread_crumb";
+import FileUploader from "./upload_file";
 
 type Person = {
   firstName: string
@@ -84,57 +86,61 @@ function DisplayFile() {
   })
 
   return (
-    <div className="d-flex flex-row justify-content-center align-items-center">
-      <div className="d-flex flex-row justify-content-center align-items-center">
-        <div className="p-2">
-          <table>
-            <thead>
-              {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
-                    <th key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
+    <>
+      <BreadCrumb>
+        <div className="d-flex flex-row justify-content-center align-items-center">
+          <div className="d-flex flex-row justify-content-center align-items-center">
+            <div className="p-2">
+              <table>
+                <thead>
+                  {table.getHeaderGroups().map(headerGroup => (
+                    <tr key={headerGroup.id}>
+                      {headerGroup.headers.map(header => (
+                        <th key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </th>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map(row => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map(cell => (
-                    <td key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
+                </thead>
+                <tbody>
+                  {table.getRowModel().rows.map(row => (
+                    <tr key={row.id}>
+                      {row.getVisibleCells().map(cell => (
+                        <td key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              {table.getFooterGroups().map(footerGroup => (
-                <tr key={footerGroup.id}>
-                  {footerGroup.headers.map(header => (
-                    <th key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.footer,
-                            header.getContext()
-                          )}
-                    </th>
+                </tbody>
+                <tfoot>
+                  {table.getFooterGroups().map(footerGroup => (
+                    <tr key={footerGroup.id}>
+                      {footerGroup.headers.map(header => (
+                        <th key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.footer,
+                                header.getContext()
+                              )}
+                        </th>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </tfoot>
-          </table>
+                </tfoot>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </BreadCrumb>
+    </>
   )
 }
 
