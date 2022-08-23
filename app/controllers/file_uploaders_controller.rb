@@ -1,12 +1,14 @@
 class FileUploadersController < ApplicationController
-  # protect_from_forgery with: :null_session
-  # before_action :set_file_uploader, only: %i[ show edit update destroy ]
+  protect_from_forgery with: :null_session
 
-  # POST /file_uploaders or /file_uploaders.json
   def create
-    @file_uploader = FileUploader.new(file_uploader_params)
-    print(f"@file_uploader = #{@file_uploader}")
-    format.json { render :show, status: :created }
+    new_file = params[:file]
+    File.open(Rails.root.join('tmp', new_file.original_filename), 'wb') do |file|
+      file.write(new_file.read)
+    end
+
+    msg = {:status => :created, :message => "Success!"}
+    render :json => msg
 
   end
 
@@ -14,6 +16,6 @@ class FileUploadersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def file_uploader_params
-      params.fetch(:file_uploader, {})
+      params.fetch(:file, {})
     end
 end
