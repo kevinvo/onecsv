@@ -2,9 +2,10 @@ import React, { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
-function FileUploader() {
+export default function FileUploader() {
   const [uploadSuccess, setUploadSuccess] = useState(false)
-
+  const navigate = useNavigate()
+  
   const handleOnFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files[0]
     const formData = new FormData()
@@ -14,11 +15,9 @@ function FileUploader() {
       selectedFile.name
     )
 
-    axios.post("/file_uploaders", formData).then(function(res) {
+    axios.post("/file_uploaders", formData).then(function (res) {
       setUploadSuccess(true)
-      // const navigate = useNavigate()
-      // navigate("/select-column-headers")
-    }).catch(function(error) {
+      navigate("/select-column-headers")
     })
   }
 
@@ -33,4 +32,3 @@ function FileUploader() {
   )
 }
 
-export default FileUploader
