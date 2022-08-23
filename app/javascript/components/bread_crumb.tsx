@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BreadCrumb = (props) => {
+export default function BreadCrumb(props) {
   return (
     <>
       <div className="container" style={{"marginTop": "60px"}}>
@@ -18,5 +18,3 @@ const BreadCrumb = (props) => {
     </>
   )
 }
-
-export default BreadCrumb
