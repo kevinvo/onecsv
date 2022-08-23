@@ -1,5 +1,4 @@
-class Api::FileUploadersController < ApplicationController
-  protect_from_forgery with: :null_session
+class Api::FileUploadersController < ApiController
 
   def create
     new_file = params[:file]
@@ -8,8 +7,8 @@ class Api::FileUploadersController < ApplicationController
       file.write(new_file.read)
     end
 
-    puts("FileUploadersController uploaded_file_path = #{uploaded_file_path}")
-    cookies[:uploaded_file_path] = uploaded_file_path
+    session[:uploaded_file_path] = uploaded_file_path
+
     msg = {:status => :created, :message => "Success!"}
     render :json => msg
   end
