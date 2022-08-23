@@ -3,13 +3,9 @@ class Api::CsvContentController < ApiController
   def index
     uploaded_file_path = session[:uploaded_file_path]
     lines = [].tap do |lines|
-      File.open(uploaded_file_path, "r").each_line.with_index(1) do |line, index|
+      File.open(uploaded_file_path, "r").first(10).each.with_index(1) do |line|
         data = line.split(/\t/)
-        lines.append(data)
-        if index == 10
-          break
-        end
-
+        lines << data
       end
     end
 
