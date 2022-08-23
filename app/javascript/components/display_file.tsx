@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   createColumnHelper,
   flexRender,
@@ -6,7 +6,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import BreadCrumb from "./bread_crumb";
-import FileUploader from "./upload_file";
+import axios from "axios"
 
 type Person = {
   firstName: string
@@ -78,6 +78,12 @@ const columns = [
 
 function DisplayFile() {
   const [data, setData] = React.useState(() => [...defaultData])
+
+  useEffect(() => {
+    axios.get("api/csv_content").then(function (res) {
+      // alert('calling api')
+    })
+  }, [])
 
   const table = useReactTable({
     data,

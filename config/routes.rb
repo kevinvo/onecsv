@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :file_uploaders
+    resources :csv_content
   end
 
   root 'visitor#index'

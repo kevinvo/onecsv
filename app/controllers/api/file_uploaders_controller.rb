@@ -3,19 +3,15 @@ class Api::FileUploadersController < ApplicationController
 
   def create
     new_file = params[:file]
-    File.open(Rails.root.join('tmp', new_file.original_filename), 'wb') do |file|
+    uploaded_file_path = Rails.root.join('tmp', new_file.original_filename)
+    File.open(uploaded_file_path, 'wb') do |file|
       file.write(new_file.read)
     end
 
+    puts("FileUploadersController uploaded_file_path = #{uploaded_file_path}")
+    cookies[:uploaded_file_path] = uploaded_file_path
     msg = {:status => :created, :message => "Success!"}
     render :json => msg
-
   end
 
-  private
-
-    # Only allow a list of trusted parameters through.
-    def file_uploader_params
-      params.fetch(:file, {})
-    end
 end
