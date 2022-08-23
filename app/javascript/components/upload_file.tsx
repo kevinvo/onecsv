@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 export default function FileUploader() {
   const [uploadSuccess, setUploadSuccess] = useState(false)
   const navigate = useNavigate()
-  
+
   const handleOnFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files[0]
     const formData = new FormData()
@@ -15,7 +15,7 @@ export default function FileUploader() {
       selectedFile.name
     )
 
-    axios.post("/file_uploaders", formData).then(function (res) {
+    axios.post("api/file_uploaders", formData).then(function (res) {
       setUploadSuccess(true)
       navigate("/select-column-headers")
     })

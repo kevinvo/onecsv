@@ -1,4 +1,4 @@
-class FileUploadersController < ApplicationController
+class Api::FileUploadersController < ApplicationController
   protect_from_forgery with: :null_session
 
   def create
