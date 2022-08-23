@@ -77,7 +77,7 @@ const columns = [
 ]
 
 function DisplayFile() {
-  const [data, setData] = React.useState(() => [...defaultData])
+  const [data, setData] = useState(() => [...defaultData])
 
   useEffect(() => {
     axios.get("api/csv_content").then(function (res) {
@@ -95,55 +95,51 @@ function DisplayFile() {
     <>
       <BreadCrumb>
         <div className="d-flex flex-row justify-content-center align-items-center">
-          <div className="d-flex flex-row justify-content-center align-items-center">
-            <div className="p-2">
-              <table>
-                <thead>
-                  {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id}>
-                      {headerGroup.headers.map(header => (
-                        <th key={header.id}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </th>
-                      ))}
-                    </tr>
+          <table className="table table-bordered">
+            <thead>
+              {table.getHeaderGroups().map(headerGroup => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </th>
                   ))}
-                </thead>
-                <tbody>
-                  {table.getRowModel().rows.map(row => (
-                    <tr key={row.id}>
-                      {row.getVisibleCells().map(cell => (
-                        <td key={cell.id}>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
-                      ))}
-                    </tr>
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map(row => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map(cell => (
+                    <td key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
                   ))}
-                </tbody>
-                <tfoot>
-                  {table.getFooterGroups().map(footerGroup => (
-                    <tr key={footerGroup.id}>
-                      {footerGroup.headers.map(header => (
-                        <th key={header.id}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.footer,
-                                header.getContext()
-                              )}
-                        </th>
-                      ))}
-                    </tr>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              {table.getFooterGroups().map(footerGroup => (
+                <tr key={footerGroup.id}>
+                  {footerGroup.headers.map(header => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.footer,
+                            header.getContext()
+                          )}
+                    </th>
                   ))}
-                </tfoot>
-              </table>
-            </div>
-          </div>
+                </tr>
+              ))}
+            </tfoot>
+          </table>
         </div>
       </BreadCrumb>
     </>
