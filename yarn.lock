@@ -14,6 +14,11 @@
   resolved "https://registry.yarnpkg.com/@esbuild/linux-loong64/-/linux-loong64-0.15.5.tgz#91aef76d332cdc7c8942b600fa2307f3387e6f82"
   integrity sha512-UHkDFCfSGTuXq08oQltXxSZmH1TXyWsL+4QhZDWvvLl6mEJQqk3u7/wq1LjhrrAXYIllaTtRSzUXl4Olkf2J8A==
 
+"@faker-js/faker@^7.4.0":
+  version "7.4.0"
+  resolved "https://registry.npmjs.org/@faker-js/faker/-/faker-7.4.0.tgz#cac720d860a89d487b47e55e66a4fd114f1d3fe5"
+  integrity sha512-xDd3Tvkt2jgkx1LkuwwxpNBy/Oe+LkZBTwkgEFTiWpVSZgQ5sc/LenbHKRHbFl0dq/KFeeq/szyyPtpJRKY0fg==
+
 "@popperjs/core@^2.11.6":
   version "2.11.6"
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.6.tgz"

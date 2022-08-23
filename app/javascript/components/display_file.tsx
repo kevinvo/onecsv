@@ -1,83 +1,122 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo, useRef, HTMLProps } from "react"
 import {
-  createColumnHelper,
+  Column,
+  ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
+  Table,
   useReactTable,
-} from "@tanstack/react-table"
+} from '@tanstack/react-table'
 import BreadCrumb from "./bread_crumb";
 import axios from "axios"
+import { makeData, Person } from './makeData'
 
-type Person = {
-  firstName: string
-  lastName: string
-  age: number
-  visits: number
-  status: string
-  progress: number
+function IndeterminateCheckbox({
+  indeterminate,
+  className = '',
+  ...rest
+}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
+  const ref = useRef<HTMLInputElement>(null!)
+
+  useEffect(() => {
+    if (typeof indeterminate === 'boolean') {
+      ref.current.indeterminate = !rest.checked && indeterminate
+    }
+  }, [ref, indeterminate])
+
+  return (
+    <input
+      type="checkbox"
+      ref={ref}
+      className={className + ' cursor-pointer'}
+      {...rest}
+    />
+  )
 }
 
-const defaultData: Person[] = [
-  {
-    firstName: 'tanner',
-    lastName: 'linsley',
-    age: 24,
-    visits: 100,
-    status: 'In Relationship',
-    progress: 50,
-  },
-  {
-    firstName: 'tandy',
-    lastName: 'miller',
-    age: 40,
-    visits: 40,
-    status: 'Single',
-    progress: 80,
-  },
-  {
-    firstName: 'joe',
-    lastName: 'dirte',
-    age: 45,
-    visits: 20,
-    status: 'Complicated',
-    progress: 10,
-  },
-]
-
-const columnHelper = createColumnHelper<Person>()
-
-const columns = [
-  columnHelper.accessor('firstName', {
-    cell: info => info.getValue(),
-    footer: info => info.column.id,
-  }),
-  columnHelper.accessor(row => row.lastName, {
-    id: 'lastName',
-    cell: info => <i>{info.getValue()}</i>,
-    header: () => <span>Last Name</span>,
-    footer: info => info.column.id,
-  }),
-  columnHelper.accessor('age', {
-    header: () => 'Age',
-    cell: info => info.renderValue(),
-    footer: info => info.column.id,
-  }),
-  columnHelper.accessor('visits', {
-    header: () => <span>Visits</span>,
-    footer: info => info.column.id,
-  }),
-  columnHelper.accessor('status', {
-    header: 'Status',
-    footer: info => info.column.id,
-  }),
-  columnHelper.accessor('progress', {
-    header: 'Profile Progress',
-    footer: info => info.column.id,
-  }),
-]
-
 function DisplayFile() {
-  const [data, setData] = useState(() => [...defaultData])
+  const [rowSelection, setRowSelection] = useState({})
+
+  const columns = useMemo<ColumnDef<Person>[]>(
+    () => [
+      {
+        id: 'select',
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <div className="px-1">
+            <IndeterminateCheckbox
+              {...{
+                checked: row.getIsSelected(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          </div>
+        ),
+      },
+      {
+        header: 'Name',
+        footer: props => props.column.id,
+        columns: [
+          {
+            accessorKey: 'firstName',
+            cell: info => info.getValue(),
+            footer: props => props.column.id,
+          },
+          {
+            accessorFn: row => row.lastName,
+            id: 'lastName',
+            cell: info => info.getValue(),
+            header: () => <span>Last Name</span>,
+            footer: props => props.column.id,
+          },
+        ],
+      },
+      {
+        header: 'Info',
+        footer: props => props.column.id,
+        columns: [
+          {
+            accessorKey: 'age',
+            header: () => 'Age',
+            footer: props => props.column.id,
+          },
+          {
+            header: 'More Info',
+            columns: [
+              {
+                accessorKey: 'visits',
+                header: () => <span>Visits</span>,
+                footer: props => props.column.id,
+              },
+              {
+                accessorKey: 'status',
+                header: 'Status',
+                footer: props => props.column.id,
+              },
+              {
+                accessorKey: 'progress',
+                header: 'Profile Progress',
+                footer: props => props.column.id,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    []
+  )
+
+  const [data, setData] = useState(() => makeData(10))
 
   useEffect(() => {
     axios.get("api/csv_content").then(function (res) {
@@ -88,7 +127,13 @@ function DisplayFile() {
   const table = useReactTable({
     data,
     columns,
+    state: {
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    debugTable: true,
   })
 
   return (
