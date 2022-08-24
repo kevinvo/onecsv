@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   namespace :api do
     resources :file_uploaders
     resources :csv_content
@@ -10,5 +9,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   match "select-column-headers", to: "visitor#index", via: [:get]
-
+  match "map-headers", to: "visitor#index", via: [:get]
 end
