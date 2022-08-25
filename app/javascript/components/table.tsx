@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, HTMLProps } from "react"
-import DataGrid from 'react-data-grid';
+import DataGrid, {SelectColumn, textEditor} from 'react-data-grid'
 
 const Table = (props) => {
   const [rows, setRows] = useState([])
@@ -10,7 +10,6 @@ const Table = (props) => {
       const rowData = props.rows.slice(1).map(row => {
         const obj = {}
         row.forEach(function (element, index) {
-          // console.log("element = " + element)
           obj[`col${index}`] = element
           obj["id"] = Math.random().toString(36)
         })
@@ -25,20 +24,15 @@ const Table = (props) => {
       const headers = props.rows[0].map((element, index) => {
         return {
           name: element,
-          key: `col${index}`
+          // name: "",
+          key: `col${index}`,
+          resizable: true,
+          editor: textEditor,
         }
       })
       setColumns(headers)
     }
   }, [props.rows])
-
-  interface Row {
-    id: number
-  }
-
-  function rowKeyGetter(row: Row) {
-    return row.id;
-  }
 
   return (
     columns.length > 0 ?
@@ -46,8 +40,8 @@ const Table = (props) => {
                  rows={rows}
                  className="fill-grid rdg-light"
                  hoverStateEnabled={true}
-                 editable={true}
-                 rowKeyGetter={rowKeyGetter}
+                 // components={{checkboxFormatter: CheckboxFormatter}},
+                 rowKeyGetter={(row) => row.id}
                  defaultColumnOptions={{resizable: true}} />) : null
   )
 }
