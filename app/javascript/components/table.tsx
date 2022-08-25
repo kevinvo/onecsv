@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo, useRef, HTMLProps } from "react"
 import { useTable } from 'react-table'
 
 const Table = (props) => {
-  const [data, setData] = useState([{}])
-  const [columns, setColumns] = useState([{}])
+  const [data, setData] = useState([])
+  const [headers, setHeaders] = useState([])
 
   useEffect(() => {
     if (props.rows && props.rows.length > 0) {
@@ -16,7 +16,6 @@ const Table = (props) => {
         })
         return obj
       })
-      console.log("rowData = " + rowData)
       setData(rowData)
     }
   }, [props.rows])
@@ -29,12 +28,10 @@ const Table = (props) => {
           accessor: `col${index}`
         }
       })
-      console.log("headers = " + headers)
-      setColumns(headers)
+      setHeaders(headers)
     }
   }, [props.rows])
 
-  
   function MyTable({ columns, data }) {
     const {
       getTableProps,
@@ -74,17 +71,10 @@ const Table = (props) => {
     )
   }
 
-  console.log("headers.length = " + columns.length)
-  console.log("headers = " + JSON.stringify(columns))
-  console.log("data = " + JSON.stringify(data))
-
-  const table = columns.length > 0 ? (<MyTable columns={columns} data={data} />) : null
-
-  console.log("table = " + table)
+  const table = headers.length > 0 ? (<MyTable columns={headers} data={data} />) : null
 
   return (
-    {table}
-    // <MyTable columns={[{}]} data={[{}]} />
+    table
   )
 }
 

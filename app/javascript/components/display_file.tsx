@@ -6,9 +6,9 @@ import axios from "axios"
 function DisplayFile() {
   const [rows, setRows] = useState([])
   useEffect(() => {
-    axios.get("api/csv_content").then(function (res) {
-      // console.log("res = " + res)
-      setRows(res.data)
+    axios.get("api/csv_content").then(function (response) {
+      const data = response.data.data
+      setRows(data)
     })
   }, [])
 
@@ -16,7 +16,7 @@ function DisplayFile() {
   return (
     <>
       <BreadCrumb>
-        <Table rows={[]} />
+        <Table rows={rows} />
       </BreadCrumb>
     </>
   )
