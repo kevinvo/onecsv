@@ -4,7 +4,7 @@
   "dependencies": {
     "@faker-js/faker": "^7.4.0",
     "@popperjs/core": "^2.11.6",
-    "@tanstack/react-table": "^8.5.11",
+    "react-table": "^7.8.0",
     "axios": "^0.21.1",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
