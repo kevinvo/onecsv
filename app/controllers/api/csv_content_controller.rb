@@ -1,7 +1,6 @@
 require 'csv'
 
 class Api::CsvContentController < ApiController
-
   def index
     uploaded_file_path = session[:uploaded_file_path]
     lines = [].tap do |lines|
