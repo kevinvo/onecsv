@@ -26,8 +26,6 @@ export default function FileUploader() {
       <div>
         <input type="file" accept=".csv" onChange={handleOnFileChange} />
       </div>
-      {uploadSuccess ? <div>Success!</div>  : <></>
-      }
     </div>
   )
 }
