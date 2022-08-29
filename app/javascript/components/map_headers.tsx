@@ -3,19 +3,22 @@ import BreadCrumb from "./bread_crumb"
 import axios from "axios";
 
 function MapHeaders() {
-	const [rows, setRows] = useState([])
+	const [headers, setHeaders] = useState([])
+  const [headerDataTypes, setHeaderDataTypes] = useState([])
+
 
   useEffect(() => {
     axios.get("api/csv_header").then(function (response) {
       const data = response.data.data
-      setRows(data)
+      setHeaders(data.headers)
+      setHeaderDataTypes(data.data_types)
     })
   }, [])
 
 	return (
 		<>
       <BreadCrumb>
-        <table className="table table-bordered">
+        <table className="table table-bordered table-fit">
           <thead>
             <tr>
 	            <th scope="col">#</th>
@@ -27,17 +30,27 @@ function MapHeaders() {
           </thead>
 
           <tbody>
-            { rows.map((row, index) =>
+            { headers.map((header, index) =>
               <tr key={index}>
-              	<td></td>
-                <td>{row.value}</td>
-                <td></td>
-                <td></td>
+                <th scope="row">{index + 1}</th>
+                <td>{header.value}</td>
+                <td align="center">
+                </td>
+
+                <td align="center">
+                    <select id={`data-type-${index}`} name={`data-type-${index}`}>
+                      {headerDataTypes.map((data_type) =>
+                        <option value={`${data_type}`}>{data_type}</option>
+                      )}
+                    </select>
+                </td>
+
                 <td>
-                	<div>
+                	<div align="center">
 	                  <input type="checkbox" />
 	                </div>
                 </td>
+
               </tr>
             )}
           </tbody>
