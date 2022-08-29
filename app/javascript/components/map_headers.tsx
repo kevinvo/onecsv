@@ -33,7 +33,7 @@ function MapHeaders() {
             { headers.map((header, index) =>
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
-                <td>{header.value}</td>
+                <td>{header.header_name}</td>
                 <td align="center">
                 </td>
 
