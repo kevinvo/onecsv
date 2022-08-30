@@ -10,5 +10,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   match "select-column-headers", to: "visitor#index", via: [:get]
-  match "map-headers", to: "visitor#index", via: [:get]
+  match "map-template-columns", to: "visitor#index", via: [:get]
+  match "clean-and-finalize", to: "visitor#index", via: [:get]
 end

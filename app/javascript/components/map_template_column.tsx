@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import BreadCrumb from "./bread_crumb"
 import axios from "axios";
 
-function MapHeaders() {
+function MapTemplateColumn() {
 	const [headers, setHeaders] = useState([])
   const [headerDataTypes, setHeaderDataTypes] = useState([])
 
@@ -63,4 +63,4 @@ function MapHeaders() {
   )
 }
 
-export default MapHeaders
+export default MapTemplateColumn
