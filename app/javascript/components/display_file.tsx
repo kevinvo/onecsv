@@ -17,7 +17,7 @@ function DisplayFile() {
   return (
     <>
       <BreadCrumb>
-        <table className="table table-bordered">
+        <table className="table table-bordered w-auto">
           <thead>
             <tr>
               <th>
@@ -35,7 +35,7 @@ function DisplayFile() {
 
           <tbody>
             { body_content.map((row, index) =>
-              <tr key={index}>
+              <tr key={index} class="table-info">
                 <td>
                   <div>
                     <input type="checkbox" />
