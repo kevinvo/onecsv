@@ -11,9 +11,19 @@ class Api::CsvHeaderController < ApiController
     header_line = lines.first.split(/\t/).first
     header_names = CSV.parse(header_line).first.map { |value| value.to_s.strip}
 
+    # puts "header_names = #{header_names}"
+    # data_table = CSV.table(uploaded_file_path)
+    # puts "data_table = #{data_table}"
+
+
+    # header_names.each do |header_name|
+    #   puts "header_name.to_sym = #{header_name.to_sym}"
+    #   columns = data_table[header_name.to_sym]
+    # end
+
     header_map = header_names.map do |header_name|
       {header_name: header_name,
-       sample_values: []}
+       sample_values: %w(Text Number Email).sort}
     end
 
     header_data_types = %w(Text Number Email Date Currency).sort

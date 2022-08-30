@@ -6,7 +6,6 @@ function MapHeaders() {
 	const [headers, setHeaders] = useState([])
   const [headerDataTypes, setHeaderDataTypes] = useState([])
 
-
   useEffect(() => {
     axios.get("api/csv_header").then(function (response) {
       const data = response.data.data
@@ -35,6 +34,9 @@ function MapHeaders() {
                 <th scope="row">{index + 1}</th>
                 <td>{header.header_name}</td>
                 <td align="center">
+                  <ul>
+                    {header.sample_values.map((value) => <li>{value}</li>)}
+                  </ul>
                 </td>
 
                 <td align="center">
