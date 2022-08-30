@@ -21,10 +21,10 @@ function MapHeaders() {
           <thead>
             <tr>
 	            <th scope="col"></th>
-	            <th scope="col">CSV Column</th>
-	            <th scope="col">Sample Rows</th>
-	            <th scope="col">Template Column</th>
-	            <th scope="col">Required Field</th>
+	            <th class="text-center" scope="col">CSV Column</th>
+	            <th class="text-center" scope="col">Sample Rows</th>
+	            <th class="text-center" scope="col">Template Column</th>
+	            <th class="text-center" scope="col">Required Field</th>
 	          </tr>
           </thead>
 
