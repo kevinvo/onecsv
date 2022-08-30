@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :file_uploaders
     resources :csv_content
     resources :csv_header
+    resources :clean_up_and_finalize
   end
 
   root 'visitor#index'
