@@ -1,7 +1,7 @@
 require 'csv'
 
 class Api::CsvContentController < ApiController
-  TOTAL_LINES = 40
+  TOTAL_LINES = 20
 
   def index
     uploaded_file_path = session[:uploaded_file_path]

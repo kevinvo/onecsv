@@ -24,7 +24,7 @@ function MapTemplateColumn() {
 	            <th class="text-center" scope="col">CSV Column</th>
 	            <th class="text-center" scope="col">Sample Rows</th>
 	            <th class="text-center" scope="col">Template Column</th>
-	            <th class="text-center" scope="col">Required Field</th>
+	            <th class="text-center" scope="col">Required Column</th>
 	          </tr>
           </thead>
 
@@ -50,7 +50,7 @@ function MapTemplateColumn() {
 
                 <td align="center">
                 	<div align="center">
-	                  <input type="checkbox" />
+	                  <input type="checkbox" checked={header.required} />
 	                </div>
                 </td>
 
