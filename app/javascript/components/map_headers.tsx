@@ -20,7 +20,7 @@ function MapHeaders() {
         <table className="table table-bordered table-fit">
           <thead>
             <tr>
-	            <th scope="col">#</th>
+	            <th scope="col"></th>
 	            <th scope="col">CSV Column</th>
 	            <th scope="col">Sample Rows</th>
 	            <th scope="col">Template Column</th>
@@ -32,10 +32,10 @@ function MapHeaders() {
             { headers.map((header, index) =>
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
-                <td>{header.header_name}</td>
+                <td align="center">{header.header_name}</td>
                 <td align="center">
-                  <ul>
-                    {header.sample_values.map((value) => <li>{value}</li>)}
+                  <ul className="list-group">
+                  {header.sample_values.map((value) => <li className="list-group-item border-0">{value}</li>)}
                   </ul>
                 </td>
 
@@ -47,7 +47,7 @@ function MapHeaders() {
                     </select>
                 </td>
 
-                <td>
+                <td align="center">
                 	<div align="center">
 	                  <input type="checkbox" />
 	                </div>
