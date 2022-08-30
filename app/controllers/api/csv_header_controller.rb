@@ -8,13 +8,14 @@ class Api::CsvHeaderController < ApiController
     uploaded_file_path = session[:uploaded_file_path]
 
     csv = CSV.read(uploaded_file_path, :headers=>true)
+    header_data_types = %w(Text Number Email Date Currency).sort
     header_map = csv.headers.map do |header_name|
       column_values = csv[header_name].compact.first(6).sort.uniq.first(3)
       {header_name: header_name,
-       sample_values: column_values}
+       sample_values: column_values,
+       data_type: header_data_types.sample}
     end
-
-    header_data_types = %w(Text Number Email Date Currency).sort
+    
     data = {data_types: header_data_types, headers: header_map}
     msg = {:status => :ok, :data => data}
     render :json => msg
