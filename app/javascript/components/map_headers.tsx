@@ -40,7 +40,8 @@ function MapHeaders() {
                 </td>
 
                 <td align="center">
-                    <select id={`data-type-${index}`} name={`data-type-${index}`}>
+                    <select id={`data-type-${index}`} name={`data-type-${index}`} class="form-select" aria-label="Select template column type">
+                      <option value="-1">Select</option>
                       {headerDataTypes.map((data_type) =>
                         <option value={`${data_type}`}>{data_type}</option>
                       )}
