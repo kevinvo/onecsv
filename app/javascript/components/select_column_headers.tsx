@@ -8,7 +8,7 @@ function SelectColumnHeader() {
   const body_content = rows.slice(1)
 
   useEffect(() => {
-    axios.get("api/csv_content").then(function (response) {
+    axios.get("api/csv_content?total_rows=20").then(function (response) {
       const data = response.data.data
       setRows(data)
     })

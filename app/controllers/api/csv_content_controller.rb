@@ -4,9 +4,10 @@ class Api::CsvContentController < ApiController
   TOTAL_LINES = 20
 
   def index
+    total_lines = request.params&.fetch(:total_rows, TOTAL_LINES).to_i
     uploaded_file_path = session[:uploaded_file_path]
     lines = [].tap do |lines|
-      File.open(uploaded_file_path, "r:ISO-8859-1:UTF-8").first(TOTAL_LINES).each.with_index(1) do |line|
+      File.open(uploaded_file_path, "r:ISO-8859-1:UTF-8").first(total_lines).each.with_index(1) do |line|
         per_line = line.split(/\t/).first
         values = CSV.parse(per_line).first
         lines << values.map { |value| value.to_s.strip}
