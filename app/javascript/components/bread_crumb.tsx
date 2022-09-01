@@ -4,7 +4,13 @@ export default function BreadCrumb(props) {
   return (
     <>
       <div className="container" style={{"marginTop": "60px"}}>
-        <h6>Import a file</h6>
+        <div className="d-flex justify-content-between">
+          <div>Import a file</div>
+          <div>
+            <a href="/users/sign_in">Login</a>
+          </div>
+        </div>
+
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item active" aria-current="page"><a href="/">Select a file</a></li>
