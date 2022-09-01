@@ -8,7 +8,7 @@ function CleanAndFinalize() {
   const [rows, setRows] = useState([])
 
   useEffect(() => {
-    axios.get("api/csv_content_and_type").then(function (response) {
+    axios.get("api/csv_content_and_validation").then(function (response) {
       const data = response.data.data
 
       const cols = data.map(function (obj, index) {
@@ -17,6 +17,7 @@ function CleanAndFinalize() {
           key: `col${index}`
         }
       })
+      console.log("cols = " + JSON.stringify(cols))
       setColumns(cols)
 
       const refreshRows = data.map(function (obj) {
@@ -27,9 +28,22 @@ function CleanAndFinalize() {
         })
         return newObj
       })
+      // console.log("refreshRows = " + JSON.stringify(refreshRows))
+
       setRows(refreshRows)
     })
   }, [])
+
+  // const columns = [
+  //   {key: 'id', name: 'ID'},
+  //   {key: 'title', name: 'Title'},
+  //   {key: 'title1', name: 'Title1'}
+  // ]
+  //
+  // const rows = [
+  //   {id: 0, title: 'Example', title1: "Example1"},
+  //   {id: 1, title: 'Demo', title1: "Demo1"}
+  // ]
 
   return (
     <>

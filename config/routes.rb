@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :file_uploaders
     resources :csv_content
     resources :csv_header
-    resources :csv_content_and_type
+    resources :csv_content_and_validation
   end
 
   root 'visitor#index'
