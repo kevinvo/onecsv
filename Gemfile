@@ -66,7 +66,10 @@ group :development do
   # gem "spring"
 end
 
-
 gem "jsbundling-rails", "~> 1.0"
 gem "cssbundling-rails", "~> 1.1"
+# Authentication
 gem "devise"
+# OmniAuth Google OAuth2 Strategy
+gem "omniauth-google-oauth2"
+gem "dotenv-rails"
