@@ -72,4 +72,5 @@ gem "cssbundling-rails", "~> 1.1"
 gem "devise"
 # OmniAuth Google OAuth2 Strategy
 gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 gem "dotenv-rails"
