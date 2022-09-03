@@ -21,7 +21,7 @@ function MapTemplateColumn() {
           <thead>
             <tr>
 	            <th scope="col"></th>
-	            <th class="text-center" scope="col">CSV Column</th>
+	            <th class="text-center" scope="col">Header Column</th>
 	            <th class="text-center" scope="col">Sample Rows</th>
 	            <th class="text-center" scope="col">Template Column</th>
 	            <th class="text-center" scope="col">Required Column</th>
@@ -31,15 +31,15 @@ function MapTemplateColumn() {
           <tbody>
             { headers.map((header, index) =>
               <tr key={index}>
-                <th scope="row">{index + 1}</th>
-                <td align="center">{header.header_name}</td>
-                <td align="center">
+                <th scope="row" className="align-middle text-center">{index + 1}</th>
+                <td align="center" className="align-middle text-center">{header.header_name}</td>
+                <td align="center" className="align-middle text-center">
                   <ul className="list-group">
                   {header.sample_values.map((value) => <li className="list-group-item border-0">{value}</li>)}
                   </ul>
                 </td>
 
-                <td align="center">
+                <td align="center" className="align-middle text-center">
                     <select value={header.data_type} id={`data-type-${index}`} name={`data-type-${index}`} class="form-select" aria-label="Select template column type">
                       <option value="-1">Select</option>
                       {headerDataTypes.map((data_type) =>
@@ -48,8 +48,8 @@ function MapTemplateColumn() {
                     </select>
                 </td>
 
-                <td align="center">
-                	<div align="center">
+                <td align="center" className="align-middle text-center">
+                	<div>
 	                  <input type="checkbox" checked={header.required} />
 	                </div>
                 </td>
