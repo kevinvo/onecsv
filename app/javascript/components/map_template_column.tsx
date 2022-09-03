@@ -17,7 +17,7 @@ function MapTemplateColumn() {
 	return (
 		<>
       <BreadCrumb>
-        <table className="table table-bordered table-fit">
+        <table className="table table-bordered table-sm">
           <thead>
             <tr>
 	            <th scope="col"></th>
