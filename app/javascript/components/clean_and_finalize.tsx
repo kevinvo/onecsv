@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Component } from "react"
 import BreadCrumb from "./bread_crumb"
-import DataGrid, {checkboxFormatter, CheckboxFormatterProps, RowRendererProps, SelectColumn} from 'react-data-grid'
+import DataGrid, {textEditor, CheckboxFormatterProps, RowRendererProps, SelectColumn} from 'react-data-grid'
 import axios from "axios"
 
 function CleanAndFinalize() {
@@ -14,7 +14,12 @@ function CleanAndFinalize() {
       const cols = data.headers.map(function (obj, index) {
         return {
           name: obj.header_name,
-          key: `col${index}`
+          key: `col${index}`,
+          resizable: true,
+          width: 100,
+          frozen: true,
+          editor: textEditor,
+          formatter: ({ row }) => <div className="align-middle text-center"> {row[`col${index}`]} </div> //cell formatter
         }
       })
       setColumns(cols)
@@ -23,6 +28,7 @@ function CleanAndFinalize() {
         const obj = {}
         values.forEach(function (value, index) {
           obj[`col${index}`] = value
+          obj["color"] = "red"
           obj["id"] = value
         })
         return obj
@@ -34,19 +40,13 @@ function CleanAndFinalize() {
   return (
     <>
       <BreadCrumb>
-        <Table columns={columns} rows={rows}/>
+        <DataGrid className="rdg-light fill-grid"
+                  columns={columns}
+                  rows={rows}
+        />
       </BreadCrumb>
     </>
   )
 }
 
-function Table(props) {
-  return (
-    <DataGrid className="rdg-light fill-grid"
-              rowHeight={30}
-              columns={props.columns}
-              rows={props.rows}
-    />
-  )
-}
 export default CleanAndFinalize
