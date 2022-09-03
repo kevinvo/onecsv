@@ -24,11 +24,11 @@ function CleanAndFinalize() {
       })
       setColumns(cols)
 
-      const cleanRows = data.rows.map(function (values) {
+      const cleanRows = data.rows.map(function (row) {
         const obj = {}
-        values.forEach(function (value, index) {
+        row.forEach(function (object, index) {
+          const value = object.value
           obj[`col${index}`] = value
-          obj["color"] = "red"
           obj["id"] = value
         })
         return obj

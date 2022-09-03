@@ -11,14 +11,15 @@ class Api::CsvContentAndValidationController < ApiController
     header_map = csv.headers.map do |header_name|
       {header_name: header_name,
        data_type: header_data_types.sample,
-       required: false,
-       # values: csv[header_name],
-       # errors: []
+       required: false
       }
     end
 
     rows = csv.map do |values|
-      values.map { |value| value.last.to_s.strip }
+      values.map do |value|
+        {value: value.last.to_s.strip,
+         errors: []}
+      end
     end
 
     data = {headers: header_map, rows: rows}
