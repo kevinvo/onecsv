@@ -17,7 +17,7 @@ export default function FileUploader() {
 
     axios.post("api/file_uploaders", formData).then(function (res) {
       setUploadSuccess(true)
-      navigate("/select-column-headers")
+      navigate("/map-template-columns")
     })
   }
 

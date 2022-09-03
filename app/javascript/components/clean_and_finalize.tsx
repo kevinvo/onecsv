@@ -11,39 +11,25 @@ function CleanAndFinalize() {
     axios.get("api/csv_content_and_validation").then(function (response) {
       const data = response.data.data
 
-      const cols = data.map(function (obj, index) {
+      const cols = data.headers.map(function (obj, index) {
         return {
           name: obj.header_name,
           key: `col${index}`
         }
       })
-      console.log("cols = " + JSON.stringify(cols))
       setColumns(cols)
 
-      const refreshRows = data.map(function (obj) {
-        const newObj = {}
-        obj.values.forEach(function (value, index) {
-          newObj[`col${index}`] = value
+      const cleanRows = data.rows.map(function (values) {
+        const obj = {}
+        values.forEach(function (value, index) {
+          obj[`col${index}`] = value
           obj["id"] = value
         })
-        return newObj
+        return obj
       })
-      // console.log("refreshRows = " + JSON.stringify(refreshRows))
-
-      setRows(refreshRows)
+      setRows(cleanRows)
     })
   }, [])
-
-  // const columns = [
-  //   {key: 'id', name: 'ID'},
-  //   {key: 'title', name: 'Title'},
-  //   {key: 'title1', name: 'Title1'}
-  // ]
-  //
-  // const rows = [
-  //   {id: 0, title: 'Example', title1: "Example1"},
-  //   {id: 1, title: 'Demo', title1: "Demo1"}
-  // ]
 
   return (
     <>
@@ -55,7 +41,6 @@ function CleanAndFinalize() {
 }
 
 function Table(props) {
-
   return (
     <DataGrid className="rdg-light fill-grid"
               rowHeight={30}
@@ -63,6 +48,5 @@ function Table(props) {
               rows={props.rows}
     />
   )
-
 }
 export default CleanAndFinalize
