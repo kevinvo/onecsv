@@ -1,4 +1,4 @@
-module Constants
+module DataTypeConstant
   TEXT = 1
   NUMBER = 2
   EMAIL = 3
