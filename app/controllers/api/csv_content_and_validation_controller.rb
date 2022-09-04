@@ -6,11 +6,10 @@ class Api::CsvContentAndValidationController < ApiController
     uploaded_file_path = session[:uploaded_file_path]
 
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: "ISO-8859-1:UTF-8")
-    header_data_types = %w(Text Number Email Date Currency).sort
 
     header_map = csv.headers.map do |header_name|
-      {header_name: header_name,
-       data_type: header_data_types.sample,
+      {header_name: header_name.strip,
+       data_type: CsvDataTypeService.new([]).call,
        required: false
       }
     end

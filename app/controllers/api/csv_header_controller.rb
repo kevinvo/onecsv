@@ -13,10 +13,11 @@ class Api::CsvHeaderController < ApiController
     header_map = csv.headers.map do |header_name|
       top_sample_values = csv[header_name].first(20)
       clean_sample_values = top_sample_values.compact.sort
+      selected_sample_values = clean_sample_values.first(3)
 
       {header_name: header_name,
-       sample_values: clean_sample_values.first(3),
-       data_type: header_data_types.sample,
+       sample_values: selected_sample_values,
+       data_type: CsvDataTypeService.new(selected_sample_values).call,
        required: top_sample_values.length == clean_sample_values.length}
     end
 
