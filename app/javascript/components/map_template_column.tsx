@@ -5,15 +5,19 @@ import {CellDataType} from "./types"
 
 function MapTemplateColumn() {
 	const [headers, setHeaders] = useState([])
-  const [headerDataTypes, setHeaderDataTypes] = useState([])
 
   useEffect(() => {
     axios.get("api/csv_header").then(function (response) {
       const data = response.data.data
       setHeaders(data.headers)
-      setHeaderDataTypes(data.data_types)
     })
   }, [])
+
+  function onRequiredFieldChanged(event) {
+  }
+
+  function onSelectChanged(event) {
+  }
 
 	return (
 		<>
@@ -39,7 +43,7 @@ function MapTemplateColumn() {
                 <td align="center" className="align-middle text-center">{header.header_name}</td>
                 <td align="center" className="align-middle text-center">
                   <ul className="list-group">
-                  {header.sample_values.map((value) => <li className="list-group-item border-0">{value}</li>)}
+                  {header.sample_values.map((value, index) => <li key={index} className="list-group-item border-0">{value}</li>)}
                   </ul>
                 </td>
 
@@ -47,18 +51,21 @@ function MapTemplateColumn() {
                     <select value={header.data_type as CellDataType}
                             id={`data-type-${index}`}
                             name={`data-type-${index}`}
-                            class="form-select"
+                            className="form-select"
+                            onChange={onSelectChanged}
                             aria-label="Select template column type">
                       <option value="-1">Select</option>
-                      {Object.keys(CellDataType).map((key) =>
-                        <option value={`${CellDataType[key]}`}>{CellDataType[CellDataType[key]]}</option>
+                      {Object.keys(CellDataType).map((key, index) =>
+                        <option key={index} value={`${CellDataType[key]}`}>{CellDataType[CellDataType[key]]}</option>
                       )}
                     </select>
                 </td>
 
                 <td align="center" className="align-middle text-center">
                 	<div>
-	                  <input type="checkbox" checked={header.required} />
+	                  <input type="checkbox"
+                           checked={header.required}
+                           onChange={onRequiredFieldChanged}/>
 	                </div>
                 </td>
 
