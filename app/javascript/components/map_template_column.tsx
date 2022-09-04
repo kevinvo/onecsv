@@ -18,6 +18,9 @@ function MapTemplateColumn() {
 	return (
 		<>
       <BreadCrumb>
+        <div className="d-flex py-2 justify-content-end">
+          <button type="button" class="btn btn-md btn-primary">Save & Continue</button>
+        </div>
         <table className="table table-bordered table-sm">
           <thead>
             <tr>
