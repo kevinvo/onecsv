@@ -1,7 +1,6 @@
 require 'csv'
 
 class Api::CsvHeaderController < ApiController
-
   TOTAL_LINES = 20
 
   def index
@@ -24,6 +23,23 @@ class Api::CsvHeaderController < ApiController
     data = {data_types: header_data_types, headers: header_map}
     msg = {:status => :ok, :data => data}
     render :json => msg
+  end
 
+  def create
+    params["csv_headers"].each do |csv_header|
+      Header.new.tap do |header|
+        # TODO: temporarily adding
+        template = Template.create!(user_id: 1)
+        header.template_id = template.id
+        # TODO: temporarily adding
+        header.name = csv_header["header_name"]
+        header.is_required_field = csv_header["required"]
+        header.data_type = csv_header["data_type"]
+        header.save!
+      end
+    end
+
+    # TODO: render error and success case
+    render :json => {:status => :ok}
   end
 end

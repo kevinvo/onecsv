@@ -12,5 +12,4 @@ class Api::FileUploadersController < ApiController
     msg = {:status => :created, :message => "Success!"}
     render :json => msg
   end
-
 end
