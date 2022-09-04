@@ -18,7 +18,7 @@ class Api::CsvContentAndValidationController < ApiController
     rows = csv.map do |values|
       values.map do |value|
         {value: value.last.to_s.strip,
-         errors: [CsvDataTypeServices.new("abc").call]}
+         errors: [CsvDataTypeService.new("abc").call]}
       end
     end
 
