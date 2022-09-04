@@ -19,11 +19,27 @@ function MapTemplateColumn() {
   function onSelectChanged(event) {
   }
 
+  function onSave() {
+    const data = {
+      csv_headers: headers
+    }
+
+    axios.post('/api/csv_header', data)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
 	return (
 		<>
       <BreadCrumb>
         <div className="d-flex py-2 justify-content-end">
-          <button type="button" class="btn btn-md btn-primary">Save & Continue</button>
+          <button type="button" className="btn btn-md btn-primary" onClick={() => onSave()}>
+            Save & Continue
+          </button>
         </div>
         <table className="table table-bordered table-sm">
           <thead>
