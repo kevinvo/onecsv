@@ -1,9 +1,9 @@
-class CsvDataTypeService
+class CsvDataTypeService < ApplicationService
 
-  attr_reader :str
+  attr_reader :values
 
-  def initialize(str)
-    @str = str
+  def initialize(values)
+    @values = values
   end
 
   def call

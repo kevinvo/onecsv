@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import BreadCrumb from "./bread_crumb"
 import axios from "axios";
+import {CellDataType} from "./types"
 
 function MapTemplateColumn() {
 	const [headers, setHeaders] = useState([])
@@ -21,10 +22,10 @@ function MapTemplateColumn() {
           <thead>
             <tr>
 	            <th scope="col"></th>
-	            <th class="text-center" scope="col">Header Column</th>
-	            <th class="text-center" scope="col">Sample Rows</th>
-	            <th class="text-center" scope="col">Template Column</th>
-	            <th class="text-center" scope="col">Required Column</th>
+	            <th className="text-center" scope="col">Header Column</th>
+	            <th className="text-center" scope="col">Sample Rows</th>
+	            <th className="text-center" scope="col">Template Column</th>
+	            <th className="text-center" scope="col">Required Column</th>
 	          </tr>
           </thead>
 
@@ -40,10 +41,14 @@ function MapTemplateColumn() {
                 </td>
 
                 <td align="center" className="align-middle text-center">
-                    <select value={header.data_type} id={`data-type-${index}`} name={`data-type-${index}`} class="form-select" aria-label="Select template column type">
+                    <select value={header.data_type as CellDataType}
+                            id={`data-type-${index}`}
+                            name={`data-type-${index}`}
+                            class="form-select"
+                            aria-label="Select template column type">
                       <option value="-1">Select</option>
-                      {headerDataTypes.map((data_type) =>
-                        <option value={`${data_type}`}>{data_type}</option>
+                      {Object.keys(CellDataType).map((key) =>
+                        <option value={`${CellDataType[key]}`}>{CellDataType[CellDataType[key]]}</option>
                       )}
                     </select>
                 </td>
