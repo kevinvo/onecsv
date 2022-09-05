@@ -27,7 +27,7 @@ class CsvDataTypeService < ApplicationService
 
   private
 
-  def _is_value_a_date(str)
+  def is_value_a_date(str)
     begin
       Date.parse(str)
     rescue ArgumentError
@@ -35,9 +35,9 @@ class CsvDataTypeService < ApplicationService
     end
     return true
   end
-  
+
   def is_date
-    @values.map {|value| self._is_value_a_date(value) }.select(&:itself).length > ACCURACY
+    @values.map {|value| self.is_value_a_date(value) }.select(&:itself).length > ACCURACY
   end
 
   def is_email
