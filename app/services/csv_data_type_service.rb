@@ -1,6 +1,6 @@
 require "monetize"
 require "money"
-require 'date'
+require "date"
 
 class CsvDataTypeService < ApplicationService
 
