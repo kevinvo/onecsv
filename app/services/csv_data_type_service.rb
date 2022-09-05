@@ -1,5 +1,6 @@
 require "monetize"
 require "money"
+require 'date'
 
 class CsvDataTypeService < ApplicationService
 
@@ -17,12 +18,28 @@ class CsvDataTypeService < ApplicationService
       DataTypeConstant::CURRENCY
     elsif self.is_integer or self.is_float
       DataTypeConstant::NUMBER
+    elsif self.is_date
+      DataTypeConstant::DATE
     else
       DataTypeConstant::TEXT
     end
   end
 
   private
+
+  def _is_value_a_date(str)
+    begin
+      Date.parse(str)
+    rescue ArgumentError
+      return false
+    end
+    return true
+  end
+  
+  def is_date
+    @values.map {|value| self._is_value_a_date(value) }.select(&:itself).length > ACCURACY
+  end
+
   def is_email
     @values.map {|value| URI::MailTo::EMAIL_REGEXP.match value}.select(&:itself).length > ACCURACY
   end
