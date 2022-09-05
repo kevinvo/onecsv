@@ -14,7 +14,9 @@ function MapTemplateColumn() {
   }, [])
 
   function onRequiredChanged(event, index) {
-    headers[index].required = !headers[index].required
+    const newHeaders = [...headers]
+    newHeaders[index].required = !headers[index].required
+    setHeaders(newHeaders)
   }
 
   function onSelectChanged(event) {
