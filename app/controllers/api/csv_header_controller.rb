@@ -16,7 +16,7 @@ class Api::CsvHeaderController < ApiController
 
       {header_name: header_name,
        sample_values: selected_sample_values,
-       data_type: CsvDataTypeService.new(selected_sample_values).call,
+       data_type: CsvDataTypeService.new(clean_sample_values).call,
        required: top_sample_values.length == clean_sample_values.length}
     end
 
