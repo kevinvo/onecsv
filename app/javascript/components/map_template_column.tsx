@@ -19,7 +19,10 @@ function MapTemplateColumn() {
     setHeaders(newHeaders)
   }
 
-  function onSelectChanged(event) {
+  function onSelectChanged(event, index) {
+    const newHeaders = [...headers]
+    newHeaders[index].data_type = event.target.value
+    setHeaders(newHeaders)
   }
 
   function onSave() {
@@ -72,7 +75,7 @@ function MapTemplateColumn() {
                             id={`data-type-${index}`}
                             name={`data-type-${index}`}
                             className="form-select"
-                            onChange={onSelectChanged}
+                            onChange={(event) => onSelectChanged(event, index)}
                             aria-label="Select template column type">
                       <option value="-1">Select</option>
                       {Object.keys(CellDataType).map((key) => isNaN(Number(key)) ? key : null).filter(item => item).map((key, index) =>
@@ -85,7 +88,7 @@ function MapTemplateColumn() {
                 	<div>
 	                  <input type="checkbox"
                            checked={header.required}
-                           onChange={(event) => onRequiredChanged(event, index)}/>
+                           onChange={(event) => onRequiredChanged(event, index)} />
 	                </div>
                 </td>
 
