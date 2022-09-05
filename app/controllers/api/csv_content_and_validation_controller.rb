@@ -5,7 +5,7 @@ class Api::CsvContentAndValidationController < ApiController
   def index
     uploaded_file_path = session[:uploaded_file_path]
 
-    csv = CSV.read(uploaded_file_path, :headers=>true, encoding: "ISO-8859-1:UTF-8")
+    csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
 
     header_map = csv.headers.map do |header_name|
       {header_name: header_name.strip,
