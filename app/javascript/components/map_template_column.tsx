@@ -13,7 +13,8 @@ function MapTemplateColumn() {
     })
   }, [])
 
-  function onRequiredFieldChanged(event) {
+  function onRequiredChanged(event, index) {
+    headers[index].required = !headers[index].required
   }
 
   function onSelectChanged(event) {
@@ -26,11 +27,12 @@ function MapTemplateColumn() {
 
     axios.post('/api/csv_header', data)
     .then(function (response) {
-      console.log(response);
+      console.log(response)
     })
     .catch(function (error) {
-      console.log(error);
-    });
+      console.log(error)
+    })
+
   }
 
 	return (
@@ -53,7 +55,7 @@ function MapTemplateColumn() {
           </thead>
 
           <tbody>
-            { headers.map((header, index) =>
+            {headers.map((header, index) =>
               <tr key={index}>
                 <th scope="row" className="align-middle text-center">{index + 1}</th>
                 <td align="center" className="align-middle text-center">{header.header_name}</td>
@@ -81,7 +83,7 @@ function MapTemplateColumn() {
                 	<div>
 	                  <input type="checkbox"
                            checked={header.required}
-                           onChange={onRequiredFieldChanged}/>
+                           onChange={(event) => onRequiredChanged(event, index)}/>
 	                </div>
                 </td>
 
