@@ -71,8 +71,8 @@ function MapTemplateColumn() {
                             onChange={onSelectChanged}
                             aria-label="Select template column type">
                       <option value="-1">Select</option>
-                      {Object.keys(CellDataType).map((key, index) =>
-                        <option key={index} value={`${CellDataType[key]}`}>{CellDataType[CellDataType[key]]}</option>
+                      {Object.keys(CellDataType).map((key) => isNaN(Number(key)) ? key : null).filter(item => item).map((key, index) =>
+                        <option key={index} data-value={key} value={`${CellDataType[key]}`}>{CellDataType[CellDataType[key]]}</option>
                       )}
                     </select>
                 </td>
