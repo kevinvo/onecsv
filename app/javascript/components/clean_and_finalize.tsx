@@ -16,7 +16,7 @@ function CleanAndFinalize() {
           name: obj.header_name,
           key: `col${index}`,
           resizable: true,
-          width: 100,
+          width: 120,
           frozen: true,
           editor: textEditor,
           formatter: ({ row }) => <div className="align-middle text-center"> {row[`col${index}`]} </div> //cell formatter
@@ -40,7 +40,8 @@ function CleanAndFinalize() {
   return (
     <>
       <BreadCrumb>
-        <DataGrid className="rdg-light fill-grid"
+        <DataGrid style={{height: window.visualViewport.height - 56}}
+                  className="rdg-light fill-grid"
                   columns={columns}
                   rows={rows}
         />

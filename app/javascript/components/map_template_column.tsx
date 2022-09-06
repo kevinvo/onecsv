@@ -55,7 +55,7 @@ function MapTemplateColumn() {
 	            <th className="text-center" scope="col">Header Column</th>
 	            <th className="text-center" scope="col">Sample Rows</th>
 	            <th className="text-center" scope="col">Template Column</th>
-	            <th className="text-center" scope="col">Required Column</th>
+	            <th className="text-center" scope="col">Required</th>
 	          </tr>
           </thead>
 
