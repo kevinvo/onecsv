@@ -2,6 +2,7 @@ import React, { useEffect, useState, Component } from "react"
 import BreadCrumb from "./bread_crumb"
 import DataGrid, {textEditor, CheckboxFormatterProps, RowRendererProps, SelectColumn} from 'react-data-grid'
 import axios from "axios"
+import { useReactTable } from "@tanstack/react-table"
 
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
@@ -36,6 +37,8 @@ function CleanAndFinalize() {
       setRows(cleanRows)
     })
   }, [])
+  
+  // const tableInstance = useReactTable({ columns, rows })
 
   return (
     <>
