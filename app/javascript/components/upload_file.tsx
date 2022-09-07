@@ -18,6 +18,11 @@ export default function FileUploader() {
     axios.post("api/file_uploaders", formData).then(function (res) {
       setUploadSuccess(true)
       navigate("/map-template-columns")
+    }).catch(function (err) {
+      if(err.response.status === 401) {
+        setUploadSuccess(false)
+        navigate("/users/sign_in")
+      }
     })
   }
 
