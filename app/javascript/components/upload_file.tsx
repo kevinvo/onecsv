@@ -21,7 +21,7 @@ export default function FileUploader() {
     }).catch(function (err) {
       if(err.response.status === 401) {
         setUploadSuccess(false)
-        navigate("/users/sign_in")
+        navigate("/")
       }
     })
   }
