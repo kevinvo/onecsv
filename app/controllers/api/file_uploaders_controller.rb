@@ -1,6 +1,4 @@
 class Api::FileUploadersController < ApiController
-  before_action :authenticate_user!
-
   def create
     new_file = params[:file]
     uploaded_file_path = Rails.root.join('tmp', new_file.original_filename)
