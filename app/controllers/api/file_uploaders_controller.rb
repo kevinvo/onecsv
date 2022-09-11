@@ -1,5 +1,4 @@
 class Api::FileUploadersController < ApiController
-
   def create
     new_file = params[:file]
     uploaded_file_path = Rails.root.join('tmp', new_file.original_filename)
