@@ -1,6 +1,5 @@
-import { React } from "react"
+import React from "react"
 import { useTable } from "react-table"
-
 
 function TableContainer({columns, data}) {
   const {
@@ -17,12 +16,13 @@ function TableContainer({columns, data}) {
   )
 
   return (
-    <table {...getTableProps()}>
+    <div className="table-responsive">
+    <table {...getTableProps()} className="table table-bordered ">
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>
+              <th {...column.getHeaderProps()} className="text-center" scope="col">
                 {column.render("Header")}
               </th>
             ))}
@@ -36,13 +36,14 @@ function TableContainer({columns, data}) {
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
-                return <td>{cell.render("Cell")}</td>
+                return <td align="center" className="align-middle text-center">{cell.render("Cell")}</td>
               })}
             </tr>
           )
         })}
       </tbody>
     </table>
+    </div>
   )
 }
 

@@ -5,7 +5,22 @@ import TableContainer from "./table_container";
 
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
-  const [data, setData] = useState([{}])
+  const [data, setData] = useState([])
+
+  const renderEditable = (props) => {
+    // const cellValue = data[row.index][row.column.id]
+    const cellValue = props.cell.value
+    return (
+      <input
+        placeholder=""
+        name="input"
+        type="text"
+        // onChange={}
+        defaultValue=""
+        value={cellValue}
+      />
+    )
+  }
 
   useEffect(() => {
     axios.get("api/csv_content_and_validation").then(function (response) {
@@ -15,6 +30,7 @@ function CleanAndFinalize() {
         return {
           Header: header.header_name,
           accessor: 'col' + index,
+          Cell: renderEditable,
         }
       })
       setColumns(headerColumns)
@@ -27,16 +43,13 @@ function CleanAndFinalize() {
         })
         return obj
       })
-      // setData(rowData)
+      setData(rowData)
     })
   }, [])
 
-  console.log("columns = " + JSON.stringify(columns))
-  console.log("data = " + JSON.stringify(data))
-
   return (
     <>
-      {data.length > 0 ?
+      {columns.length > 0 && data.length > 0 ?
         (<BreadCrumb>
           <TableContainer columns={columns} data={data} />
         </BreadCrumb>) : null}
