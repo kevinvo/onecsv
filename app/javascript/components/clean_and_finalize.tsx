@@ -1,54 +1,45 @@
-import React, { useEffect, useState, Component } from "react"
+import React, { useEffect, useState } from "react"
 import BreadCrumb from "./bread_crumb"
-import DataGrid, {textEditor, CheckboxFormatterProps, RowRendererProps, SelectColumn} from 'react-data-grid'
 import axios from "axios"
-import { useReactTable } from "@tanstack/react-table"
+import TableContainer from "./table_container";
 
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
-  const [rows, setRows] = useState([])
+  const [data, setData] = useState([{}])
 
   useEffect(() => {
     axios.get("api/csv_content_and_validation").then(function (response) {
       const data = response.data.data
 
-      const cols = data.headers.map(function (obj, index) {
+      const headerColumns = data.headers.map((header, index) => {
         return {
-          name: obj.header_name,
-          key: `col${index}`,
-          resizable: true,
-          width: 120,
-          frozen: true,
-          editor: textEditor,
-          formatter: ({ row }) => <div className="align-middle text-center"> {row[`col${index}`]} </div> //cell formatter
+          Header: header.header_name,
+          accessor: 'col' + index,
         }
       })
-      setColumns(cols)
+      setColumns(headerColumns)
 
-      const cleanRows = data.rows.map(function (row) {
+      const rowData = data.rows.map((row) => {
         const obj = {}
-        row.forEach(function (object, index) {
-          const value = object.value
-          obj[`col${index}`] = value
-          obj["id"] = value
+        row.forEach((value, index) => {
+          const accessor = 'col' + index
+          obj[accessor] = value.value
         })
         return obj
       })
-      setRows(cleanRows)
+      // setData(rowData)
     })
   }, [])
-  
-  // const tableInstance = useReactTable({ columns, rows })
+
+  console.log("columns = " + JSON.stringify(columns))
+  console.log("data = " + JSON.stringify(data))
 
   return (
     <>
-      <BreadCrumb>
-        <DataGrid style={{height: window.visualViewport.height - 56}}
-                  className="rdg-light fill-grid"
-                  columns={columns}
-                  rows={rows}
-        />
-      </BreadCrumb>
+      {data.length > 0 ?
+        (<BreadCrumb>
+          <TableContainer columns={columns} data={data} />
+        </BreadCrumb>) : null}
     </>
   )
 }
