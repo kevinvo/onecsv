@@ -1,6 +1,6 @@
-import React, { useState, Component } from "react"
-import FileUploader from "./upload_file"
-import BreadCrumb from "./bread_crumb"
+import React, { useState, Component } from 'react'
+import FileUploader from './upload_file'
+import BreadCrumb from './bread_crumb'
 
 function SelectFile() {
   return (
@@ -9,7 +9,7 @@ function SelectFile() {
         <FileUploader />
       </BreadCrumb>
     </>
-  );
+  )
 }
 
 export default SelectFile
