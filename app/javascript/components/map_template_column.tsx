@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
 import BreadCrumb from './bread_crumb'
 import axios from 'axios'
 import { CellDataType } from './types'
@@ -27,6 +28,45 @@ function MapTemplateColumn() {
     setHeaders(newHeaders)
   }
 
+  const TemplateModal = () => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    return (
+      <>
+        <Button type='button' className='btn btn-md btn-primary' onClick={handleShow}>
+          Save & Continue
+        </Button>
+
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Please input your template name</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Template Name</Form.Label>
+                <Form.Control type="text" placeholder="Enter name" />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={onSaveTemplateName}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
+
+  const onSaveTemplateName = () => {
+  }
+
   function onSave() {
     const data = {
       csv_headers: headers,
@@ -46,9 +86,7 @@ function MapTemplateColumn() {
     <>
       <BreadCrumb>
         <div className='d-flex py-2 justify-content-end'>
-          <button type='button' className='btn btn-md btn-primary' onClick={() => onSave()}>
-            Save & Continue
-          </button>
+          <TemplateModal />
         </div>
         <table className='table table-bordered table-sm'>
           <thead>
