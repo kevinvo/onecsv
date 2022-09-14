@@ -17,5 +17,5 @@
 #
 class Template < ApplicationRecord
   belongs_to :user
-  has_many :headers, dependent: :delete_all
+  has_many :headers, dependent: :destroy
 end
