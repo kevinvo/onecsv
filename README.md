@@ -51,7 +51,4 @@ Additional notes on how to deploy this on a live or release system. Explaining t
 
 ## Additional Documentation and Acknowledgments
 
-* Project folder on server:
-* Confluence link:
-* Asana board:
-* etc...
+* [Config Eslint](https://blog.devgenius.io/eslint-prettier-typescript-and-react-in-2022-e5021ebca2b1)
