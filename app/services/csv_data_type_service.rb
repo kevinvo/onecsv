@@ -13,15 +13,15 @@ class CsvDataTypeService < ApplicationService
 
   def call
     if self.is_email
-      DataTypeConstant::EMAIL
+      Header.data_types[:email]
     elsif self.is_currency
-      DataTypeConstant::CURRENCY
+      Header.data_types[:currency]
     elsif self.is_integer or self.is_float
-      DataTypeConstant::NUMBER
+      Header.data_types[:number]
     elsif self.is_date
-      DataTypeConstant::DATE
+      Header.data_types[:date]
     else
-      DataTypeConstant::TEXT
+      Header.data_types[:text]
     end
   end
 

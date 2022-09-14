@@ -17,11 +17,17 @@
 # Foreign Keys
 #
 #  fk_rails_...  (template_id => templates.id)
-#
+
 class Header < ApplicationRecord
   belongs_to :template
 
-  enum data_type: %i[date currency email number text]
+  enum data_type: {
+    text: 1,
+    number: 2,
+    email: 3,
+    date: 4,
+    currency: 5,
+  }
 
   scope :required, -> { where(is_required_field: true ) }
   scope :optional, -> { where(is_required_field: false ) }
