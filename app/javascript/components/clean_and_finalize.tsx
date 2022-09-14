@@ -42,7 +42,6 @@ function CleanAndFinalize() {
     }, [props])
 
     const onChangeHandle = (event) => {
-      debugger
       if (props.data.length > 0) {
         const newCellValue = event.target.value
         props.data[props.cell.row.index][props.cell.column.id] = newCellValue
@@ -53,16 +52,14 @@ function CleanAndFinalize() {
 
     return (
       <OverlayToolTip message={error}>
-        <div className="has-error has-feedback">
-          <input
-            placeholder=""
-            className={"text-center " + (error ? 'border border-danger' : '')}
-            name="input"
-            type="text"
-            onChange={onChangeHandle}
-            value={cellValue}
-          />
-        </div>
+        <input
+          placeholder=""
+          className={"text-center " + (error ? "border border-danger" : "")}
+          name="input"
+          type="text"
+          onChange={onChangeHandle}
+          value={cellValue}
+        />
       </OverlayToolTip>
     )
   }
