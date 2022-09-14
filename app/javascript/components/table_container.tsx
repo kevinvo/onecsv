@@ -35,8 +35,8 @@ function TableContainer({columns, data}) {
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return <td align="center" className="align-middle text-center">{cell.render("Cell")}</td>
+              {row.cells.map((cell, index) => {
+                return <td key={index} align="center" className="align-middle text-center">{cell.render("Cell")}</td>
               })}
             </tr>
           )

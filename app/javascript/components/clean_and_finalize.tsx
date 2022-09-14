@@ -8,15 +8,29 @@ function CleanAndFinalize() {
   const [data, setData] = useState([])
 
   const renderEditable = (props) => {
-    // const cellValue = data[row.index][row.column.id]
-    const cellValue = props.cell.value
+    const [cellValue, setCellValue] = useState("")
+
+    useEffect(() => {
+      const value = props.data[props.cell.row.index][props.cell.column.id] || ""
+      setCellValue(value)
+    }, [props])
+
+    const onChangeHandle = (event) => {
+      if (props.data.length > 0) {
+        const newCellValue = event.target.value
+        props.data[props.cell.row.index][props.cell.column.id] = newCellValue
+        setCellValue(newCellValue)
+        setData(props.data)
+      }
+    }
+
     return (
       <input
         placeholder=""
+        className="text-center"
         name="input"
         type="text"
-        // onChange={}
-        defaultValue=""
+        onChange={onChangeHandle}
         value={cellValue}
       />
     )
