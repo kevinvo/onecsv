@@ -5,4 +5,4 @@
 // import "controllers"
 //
 
-import "./index"
+import './index'

@@ -30,7 +30,6 @@
         "spaced-comment": "error",
         "quotes": ["error", "single"],
         "no-duplicate-imports": "error"
-        // read more rules at: https://eslint.org/docs/rules/
     },
     "settings": {
         "import/resolver": {

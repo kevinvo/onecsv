@@ -6,5 +6,4 @@
   "trailingComma": "all",
   "jsxSingleQuote": true,
   "bracketSpacing": true
-  // read more options here: https://prettier.io/docs/en/options.html
 }
