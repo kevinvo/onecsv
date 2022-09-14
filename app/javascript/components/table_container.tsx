@@ -13,6 +13,7 @@ function TableContainer({ columns, data }) {
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
+              <th scope='col' className='text-center'>#</th>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()} className='text-center' scope='col'>
                   {column.render('Header')}
@@ -23,10 +24,13 @@ function TableContainer({ columns, data }) {
         </thead>
 
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {rows.map((row, outerIndex) => {
             prepareRow(row)
             return (
               <tr {...row.getRowProps()}>
+                <th scope='row' className='align-middle text-center'>
+                  {outerIndex + 1}
+                </th>
                 {row.cells.map((cell, index) => {
                   return (
                     <td key={index} align='center' className='align-middle text-center'>
