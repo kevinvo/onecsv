@@ -4,13 +4,17 @@ import axios from 'axios'
 import TableContainer from './table_container'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
+import { CellDataType } from "./types";
 
 function OverlayToolTip(props) {
+  const withOverlay = (<OverlayTrigger key='right' placement='right' overlay={<Tooltip>{props.message}</Tooltip>}>
+                    {props.children}
+                   </OverlayTrigger>)
+  const withoutOverlay = (<>{props.children}</>)
+
   return (
     <>
-      <OverlayTrigger key='right' placement='right' overlay={<Tooltip>{props.message}</Tooltip>}>
-        {props.children}
-      </OverlayTrigger>
+      {props.message && props.message.length > 0 ? withOverlay : withoutOverlay}
     </>
   )
 }
@@ -21,16 +25,19 @@ function CleanAndFinalize() {
   const renderEditable = (props) => {
     const [cellValue, setCellValue] = useState('')
     const [error, setError] = useState('')
-    const [warning, setWarning] = useState('')
+    const [dataType, setDataType] = useState(CellDataType.Text)
+    // const [warning, setWarning] = useState('')
 
     useEffect(() => {
       const value = props.data[props.cell.row.index][props.cell.column.id] || ''
-      const warning = props.data[props.cell.row.index]['warning' + props.cell.row.index] || ''
+      // const warning = props.data[props.cell.row.index]['warning' + props.cell.row.index] || ''
       const error = props.data[props.cell.row.index]['error' + props.cell.row.index] || ''
+      const cellDataType = props.data[props.cell.row.index]['data_type' + props.cell.row.index]
 
       setError(error)
-      setWarning(warning)
+      // setWarning(warning)
       setCellValue(value)
+      setDataType(cellDataType)
     }, [props])
 
     const onChangeHandle = (event) => {
@@ -42,16 +49,28 @@ function CleanAndFinalize() {
       }
     }
 
+    const className = 'text-center ' + (error ? 'border border-danger' : '')
+
+    const text = (<input
+      placeholder=''
+      className={className}
+      name='input'
+      type='text'
+      onChange={onChangeHandle}
+      value={cellValue}
+    />)
+
+    const textArea = (<textarea
+      placeholder=''
+      className={className}
+      name='text-area'
+      onChange={onChangeHandle}
+      value={cellValue}
+    />)
+
     return (
       <OverlayToolTip message={error}>
-        <input
-          placeholder=''
-          className={'text-center ' + (error ? 'border border-danger' : '')}
-          name='input'
-          type='text'
-          onChange={onChangeHandle}
-          value={cellValue}
-        />
+        {(dataType === CellDataType.Text) ? textArea : text}
       </OverlayToolTip>
     )
   }
@@ -75,7 +94,10 @@ function CleanAndFinalize() {
           const accessor = 'col' + index
           obj[accessor] = rowObj.value
           obj['error' + index] = rowObj.error
-          obj['warning' + index] = rowObj.warning
+
+          console.log("rowObj.data_type = " + rowObj.data_type)
+          obj['data_type' + index] = rowObj.data_type
+          // obj['warning' + index] = rowObj.warning
         })
         return obj
       })

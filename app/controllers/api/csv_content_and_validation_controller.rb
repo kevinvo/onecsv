@@ -7,7 +7,7 @@ class Api::CsvContentAndValidationController < ApiController
     template = current_user.templates.last
     header_map = template.headers.map do |header|
       { header_name: header.name.to_s.strip,
-        data_type: header.data_type,
+        data_type: header.read_attribute_before_type_cast(:data_type),
         required: header.is_required_field }
     end
 
@@ -23,6 +23,7 @@ class Api::CsvContentAndValidationController < ApiController
         error_message = type_validator_obj.is_valid ? "" : type_validator_obj.error_message
 
         { value: value.last.to_s.strip,
+          data_type: data_type,
           error: error_message,
           warning: "" }
       end
