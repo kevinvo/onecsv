@@ -4,10 +4,12 @@ class Api::CsvContentAndValidationController < ApiController
 
   def index
     uploaded_file_path = session[:uploaded_file_path]
+    csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
     template = current_user.templates.last
+
     header_map = template.headers.map do |header|
       { header_name: header.name.to_s.strip,
-        data_type: header.read_attribute_before_type_cast(:data_type),
+        data_type: header.data_type,
         required: header.is_required_field }
     end
 
