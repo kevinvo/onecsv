@@ -33,13 +33,8 @@ class DataTypeValidatorService
 
   private
 
-  def is_value_a_date(str)
-    begin
-      Date.parse(str)
-    rescue ArgumentError
-      return false
-    end
-    return true
+  def is_value_a_date(val)
+    Date.parse(val) rescue false
   end
 
 end
