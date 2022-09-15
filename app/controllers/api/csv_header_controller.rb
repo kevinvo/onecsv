@@ -2,6 +2,7 @@ require 'csv'
 
 class Api::CsvHeaderController < ApiController
   TOTAL_LINES = 20
+  SAMPLE_TOTAL_LINES = 3
 
   def index
     uploaded_file_path = session[:uploaded_file_path]
@@ -10,9 +11,9 @@ class Api::CsvHeaderController < ApiController
     header_data_types = %w(Text Number Email Date Currency).sort
 
     header_map = csv.headers.map do |header_name|
-      top_sample_values = csv[header_name].first(20)
+      top_sample_values = csv[header_name].first(TOTAL_LINES)
       clean_sample_values = top_sample_values.compact.sort
-      selected_sample_values = clean_sample_values.first(3)
+      selected_sample_values = clean_sample_values.first(SAMPLE_TOTAL_LINES)
 
       {header_name: header_name,
        sample_values: selected_sample_values,
