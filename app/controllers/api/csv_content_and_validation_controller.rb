@@ -13,13 +13,18 @@ class Api::CsvContentAndValidationController < ApiController
 
     look_up_via_header_name = header_map.map { |header| [header[:header_name], header] }.to_h
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
+
     rows = csv.map do |values|
       values.map do |value|
-        # data_type = look_up_via_header_name[value.first.to_s.strip][:data_type]
-        # puts "data_type = #{data_type}"
+        data_type = look_up_via_header_name[value.first.to_s.strip][:data_type]
+        is_required_field = look_up_via_header_name[value.first.to_s.strip][:required]
+
+        type_validator_obj = TypeValidatorService.new(value, data_type, is_required_field)
+        error_message = type_validator_obj.is_valid ? "" : type_validator_obj.error_message
+
         { value: value.last.to_s.strip,
-          error: "We are expecting a date but this field is a number!",
-          warning: "not so bad!" }
+          error: error_message,
+          warning: "" }
       end
     end
 
