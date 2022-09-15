@@ -6,7 +6,7 @@ pin "application", preload: true
 # pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
 # pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
 # pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
-# pin_all_from "app/javascript/controllers", under: "controllers"
+# pin_all_from "app/typescript/controllers", under: "controllers"
 #
 
 pin "react", to: "https://ga.jspm.io/npm:react@18.2.0/index.js"
@@ -15,4 +15,4 @@ pin "process", to: "https://ga.jspm.io/npm:@jspm/core@2.0.0-beta.24/nodelibs/bro
 pin "scheduler", to: "https://ga.jspm.io/npm:scheduler@0.23.0/index.js"
 
 # pin components
-pin_all_from "app/javascript/components", under: "components"
+pin_all_from "app/typescript/components", under: "components"
