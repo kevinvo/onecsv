@@ -26,12 +26,10 @@ class Api::CsvHeaderController < ApiController
   end
 
   def create
+    # TODO: get template from input template name
+    template = current_user.templates.last
     params["csv_headers"].each do |csv_header|
-      Header.new.tap do |header|
-        # TODO: temporarily adding
-        template = Template.create!(user_id: 1)
-        header.template_id = template.id
-        # TODO: temporarily adding
+      template.headers.new.tap do |header|
         header.name = csv_header["header_name"]
         header.is_required_field = csv_header["required"]
         header.data_type = csv_header["data_type"]

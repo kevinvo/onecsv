@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :csv_content
     resources :csv_header
     resources :csv_content_and_validation
+    resources :csv_template
   end
 
   root 'visitor#index'

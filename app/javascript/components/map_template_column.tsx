@@ -8,6 +8,7 @@ import { CellDataType } from './types'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
+  const [templateName, setTemplateName] = useState()
 
   useEffect(() => {
     axios.get('api/csv_header').then(function (response) {
@@ -28,6 +29,10 @@ function MapTemplateColumn() {
     setHeaders(newHeaders)
   }
 
+  const onInputTemplateName = (e) => {
+    setTemplateName(e.target.value)
+  }
+
   const TemplateModal = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -45,9 +50,13 @@ function MapTemplateColumn() {
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Template Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter name" />
+                <Form.Control
+                  type="text"
+                  placeholder="Enter name"
+                  value={templateName}
+                  onChange={(event) => onInputTemplateName(event)}/>
               </Form.Group>
             </Form>
           </Modal.Body>
@@ -55,7 +64,7 @@ function MapTemplateColumn() {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={onSaveTemplateName}>
+            <Button variant="primary" onClick={() => onSaveTemplateName()}>
               Save Changes
             </Button>
           </Modal.Footer>
@@ -65,6 +74,19 @@ function MapTemplateColumn() {
   };
 
   const onSaveTemplateName = () => {
+    const data = {
+      template_name: templateName
+    };
+
+    axios
+      .post('/api/csv_template', data)
+      .then(function (response) {
+        console.log(response)
+        onSave()
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   }
 
   function onSave() {
