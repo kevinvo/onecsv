@@ -51,7 +51,7 @@ function CleanAndFinalize() {
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')
 
-    const text = (<input
+    const input = (<input
       placeholder=''
       className={className}
       name='input'
@@ -70,7 +70,7 @@ function CleanAndFinalize() {
 
     return (
       <OverlayToolTip message={error}>
-        {(dataType === CellDataType.Text) ? textArea : text}
+        {(dataType === CellDataType.Text) ? textArea : input}
       </OverlayToolTip>
     )
   }
