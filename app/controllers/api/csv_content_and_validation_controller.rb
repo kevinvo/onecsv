@@ -15,7 +15,6 @@ class Api::CsvContentAndValidationController < ApiController
 
     look_up_via_header_name = header_map.map { |header| [header[:header_name], header] }.to_h
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
-    # puts "look_up_via_header_name = #{look_up_via_header_name}"
 
     rows = csv.map do |csv_objects|
       csv_objects.map do |csv_obj|
@@ -24,15 +23,11 @@ class Api::CsvContentAndValidationController < ApiController
 
         data_type = look_up_via_header_name[header_name][:data_type]
         is_required_field = look_up_via_header_name[header_name][:required]
-        # puts "data_type = #{data_type}. value = #{column_value}. is_required_field = #{is_required_field}"
-
-        type_validator_obj = TypeValidatorService.new(csv_obj, data_type, is_required_field)
-        error_message = type_validator_obj.is_valid ? "" : type_validator_obj.error_message
+        type_validator_obj = TypeValidatorService.new(column_value, data_type, is_required_field).is_valid
 
         { value: column_value,
           data_type: data_type,
-          error: error_message,
-          warning: "" }
+          error: type_validator_obj.error_message }
       end
     end
 
