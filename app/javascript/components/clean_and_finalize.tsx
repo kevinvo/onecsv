@@ -4,12 +4,16 @@ import axios from 'axios'
 import TableContainer from './table_container'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-import { CellDataType } from "./types";
+import { CellDataType } from "./types"
 
 function OverlayToolTip(props) {
-  const withOverlay = (<OverlayTrigger key='right' placement='right' overlay={<Tooltip>{props.message}</Tooltip>}>
-                    {props.children}
-                   </OverlayTrigger>)
+  const withOverlay = (<OverlayTrigger
+                          key='right'
+                          placement='right'
+                          overlay={<Tooltip>{props.message}</Tooltip>}>
+                          {props.children}
+                        </OverlayTrigger>)
+
   const withoutOverlay = (<>{props.children}</>)
 
   return (
@@ -28,14 +32,19 @@ function CleanAndFinalize() {
     const [dataType, setDataType] = useState(CellDataType.Text)
 
     useEffect(() => {
-      const value = props.data[props.cell.row.index][props.cell.column.id] || ''
-      const error = props.data[props.cell.row.index]['error' + props.cell.row.index] || ''
-      const cellDataType = props.data[props.cell.row.index]['data_type' + props.cell.row.index]
+      const index = props.cell.row.index
+      const dataObj = props.data[index]
+      const value = dataObj[props.cell.column.id] || ''
+
+      const errorIndex = props.cell.column.id.replace('col', 'error')
+      const error = dataObj[errorIndex] || ''
+      const dataTypeIndex = props.cell.column.id.replace('col', 'data_type')
+      const cellDataType = dataObj[dataTypeIndex]
 
       setError(error)
       setCellValue(value)
       setDataType(cellDataType)
-    }, [props])
+    }, [props.data])
 
     const onChangeHandle = (event) => {
       if (props.data.length > 0) {
