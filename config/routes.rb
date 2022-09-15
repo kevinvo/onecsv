@@ -6,7 +6,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :file_uploaders
-    resources :csv_content
     resources :csv_header
     resources :csv_content_and_validation
   end
