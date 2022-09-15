@@ -10,9 +10,10 @@ class TypeValidatorService
   end
 
   def is_valid
+
     if @is_required_field && !@value
       @error_message = "This field is required."
-      return false
+      return self
     end
 
     case @data_type
@@ -27,6 +28,7 @@ class TypeValidatorService
     else
       true
     end
+
     self
   end
 

@@ -9,7 +9,7 @@ class Api::CsvContentAndValidationController < ApiController
 
     header_map = template.headers.map do |header|
       { header_name: header.name.to_s.strip,
-        data_type: header.data_type,
+        data_type: header.read_attribute_before_type_cast(:data_type),
         required: header.is_required_field }
     end
 
@@ -23,7 +23,9 @@ class Api::CsvContentAndValidationController < ApiController
 
         data_type = look_up_via_header_name[header_name][:data_type]
         is_required_field = look_up_via_header_name[header_name][:required]
-        type_validator_obj = TypeValidatorService.new(column_value, data_type, is_required_field).is_valid
+        type_validator_obj = TypeValidatorService.new(column_value=column_value,
+                                                      data_type=data_type,
+                                                      is_required_field=is_required_field).is_valid
 
         { value: column_value,
           data_type: data_type,
