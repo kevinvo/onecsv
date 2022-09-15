@@ -6,9 +6,6 @@ export default function BreadCrumb(props) {
       <div className='container' style={{ marginTop: '60px' }}>
         <div className='d-flex justify-content-between'>
           <div>Import a file</div>
-          <div>
-            <a href='/users/sign_in'>Login</a>
-          </div>
         </div>
 
         <nav aria-label='breadcrumb'>
