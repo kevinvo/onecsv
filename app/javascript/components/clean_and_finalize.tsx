@@ -14,7 +14,7 @@ function OverlayToolTip(props) {
 
   return (
     <>
-      {props.message && props.message.length > 0 ? withOverlay : withoutOverlay}
+      {props?.message?.length > 0 ? withOverlay : withoutOverlay}
     </>
   )
 }
@@ -26,16 +26,13 @@ function CleanAndFinalize() {
     const [cellValue, setCellValue] = useState('')
     const [error, setError] = useState('')
     const [dataType, setDataType] = useState(CellDataType.Text)
-    // const [warning, setWarning] = useState('')
 
     useEffect(() => {
       const value = props.data[props.cell.row.index][props.cell.column.id] || ''
-      // const warning = props.data[props.cell.row.index]['warning' + props.cell.row.index] || ''
       const error = props.data[props.cell.row.index]['error' + props.cell.row.index] || ''
       const cellDataType = props.data[props.cell.row.index]['data_type' + props.cell.row.index]
 
       setError(error)
-      // setWarning(warning)
       setCellValue(value)
       setDataType(cellDataType)
     }, [props])
@@ -94,10 +91,7 @@ function CleanAndFinalize() {
           const accessor = 'col' + index
           obj[accessor] = rowObj.value
           obj['error' + index] = rowObj.error
-
-          console.log("rowObj.data_type = " + rowObj.data_type)
           obj['data_type' + index] = rowObj.data_type
-          // obj['warning' + index] = rowObj.warning
         })
         return obj
       })
