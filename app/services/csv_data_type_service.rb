@@ -1,7 +1,3 @@
-require "monetize"
-require "money"
-require "date"
-
 class CsvDataTypeService < ApplicationService
 
   ACCURACY = 1
@@ -27,34 +23,24 @@ class CsvDataTypeService < ApplicationService
 
   private
 
-  def is_value_a_date(str)
-    begin
-      Date.parse(str)
-    rescue ArgumentError
-      return false
-    end
-    return true
-  end
-
   def is_date
-    @values.map {|value| self.is_value_a_date(value) }.select(&:itself).length > ACCURACY
+    @values.map {|value| DataTypeValidatorService.new(value).is_date }.select(&:itself).length > ACCURACY
   end
 
   def is_email
-    @values.map {|value| URI::MailTo::EMAIL_REGEXP.match value}.select(&:itself).length > ACCURACY
+    @values.map {|value| DataTypeValidatorService.new(value).is_email}.select(&:itself).length > ACCURACY
   end
 
   def is_currency
-    currency_values = @values.map {|amount| Money::Currency.analyze(amount).length > 0 ? amount : nil}.select(&:itself)
-    currency_values.map {|amount| Monetize.parse(amount)}.length > ACCURACY
+    @values.map {|value| DataTypeValidatorService.new(value).is_currency}.select{|value| value}.length > ACCURACY
   end
 
   def is_integer
-    @values.map {|value| Integer(value, exception: false)}.select(&:itself).length > ACCURACY
+    @values.map {|value| DataTypeValidatorService.new(value).is_integer}.select(&:itself).length > ACCURACY
   end
 
   def is_float
-    @values.map {|value| Float(value, exception: false)}.select(&:itself).length > ACCURACY
+    @values.map {|value|DataTypeValidatorService.new(value).is_float}.select(&:itself).length > ACCURACY
   end
 
 end
