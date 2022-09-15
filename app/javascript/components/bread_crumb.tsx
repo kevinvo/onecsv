@@ -3,7 +3,7 @@ import React from 'react'
 export default function BreadCrumb(props) {
   return (
     <>
-      <div className='container' style={{ marginTop: '60px' }}>
+      <div style={{ margin: '60px' }}>
         <div className='d-flex justify-content-between'>
           <div>Import a file</div>
         </div>
