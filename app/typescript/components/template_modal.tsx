@@ -3,11 +3,13 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import axios from 'axios'
+import { useNavigate } from "react-router-dom"
 
 const TemplateModal = ({templateName, onInputTemplateName, ...props}) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const navigate = useNavigate()
 
   const onSaveTemplateName = () => {
     const data = {
@@ -20,6 +22,7 @@ const TemplateModal = ({templateName, onInputTemplateName, ...props}) => {
         console.log(response)
         setShow(false)
         onSave()
+        navigate('/clean-and-finalize')
       })
       .catch(function (error) {
         console.log(error)
