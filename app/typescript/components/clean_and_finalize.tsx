@@ -4,7 +4,8 @@ import axios from 'axios'
 import TableContainer from './table_container'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-import { CellDataType } from "./types"
+import { CellDataType } from './types'
+import ExportCsv from "./export_csv"
 
 function OverlayToolTip(props) {
   const withOverlay = (<OverlayTrigger
@@ -108,10 +109,12 @@ function CleanAndFinalize() {
     })
   }, [])
 
+
   return (
     <>
       {columns.length > 0 && data.length > 0 ? (
         <BreadCrumb>
+          <ExportCsv data={data} columns={columns} />
           <TableContainer columns={columns} data={data} />
         </BreadCrumb>
       ) : null}
