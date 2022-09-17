@@ -110,12 +110,15 @@ function CleanAndFinalize() {
 
   return (
     <>
-      {columns.length > 0 && data.length > 0 ? (
-        <BreadCrumb>
-          <ExportCsv data={data} columns={columns} />
-          <TableContainer columns={columns} data={data} />
+      <BreadCrumb>
+        {columns.length > 0 && data.length > 0 ?
+          (<>
+            <ExportCsv data={data} columns={columns} />
+            <TableContainer columns={columns} data={data} />
+            </>
+          ) : null}
         </BreadCrumb>
-      ) : null}
+
     </>
   )
 }

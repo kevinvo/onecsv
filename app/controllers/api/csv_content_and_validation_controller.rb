@@ -3,14 +3,15 @@ require 'csv'
 class Api::CsvContentAndValidationController < ApiController
 
   def index
-    template = current_user.templates.last
-    header_map = template.headers.map do |header|
+    headers = current_user.templates.last&.headers || []
+
+    header_map = headers.map do |header|
       { header_name: header.name.to_s.strip,
         data_type: header.read_attribute_before_type_cast(:data_type),
         required: header.is_required_field }
     end
 
-    rows = template.headers.map do |header|
+    rows = headers.map do |header|
       header.csv_columns.map do |column_value|
         column_value = column_value.to_s.strip
         type_validator_obj = TypeValidatorService.new(column_value=column_value,
