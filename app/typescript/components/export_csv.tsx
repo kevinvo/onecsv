@@ -5,7 +5,23 @@ import Button from "react-bootstrap/Button"
 function ExportCsv({ columns, data }) {
 
   const exportFile = (event) => {
-    const rows = [[{}]]
+    const accessorHeaderNameHash = {}
+    columns.forEach((obj) => {
+      accessorHeaderNameHash[obj["accessor"]] = obj["Header"]
+    })
+
+    const rows = []
+    data.forEach((row) => {
+      const rowHash = {}
+      for (let index = 0; index < Object.keys(columns).length; ++index) {
+        const accessor = 'col' + index
+        const value = row[accessor]
+        const headerName = accessorHeaderNameHash[accessor]
+        rowHash[headerName] = value
+      }
+      rows.push(rowHash)
+    })
+
     const worksheet = XLSX.utils.json_to_sheet(rows)
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, "SheetJS")
