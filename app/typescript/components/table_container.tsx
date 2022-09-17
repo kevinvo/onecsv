@@ -13,7 +13,9 @@ function TableContainer({ columns, data }) {
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              <th scope='col' className='text-center'>#</th>
+              <th scope='col' className='text-center'>
+                #
+              </th>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()} className='text-center' scope='col'>
                   {column.render('Header')}

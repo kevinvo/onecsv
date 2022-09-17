@@ -1,12 +1,10 @@
 import React from 'react'
 import * as XLSX from 'xlsx/xlsx.mjs'
-import Button from "react-bootstrap/Button"
+import Button from 'react-bootstrap/Button'
 
 function ExportCsv({ columns, data }) {
-
   const exportFile = (event) => {
-
-    const accessorHeaderNameHash = columns.reduce(function(result, obj) {
+    const accessorHeaderNameHash = columns.reduce(function (result, obj) {
       result[obj['accessor']] = obj['Header']
       return result
     }, {})

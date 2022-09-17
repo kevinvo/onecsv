@@ -7,7 +7,7 @@ import TemplateModal from './template_modal'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
-  const [templateName, setTemplateName] = useState("")
+  const [templateName, setTemplateName] = useState('')
 
   useEffect(() => {
     axios.get('api/csv_header').then(function (response) {
@@ -39,7 +39,8 @@ function MapTemplateColumn() {
           <TemplateModal
             templateName={templateName}
             onInputTemplateName={onInputTemplateName}
-            headers={headers} />
+            headers={headers}
+          />
         </div>
         <table className='table table-bordered table-sm'>
           <thead>

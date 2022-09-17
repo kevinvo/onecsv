@@ -5,23 +5,18 @@ import TableContainer from './table_container'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import { CellDataType } from './types'
-import ExportCsv from "./export_csv"
+import ExportCsv from './export_csv'
 
 function OverlayToolTip(props) {
-  const withOverlay = (<OverlayTrigger
-                          key='right'
-                          placement='right'
-                          overlay={<Tooltip>{props.message}</Tooltip>}>
-                          {props.children}
-                        </OverlayTrigger>)
-
-  const withoutOverlay = (<>{props.children}</>)
-
-  return (
-    <>
-      {props?.message?.length > 0 ? withOverlay : withoutOverlay}
-    </>
+  const withOverlay = (
+    <OverlayTrigger key='right' placement='right' overlay={<Tooltip>{props.message}</Tooltip>}>
+      {props.children}
+    </OverlayTrigger>
   )
+
+  const withoutOverlay = <>{props.children}</>
+
+  return <>{props?.message?.length > 0 ? withOverlay : withoutOverlay}</>
 }
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
@@ -58,26 +53,30 @@ function CleanAndFinalize() {
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')
 
-    const input = (<input
-      placeholder=''
-      className={className}
-      name='input'
-      type='text'
-      onChange={onChangeHandle}
-      value={cellValue}
-    />)
+    const input = (
+      <input
+        placeholder=''
+        className={className}
+        name='input'
+        type='text'
+        onChange={onChangeHandle}
+        value={cellValue}
+      />
+    )
 
-    const textArea = (<textarea
-      placeholder=''
-      className={className}
-      name='text-area'
-      onChange={onChangeHandle}
-      value={cellValue}
-    />)
+    const textArea = (
+      <textarea
+        placeholder=''
+        className={className}
+        name='text-area'
+        onChange={onChangeHandle}
+        value={cellValue}
+      />
+    )
 
     return (
       <OverlayToolTip message={error}>
-        {(dataType === CellDataType.Text) ? textArea : input}
+        {dataType === CellDataType.Text ? textArea : input}
       </OverlayToolTip>
     )
   }
@@ -108,7 +107,6 @@ function CleanAndFinalize() {
       setData(rowData)
     })
   }, [])
-
 
   return (
     <>
