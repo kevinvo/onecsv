@@ -15,7 +15,7 @@ class Api::CsvContentAndValidationController < ApiController
         type_validator_obj = TypeValidatorService.new(column_value=column_value,
                                                       data_type=header.read_attribute_before_type_cast(:data_type),
                                                       is_required_field=header.is_required_field).is_valid
-        { value: column_value,
+        { value: column_value.to_s,
           data_type: data_type,
           error: type_validator_obj.error_message }
       end
