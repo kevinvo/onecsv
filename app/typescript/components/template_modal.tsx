@@ -3,18 +3,18 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import axios from 'axios'
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 
-const TemplateModal = ({templateName, onInputTemplateName, ...props}) => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
   const navigate = useNavigate()
 
   const onSaveTemplateName = () => {
     const data = {
-      template_name: templateName
-    };
+      template_name: templateName,
+    }
 
     axios
       .post('/api/csv_template', data)
@@ -57,27 +57,28 @@ const TemplateModal = ({templateName, onInputTemplateName, ...props}) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="formBasicName">
+            <Form.Group className='mb-3' controlId='formBasicName'>
               <Form.Label>Template Name</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter name"
+                type='text'
+                placeholder='Enter name'
                 value={templateName}
-                onChange={(event) => onInputTemplateName(event)}/>
+                onChange={(event) => onInputTemplateName(event)}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => onSaveTemplateName()}>
+          <Button variant='primary' onClick={() => onSaveTemplateName()}>
             Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
     </>
-  );
-};
+  )
+}
 
 export default TemplateModal
