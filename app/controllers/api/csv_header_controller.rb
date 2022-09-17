@@ -29,11 +29,16 @@ class Api::CsvHeaderController < ApiController
   def create
     # TODO: get template from input template name
     template = current_user.templates.last
+
+    uploaded_file_path = session[:uploaded_file_path]
+    csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
+
     params["csv_headers"].each do |csv_header|
       template.headers.new.tap do |header|
         header.name = csv_header["header_name"]
         header.is_required_field = csv_header["required"]
         header.data_type = csv_header["data_type"]
+        header.csv_columns = csv[header.name]
         header.save!
       end
     end
