@@ -3,6 +3,7 @@
 # Table name: headers
 #
 #  id                :bigint           not null, primary key
+#  csv_columns       :json
 #  data_type         :integer
 #  is_required_field :boolean
 #  name              :string
@@ -17,6 +18,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (template_id => templates.id)
+#
 
 class Header < ApplicationRecord
   belongs_to :template

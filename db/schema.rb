@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_14_172207) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_17_143229) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_14_172207) do
     t.string "name"
     t.boolean "is_required_field"
     t.integer "data_type"
+    t.json "csv_columns"
     t.index ["template_id"], name: "index_headers_on_template_id"
   end
 
