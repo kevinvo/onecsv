@@ -37,7 +37,7 @@ class Api::CsvHeaderController < ApiController
       template.headers.new.tap do |header|
         header.name = csv_header["header_name"]
         header.is_required_field = csv_header["required"]
-        header.data_type = csv_header["data_type"]
+        header.data_type = csv_header["data_type"].to_i
         header.csv_columns = csv[header.name]
         header.save!
       end
