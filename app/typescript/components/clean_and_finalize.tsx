@@ -6,6 +6,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import { CellDataType } from './types'
 import ExportCsv from './export_csv'
+import { DebounceInput } from 'react-debounce-input'
 
 function OverlayToolTip(props) {
   const withOverlay = (
@@ -13,11 +14,10 @@ function OverlayToolTip(props) {
       {props.children}
     </OverlayTrigger>
   )
-
   const withoutOverlay = <>{props.children}</>
-
   return <>{props?.message?.length > 0 ? withOverlay : withoutOverlay}</>
 }
+
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
   const [data, setData] = useState([])
@@ -52,23 +52,23 @@ function CleanAndFinalize() {
     }
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')
-
     const input = (
-      <input
+      <DebounceInput
         placeholder=''
         className={className}
         name='input'
-        type='text'
+        debounceTimeout={500}
         onChange={onChangeHandle}
         value={cellValue}
       />
     )
-
     const textArea = (
-      <textarea
+      <DebounceInput
         placeholder=''
         className={className}
         name='text-area'
+        element='textarea'
+        debounceTimeout={500}
         onChange={onChangeHandle}
         value={cellValue}
       />
