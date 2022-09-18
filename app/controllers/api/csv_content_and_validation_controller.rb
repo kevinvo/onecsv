@@ -3,7 +3,8 @@ require 'csv'
 class Api::CsvContentAndValidationController < ApiController
 
   def index
-    headers = current_user.templates.last&.headers&.sort_by_position || []
+    template_name = session[:template_name]
+    headers = current_user.templates.find_by(name: template_name)&.headers&.sort_by_position || []
 
     header_map = headers.map do |header|
       { header_name: header.name.to_s.strip,

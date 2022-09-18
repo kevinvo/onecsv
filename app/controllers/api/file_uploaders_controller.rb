@@ -7,7 +7,7 @@ class Api::FileUploadersController < ApiController
     end
 
     session[:uploaded_file_path] = uploaded_file_path
-
+    session[:template_name] = nil
     msg = {:status => :created, :message => "Success!"}
     render :json => msg
   end
