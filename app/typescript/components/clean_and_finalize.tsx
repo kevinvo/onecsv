@@ -43,13 +43,31 @@ function CleanAndFinalize() {
     }, [props.data])
 
     const onChangeHandle = (event) => {
-      if (props.data.length > 0) {
-        const newCellValue = event.target.value
-        props.data[props.cell.row.index][props.cell.column.id] = newCellValue
-        setCellValue(newCellValue)
-        setData(props.data)
-      }
+      const columnId = props.cell.column.id
+      const newCellValue = event.target.value
+      props.data[props.cell.row.index][columnId] = newCellValue
+      const headerName = props.headers.find((header) => {
+        return header.id === columnId
+      }).Header
+      setCellValue(newCellValue)
+      setData(props.data)
+
+
+      const data = {}
+      data['header_name'] = headerName
+      data['value'] = newCellValue
+      data['index'] = props.cell.row.index
+      const url = 'api/csv_content'
+
+      axios.post(url, data, {headers: {}}).
+        then(res => {
+          console.log('success')
+        }).catch(err => {
+          console.log('error')
+        })
+
     }
+
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')
     const input = (
