@@ -21,7 +21,7 @@ class Api::CsvHeaderController < ApiController
        required: top_sample_values.length == clean_sample_values.length}
     end
 
-    data = {data_types: header_data_types, headers: header_map}
+    data = {headers: header_map}
     msg = {:status => :ok, :data => data}
     render :json => msg
   end
@@ -33,16 +33,18 @@ class Api::CsvHeaderController < ApiController
     uploaded_file_path = session[:uploaded_file_path]
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
 
-    params["csv_headers"].each_with_index do |csv_header, index|
-      template.headers.new.tap do |header|
-        header.name = csv_header["header_name"]
-        header.is_required_field = csv_header["required"]
-        header.data_type = csv_header["data_type"].to_i
-        header.csv_columns = csv[header.name]
-        header.position = index + 1
-        header.save!
-      end
+    headers = params["csv_headers"].each_with_index.map do |csv_header, index|
+      header_name = csv_header["header_name"]
+      {
+        name: header_name,
+        is_required_field: csv_header["required"],
+        data_type: csv_header["data_type"].to_i,
+        csv_columns: csv[header_name],
+        position: index + 1,
+        template_id: template.id
+      }
     end
+    Header.insert_all(headers)
 
     # TODO: render error and success case
     render :json => {:status => :ok}
