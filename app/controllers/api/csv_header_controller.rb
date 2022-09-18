@@ -8,8 +8,6 @@ class Api::CsvHeaderController < ApiController
     uploaded_file_path = session[:uploaded_file_path]
 
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
-    header_data_types = %w(Text Number Email Date Currency).sort
-
     header_map = csv.headers.map do |header_name|
       top_sample_values = csv[header_name].first(TOTAL_LINES)
       clean_sample_values = top_sample_values.compact.sort
@@ -27,8 +25,8 @@ class Api::CsvHeaderController < ApiController
   end
 
   def create
-    # TODO: get template from input template name
-    template = current_user.templates.last
+    template_name = session[:template_name]
+    template = current_user.templates.find_by(name: template_name)
 
     uploaded_file_path = session[:uploaded_file_path]
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
