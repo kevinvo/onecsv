@@ -3,7 +3,7 @@ require 'csv'
 class Api::CsvContentAndValidationController < ApiController
 
   def index
-    headers = current_user.templates.last&.headers || []
+    headers = current_user.templates.last&.headers&.sort_by_position || []
 
     header_map = headers.map do |header|
       { header_name: header.name.to_s.strip,

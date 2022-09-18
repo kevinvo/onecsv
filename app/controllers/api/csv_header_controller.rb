@@ -33,12 +33,13 @@ class Api::CsvHeaderController < ApiController
     uploaded_file_path = session[:uploaded_file_path]
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
 
-    params["csv_headers"].each do |csv_header|
+    params["csv_headers"].each_with_index do |csv_header, index|
       template.headers.new.tap do |header|
         header.name = csv_header["header_name"]
         header.is_required_field = csv_header["required"]
         header.data_type = csv_header["data_type"].to_i
         header.csv_columns = csv[header.name]
+        header.position = index + 1
         header.save!
       end
     end

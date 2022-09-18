@@ -7,6 +7,7 @@
 #  data_type         :integer
 #  is_required_field :boolean
 #  name              :string
+#  position          :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  template_id       :bigint           not null
@@ -31,6 +32,7 @@ class Header < ApplicationRecord
     currency: 5,
   }
 
+  scope :sort_by_position, -> {order('position')}
   scope :required, -> { where(is_required_field: true ) }
   scope :optional, -> { where(is_required_field: false ) }
 
