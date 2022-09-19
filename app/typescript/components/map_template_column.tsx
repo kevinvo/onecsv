@@ -7,7 +7,9 @@ import TemplateModal from './template_modal'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
-  const [templateName, setTemplateName] = useState('')
+  const [templateName, setTemplateName] = useState(
+    localStorage.getItem('template-name-localstorage') || ''
+  )
 
   useEffect(() => {
     axios.get('api/csv_header').then(function (response) {
@@ -29,7 +31,9 @@ function MapTemplateColumn() {
   }
 
   const onInputTemplateName = (e) => {
-    setTemplateName(e.target.value)
+    const value = e.target.value
+    localStorage.setItem('template-name-localstorage', value)
+    setTemplateName(value)
   }
 
   return (
