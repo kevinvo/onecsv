@@ -21,6 +21,7 @@ function OverlayToolTip(props) {
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
   const [data, setData] = useState([])
+  const [templateId, setTemplateId] = useState()
 
   const renderEditable = (props) => {
     const [cellValue, setCellValue] = useState('')
@@ -57,8 +58,8 @@ function CleanAndFinalize() {
       data['header_name'] = headerName
       data['value'] = newCellValue
       data['index'] = props.cell.row.index
-      const url = 'api/csv_content'
 
+      const url = '/api/header_column'
       axios.post(url, data, {headers: {}}).
         then(res => {
           console.log('success')
@@ -67,7 +68,6 @@ function CleanAndFinalize() {
         })
 
     }
-
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')
     const input = (
@@ -103,6 +103,7 @@ function CleanAndFinalize() {
     axios.get('api/csv_content_and_validation').then(function (response) {
       const data = response.data.data
 
+      setTemplateId(data.template.id)
       const headerColumns = data.headers.map((header, index) => {
         return {
           Header: header.header_name,
