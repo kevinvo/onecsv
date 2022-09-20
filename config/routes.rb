@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :file_uploaders
+    resources :header_column
     resources :csv_header
     resources :csv_content_and_validation
     resources :csv_template
@@ -14,7 +15,6 @@ Rails.application.routes.draw do
   root 'visitor#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
   match "select-column-headers", to: "visitor#index", via: [:get]
   match "map-template-columns", to: "visitor#index", via: [:get]
   match "clean-and-finalize", to: "visitor#index", via: [:get]

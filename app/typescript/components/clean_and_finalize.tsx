@@ -6,6 +6,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import { CellDataType } from './types'
 import ExportCsv from './export_csv'
+import { DebounceInput } from 'react-debounce-input'
 
 function OverlayToolTip(props) {
   const withOverlay = (
@@ -13,14 +14,14 @@ function OverlayToolTip(props) {
       {props.children}
     </OverlayTrigger>
   )
-
   const withoutOverlay = <>{props.children}</>
-
   return <>{props?.message?.length > 0 ? withOverlay : withoutOverlay}</>
 }
+
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
   const [data, setData] = useState([])
+  const [templateId, setTemplateId] = useState()
 
   const renderEditable = (props) => {
     const [cellValue, setCellValue] = useState('')
@@ -43,32 +44,49 @@ function CleanAndFinalize() {
     }, [props.data])
 
     const onChangeHandle = (event) => {
-      if (props.data.length > 0) {
-        const newCellValue = event.target.value
-        props.data[props.cell.row.index][props.cell.column.id] = newCellValue
-        setCellValue(newCellValue)
-        setData(props.data)
-      }
+      const columnId = props.cell.column.id
+      const newCellValue = event.target.value
+      props.data[props.cell.row.index][columnId] = newCellValue
+      const headerName = props.headers.find((header) => {
+        return header.id === columnId
+      }).Header
+      setCellValue(newCellValue)
+      setData(props.data)
+
+
+      const data = {}
+      data['header_name'] = headerName
+      data['value'] = newCellValue
+      data['index'] = props.cell.row.index
+
+      const url = '/api/header_column'
+      axios.post(url, data, {headers: {}}).
+        then(res => {
+          console.log('success')
+        }).catch(err => {
+          console.log('error')
+        })
+
     }
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')
-
     const input = (
-      <input
+      <DebounceInput
         placeholder=''
         className={className}
         name='input'
-        type='text'
+        debounceTimeout={500}
         onChange={onChangeHandle}
         value={cellValue}
       />
     )
-
     const textArea = (
-      <textarea
+      <DebounceInput
         placeholder=''
         className={className}
         name='text-area'
+        element='textarea'
+        debounceTimeout={500}
         onChange={onChangeHandle}
         value={cellValue}
       />
@@ -85,6 +103,7 @@ function CleanAndFinalize() {
     axios.get('api/csv_content_and_validation').then(function (response) {
       const data = response.data.data
 
+      setTemplateId(data.template.id)
       const headerColumns = data.headers.map((header, index) => {
         return {
           Header: header.header_name,

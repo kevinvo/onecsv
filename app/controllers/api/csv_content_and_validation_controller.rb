@@ -4,7 +4,8 @@ class Api::CsvContentAndValidationController < ApiController
 
   def index
     template_name = session[:template_name]
-    headers = current_user.templates.find_by(name: template_name)&.headers&.sort_by_position || []
+    template = current_user.templates.find_by(name: template_name)
+    headers = template&.headers&.sort_by_position || []
 
     header_map = headers.map do |header|
       { header_name: header.name.to_s.strip,
@@ -24,7 +25,7 @@ class Api::CsvContentAndValidationController < ApiController
       end
     end.transpose
 
-    data = {headers: header_map, rows: rows}
+    data = {headers: header_map, rows: rows, template: template}
     msg = {:status => :ok, :data => data}
     render :json => msg
   end
