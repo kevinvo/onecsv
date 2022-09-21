@@ -7,6 +7,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import { CellDataType } from './types'
 import ExportCsv from './export_csv'
 import { DebounceInput } from 'react-debounce-input'
+import AutohideToast from './auto_hide_toast'
 
 function OverlayToolTip(props) {
   const withOverlay = (
@@ -21,7 +22,7 @@ function OverlayToolTip(props) {
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
   const [data, setData] = useState([])
-  const [templateId, setTemplateId] = useState()
+  const [showToast, setShowToast] = useState(false)
 
   const renderEditable = (props) => {
     const [cellValue, setCellValue] = useState('')
@@ -63,6 +64,7 @@ function CleanAndFinalize() {
       axios.post(url, data, {headers: {}}).
         then(res => {
           console.log('success')
+          setShowToast(true)
         }).catch(err => {
           console.log('error')
         })
@@ -103,7 +105,6 @@ function CleanAndFinalize() {
     axios.get('api/csv_content_and_validation').then(function (response) {
       const data = response.data.data
 
-      setTemplateId(data.template.id)
       const headerColumns = data.headers.map((header, index) => {
         return {
           Header: header.header_name,
@@ -131,9 +132,10 @@ function CleanAndFinalize() {
     <>
       <BreadCrumb>
         {columns.length > 0 && data.length > 0 ?
-          (<>
-            <ExportCsv data={data} columns={columns} />
-            <TableContainer columns={columns} data={data} />
+          ( <>
+              <ExportCsv data={data} columns={columns} />
+              <TableContainer columns={columns} data={data} />
+              <AutohideToast showToast={showToast} setShowToast={setShowToast} message="Successfully Saved!" />
             </>
           ) : null}
         </BreadCrumb>

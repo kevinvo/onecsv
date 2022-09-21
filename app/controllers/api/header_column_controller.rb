@@ -1,6 +1,3 @@
-
-require 'csv'
-
 class Api::HeaderColumnController < ApiController
 
   def create
