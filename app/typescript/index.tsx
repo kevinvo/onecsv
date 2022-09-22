@@ -1,6 +1,6 @@
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import SelectFile from './components/select_file'
+import SelectFile from './pages/select_file'
 import App from './app'
 import { BrowserRouter } from 'react-router-dom'
 

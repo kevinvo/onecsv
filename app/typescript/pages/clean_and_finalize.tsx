@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import BreadCrumb from './bread_crumb'
+import BreadCrumb from '../components/bread_crumb'
 import axios from 'axios'
-import TableContainer from './table_container'
+import TableContainer from '../components/table_container'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-import { CellDataType } from './types'
-import ExportCsv from './export_csv'
+import { CellDataType } from '../components/types'
+import ExportCsv from '../components/export_csv'
 import { DebounceInput } from 'react-debounce-input'
-import AutohideToast from './auto_hide_toast'
+import AutohideToast from '../components/auto_hide_toast'
 
 function OverlayToolTip(props) {
   const withOverlay = (
@@ -29,7 +29,6 @@ function CleanAndFinalize() {
     const [error, setError] = useState('')
     const [dataType, setDataType] = useState(CellDataType.Text)
     const [errorIndex, setErrorIndex] = useState(null)
-    const [dataObj, setDataObj] = useState(null)
 
     useEffect(() => {
       const index = props.cell.row.index
@@ -41,7 +40,6 @@ function CleanAndFinalize() {
       const dataTypeIndex = props.cell.column.id.replace('col', 'data_type')
       const cellDataType = dataObj[dataTypeIndex]
 
-      setDataObj(dataObj)
       setErrorIndex(errorIdx)
       setError(error)
       setCellValue(value)
@@ -66,12 +64,11 @@ function CleanAndFinalize() {
 
       axios.post(url, data, {headers: {}}).
         then(response => {
-          dataObj[errorIndex] = response.data.error
+          props.data[props.cell.row.index][errorIndex] = response.data.error
           setShowToast(true)
         }).catch(err => {
           console.log('error')
         })
-
     }
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')

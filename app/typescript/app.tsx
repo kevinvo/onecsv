@@ -1,8 +1,8 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import SelectFile from './components/select_file'
-import MapTemplateColumn from './components/map_template_column'
-import CleanAndFinalize from './components/clean_and_finalize'
+import SelectFile from './pages/select_file'
+import MapTemplateColumn from './pages/map_template_column'
+import CleanAndFinalize from './pages/clean_and_finalize'
 
 export default function App() {
   return (

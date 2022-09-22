@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
-import BreadCrumb from './bread_crumb'
+import BreadCrumb from '../components/bread_crumb'
 import axios from 'axios'
-import { CellDataType } from './types'
-import TemplateModal from './template_modal'
+import { CellDataType } from '../components/types'
+import TemplateModal from '../components/template_modal'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
