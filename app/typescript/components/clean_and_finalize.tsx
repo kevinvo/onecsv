@@ -28,17 +28,21 @@ function CleanAndFinalize() {
     const [cellValue, setCellValue] = useState('')
     const [error, setError] = useState('')
     const [dataType, setDataType] = useState(CellDataType.Text)
+    const [errorIndex, setErrorIndex] = useState(null)
+    const [dataObj, setDataObj] = useState(null)
 
     useEffect(() => {
       const index = props.cell.row.index
       const dataObj = props.data[index]
       const value = dataObj[props.cell.column.id] || ''
 
-      const errorIndex = props.cell.column.id.replace('col', 'error')
-      const error = dataObj[errorIndex] || ''
+      const errorIdx = props.cell.column.id.replace('col', 'error')
+      const error = dataObj[errorIdx] || ''
       const dataTypeIndex = props.cell.column.id.replace('col', 'data_type')
       const cellDataType = dataObj[dataTypeIndex]
 
+      setDataObj(dataObj)
+      setErrorIndex(errorIdx)
       setError(error)
       setCellValue(value)
       setDataType(cellDataType)
@@ -54,16 +58,15 @@ function CleanAndFinalize() {
       setCellValue(newCellValue)
       setData(props.data)
 
-
       const data = {}
       data['header_name'] = headerName
       data['value'] = newCellValue
       data['index'] = props.cell.row.index
-
       const url = '/api/header_column'
+
       axios.post(url, data, {headers: {}}).
-        then(res => {
-          console.log('success')
+        then(response => {
+          dataObj[errorIndex] = response.data.error
           setShowToast(true)
         }).catch(err => {
           console.log('error')
