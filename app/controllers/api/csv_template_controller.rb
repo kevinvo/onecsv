@@ -14,4 +14,10 @@ class Api::CsvTemplateController < ApiController
     msg = {:status => :created, :message => "Success!", :template => template}
     render :json => msg
   end
+
+  def index
+    templates = current_user.templates
+    msg = {:status => :ok, :templates => templates}
+    render :json => msg
+  end
 end
