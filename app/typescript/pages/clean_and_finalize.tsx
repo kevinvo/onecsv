@@ -28,7 +28,6 @@ function CleanAndFinalize() {
     const [cellValue, setCellValue] = useState('')
     const [error, setError] = useState('')
     const [dataType, setDataType] = useState(CellDataType.Text)
-    const [errorIndex, setErrorIndex] = useState(null)
 
     useEffect(() => {
       const index = props.cell.row.index
@@ -40,7 +39,6 @@ function CleanAndFinalize() {
       const dataTypeIndex = props.cell.column.id.replace('col', 'data_type')
       const cellDataType = dataObj[dataTypeIndex]
 
-      setErrorIndex(errorIdx)
       setError(error)
       setCellValue(value)
       setDataType(cellDataType)
