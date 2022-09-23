@@ -1,4 +1,4 @@
-class Api::CsvTemplateController < ApiController
+class Api::TemplateController < ApiController
   def create
     template_name = params[:template_name]
 
