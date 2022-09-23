@@ -31,7 +31,8 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
     axios
       .put("/api/csv_template/" + templateId)
       .then(response => {
-        console.log(response)
+        setShow(false)
+        navigate('/clean-and-finalize')
       })
       .catch(error => {console.log(error)})
   }
@@ -44,7 +45,6 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
     axios
       .post('/api/csv_template', data)
       .then(function (response) {
-        console.log(response)
         setShow(false)
         onSave()
         navigate('/clean-and-finalize')
