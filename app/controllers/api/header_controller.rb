@@ -1,6 +1,6 @@
 require 'csv'
 
-class Api::CsvHeaderController < ApiController
+class Api::HeaderController < ApiController
   TOTAL_LINES = 20
   SAMPLE_TOTAL_LINES = 3
 

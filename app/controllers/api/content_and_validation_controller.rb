@@ -1,6 +1,6 @@
 require 'csv'
 
-class Api::CsvContentAndValidationController < ApiController
+class Api::ContentAndValidationController < ApiController
 
   def index
     template_name = session[:template_name]

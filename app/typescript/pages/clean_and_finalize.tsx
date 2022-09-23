@@ -99,7 +99,7 @@ function CleanAndFinalize() {
   }
 
   useEffect(() => {
-    axios.get('api/csv_content_and_validation').then(function (response) {
+    axios.get('api/content_and_validation').then(function (response) {
       const data = response.data.data
 
       const headerColumns = data.headers.map((header, index) => {
