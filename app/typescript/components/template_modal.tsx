@@ -9,14 +9,14 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
   const [show, setShow] = useState(false)
   const [templates, setTemplates] = useState([])
   const [templateId, setTemplateId] = useState()
+  const [showNewTemplate, setShowNewTemplate] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => {
     setShow(true)
     fetchListTemplates()
   }
-
+  const handleShowNewTemplate = () => setShowNewTemplate(true)
   const navigate = useNavigate()
-
   const fetchListTemplates = () => {
     axios
       .get('/api/csv_template')
@@ -87,7 +87,7 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
           <Form>
             <Form.Group className='mb-3' controlId='formBasicName'>
               <Form.Label>Template Name</Form.Label>
-              { templates.length > 0 ? (
+              { (templates.length > 0 && showNewTemplate === false) ? (
                 <Form.Select aria-label="Default select template_name" onChange={(e) => handleChange(e)}>
                   {
                     templates.map((template, index) => (
@@ -111,9 +111,9 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
             Close
           </Button>
           {
-            templates.length > 0 ?  (
+            (templates.length > 0 && showNewTemplate === false) ?  (
                 <>
-                  <Button variant='primary' onClick={() => console.log("test")}>
+                  <Button variant='primary' onClick={() => handleShowNewTemplate()}>
                     Create New Template
                   </Button>
                   <Button variant='primary' onClick={() => onUpdateTemplate()}>
