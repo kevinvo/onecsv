@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
   const [show, setShow] = useState(false)
   const [templates, setTemplates] = useState([])
+  const [templateId, setTemplateId] = useState()
   const handleClose = () => setShow(false)
   const handleShow = () => {
     setShow(true)
@@ -26,8 +27,16 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
         console.log(error)
       })
   }
+  const onUpdateTemplate = () => {
+    axios
+      .put("/api/csv_template/" + templateId)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {console.log(error)})
+  }
 
-  const onSaveTemplateName = () => {
+  const onSaveTemplate = () => {
     const data = {
       template_name: templateName,
     }
@@ -61,6 +70,9 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
       })
   }
 
+  const handleChange = (event) => {
+    setTemplateId(event.target.value)
+  }
   return (
     <>
       <Button type='button' className='btn btn-md btn-primary' onClick={handleShow}>
@@ -76,11 +88,10 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
             <Form.Group className='mb-3' controlId='formBasicName'>
               <Form.Label>Template Name</Form.Label>
               { templates.length > 0 ? (
-                <Form.Select aria-label="Default select template_name">
-                  <option>Open this select the template</option>
+                <Form.Select aria-label="Default select template_name" onChange={(e) => handleChange(e)}>
                   {
                     templates.map((template, index) => (
-                      <option value={template.id}>{template.name}</option>
+                      <option key={index} value={template.id}>{template.name}</option>
                     ))
                   }
                 </Form.Select>
@@ -99,9 +110,22 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
           <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          <Button variant='primary' onClick={() => onSaveTemplateName()}>
-            Save Changes
-          </Button>
+          {
+            templates.length > 0 ?  (
+                <>
+                  <Button variant='primary' onClick={() => console.log("test")}>
+                    Create New Template
+                  </Button>
+                  <Button variant='primary' onClick={() => onUpdateTemplate()}>
+                    Update Changes
+                  </Button>
+                </>
+              ) : (
+              <Button variant='primary' onClick={() => onSaveTemplate()}>
+                Save Changes
+              </Button>
+            )
+          }
         </Modal.Footer>
       </Modal>
     </>

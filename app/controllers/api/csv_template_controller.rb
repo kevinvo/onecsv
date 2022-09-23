@@ -20,4 +20,17 @@ class Api::CsvTemplateController < ApiController
     msg = {:status => :ok, :templates => templates}
     render :json => msg
   end
+
+  def update
+    template = current_user.templates.find_by(id: params[:id])
+
+    if template
+      session[:template_name] = template.name
+      msg = {:status => :updated, :message => "Updated!", :template => template}
+    else
+      msg = {:status => :error, :message => "Error!"}
+    end
+
+    render :json => msg
+  end
 end
