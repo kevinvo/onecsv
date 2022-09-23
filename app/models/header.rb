@@ -3,9 +3,11 @@
 # Table name: headers
 #
 #  id                :bigint           not null, primary key
+#  csv_columns       :json
 #  data_type         :integer
 #  is_required_field :boolean
 #  name              :string
+#  position          :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  template_id       :bigint           not null
@@ -17,6 +19,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (template_id => templates.id)
+#
 
 class Header < ApplicationRecord
   belongs_to :template
@@ -29,6 +32,7 @@ class Header < ApplicationRecord
     currency: 5,
   }
 
+  scope :sort_by_position, -> {order('position')}
   scope :required, -> { where(is_required_field: true ) }
   scope :optional, -> { where(is_required_field: false ) }
 

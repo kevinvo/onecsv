@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import Button from 'react-bootstrap/Button'
-import BreadCrumb from './bread_crumb'
+import BreadCrumb from '../components/bread_crumb'
 import axios from 'axios'
-import { CellDataType } from './types'
-import TemplateModal from './template_modal'
+import { CellDataType } from '../components/types'
+import TemplateModal from '../components/template_modal'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
-  const [templateName, setTemplateName] = useState('')
+  const [templateName, setTemplateName] = useState(
+    localStorage.getItem('template-name-localstorage') || ''
+  )
 
   useEffect(() => {
     axios.get('api/csv_header').then(function (response) {
@@ -29,7 +30,9 @@ function MapTemplateColumn() {
   }
 
   const onInputTemplateName = (e) => {
-    setTemplateName(e.target.value)
+    const value = e.target.value
+    localStorage.setItem('template-name-localstorage', value)
+    setTemplateName(value)
   }
 
   return (

@@ -1,6 +1,6 @@
-import React, { useState, Component } from 'react'
-import FileUploader from './upload_file'
-import BreadCrumb from './bread_crumb'
+import React from 'react'
+import FileUploader from '../components/upload_file'
+import BreadCrumb from '../components/bread_crumb'
 
 function SelectFile() {
   return (
