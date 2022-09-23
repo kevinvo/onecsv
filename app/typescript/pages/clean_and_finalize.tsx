@@ -54,7 +54,6 @@ function CleanAndFinalize() {
         return header.id === columnId
       }).Header
       setCellValue(newCellValue)
-      setData(props.data)
 
       const data = {}
       data['header_name'] = headerName
@@ -64,7 +63,7 @@ function CleanAndFinalize() {
 
       axios.post(url, data, {headers: {}}).
         then(response => {
-          props.data[props.cell.row.index][errorIndex] = response.data.error
+          setError(response.data.error)
           setShowToast(true)
         }).catch(err => {
           console.log('error')
