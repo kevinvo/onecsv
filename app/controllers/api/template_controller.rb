@@ -1,22 +1,15 @@
 class Api::TemplateController < ApiController
   def create
     template_name = params[:template_name]
-
-    if session[:template_name]
-      template = current_user.templates.find_by(name: session[:template_name])
-      template.update(name: template_name)
-      session[:template_name] = template.name
-    else
-      template = current_user.templates.create(name: template_name)
-      session[:template_name] = template_name
-    end
+    template = current_user.templates.create(name: template_name)
+    session[:template_name] = template_name
 
     msg = {:status => :created, :message => "Success!", :template => template}
     render :json => msg
   end
 
   def index
-    templates = current_user.templates
+    templates = current_user.templates.order(updated_at: :desc)
     msg = {:status => :ok, :templates => templates}
     render :json => msg
   end
@@ -26,6 +19,7 @@ class Api::TemplateController < ApiController
 
     if template
       session[:template_name] = template.name
+      template.touch
       msg = {:status => :updated, :message => "Updated!", :template => template}
     else
       msg = {:status => :error, :message => "Error!"}

@@ -6,9 +6,6 @@ import TemplateModal from '../components/template_modal'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
-  const [templateName, setTemplateName] = useState(
-    localStorage.getItem('template-name-localstorage') || ''
-  )
 
   useEffect(() => {
     axios.get('api/header').then(function (response) {
@@ -29,21 +26,11 @@ function MapTemplateColumn() {
     setHeaders(newHeaders)
   }
 
-  const onInputTemplateName = (e) => {
-    const value = e.target.value
-    localStorage.setItem('template-name-localstorage', value)
-    setTemplateName(value)
-  }
-
   return (
     <>
       <BreadCrumb>
         <div className='d-flex py-2 justify-content-end'>
-          <TemplateModal
-            templateName={templateName}
-            onInputTemplateName={onInputTemplateName}
-            headers={headers}
-          />
+          <TemplateModal headers={headers} />
         </div>
         <table className='table table-bordered table-sm'>
           <thead>

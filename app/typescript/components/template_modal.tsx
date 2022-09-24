@@ -5,11 +5,12 @@ import Form from 'react-bootstrap/Form'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
+const TemplateModal = ({ headers }) => {
   const [show, setShow] = useState(false)
   const [templates, setTemplates] = useState([])
   const [templateId, setTemplateId] = useState()
   const [showNewTemplate, setShowNewTemplate] = useState(false)
+  const [templateName, setTemplateName] = useState("")
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const handleShowNewTemplate = () => setShowNewTemplate(true)
@@ -59,7 +60,7 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
 
   function onSaveHeaders() {
     const data = {
-      csv_headers: props.headers,
+      csv_headers: headers,
     }
 
     axios
@@ -75,6 +76,12 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
   const handleChange = (event) => {
     setTemplateId(event.target.value)
   }
+
+  const onInputTemplateName = (e) => {
+    const value = e.target.value
+    setTemplateName(value)
+  }
+
   return (
     <>
       <Button type='button' className='btn btn-md btn-primary' onClick={handleShow}>
@@ -90,7 +97,7 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
             <Form.Group className='mb-3' controlId='formBasicName'>
               <Form.Label>Template Name</Form.Label>
               { (templates.length > 0 && showNewTemplate === false) ? (
-                <Form.Select aria-label="Default select template_name" onChange={(e) => handleChange(e)}>
+                <Form.Select aria-label="Default select template_name" defaultValue={templates[0].id} onChange={(e) => handleChange(e)}>
                   {
                     templates.map((template, index) => (
                       <option key={index} value={template.id}>
@@ -103,7 +110,6 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
                 <Form.Control
                   type='text'
                   placeholder='Enter name'
-                  value={templateName}
                   onChange={(event) => onInputTemplateName(event)}
                 />
               )}
