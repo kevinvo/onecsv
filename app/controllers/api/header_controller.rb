@@ -6,7 +6,6 @@ class Api::HeaderController < ApiController
 
   def index
     template_name = session[:template_name].to_s
-    puts "template_name = #{template_name}"
 
     header_map = []
     if template_name.empty?
