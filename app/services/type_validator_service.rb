@@ -10,8 +10,7 @@ class TypeValidatorService
   end
 
   def is_valid
-
-    if @is_required_field && !@value
+    if @is_required_field && @value.to_s.empty?
       @error_message = "This field is required."
       return self
     end

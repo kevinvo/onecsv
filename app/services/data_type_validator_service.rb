@@ -1,7 +1,7 @@
 
 require "monetize"
 require "money"
-require "date"
+require "chronic"
 
 class DataTypeValidatorService
 
@@ -34,7 +34,7 @@ class DataTypeValidatorService
   private
 
   def is_value_a_date(val)
-    !!Date.parse(val) rescue false
+    !!Chronic.parse(val)
   end
 
 end

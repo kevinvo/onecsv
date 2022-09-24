@@ -1,6 +1,6 @@
 require 'csv'
 
-class Api::CsvHeaderController < ApiController
+class Api::HeaderController < ApiController
   TOTAL_LINES = 20
   SAMPLE_TOTAL_LINES = 3
 
@@ -40,22 +40,30 @@ class Api::CsvHeaderController < ApiController
   def create
     template_name = session[:template_name]
     template = current_user.templates.find_by(name: template_name)
+    header_names = params["csv_headers"].map{|csv_header| csv_header["header_name"]}
+    headers = Header.where(name: header_names, template_id: template.id)
 
+    header_hashes = headers.map { |header| [header.name, header] }.to_h
     uploaded_file_path = session[:uploaded_file_path]
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
 
     headers = params["csv_headers"].each_with_index.map do |csv_header, index|
       header_name = csv_header["header_name"]
+      header = header_hashes[header_name]
+      id_hash = header ? {id: header.id} : {}
+      csv_columns_hash = header ? {csv_columns: header.csv_columns} : {csv_columns: csv[header_name]}
+      position_hash = header ? {position: header.position} : {position: index + 1}
+
       {
         name: header_name,
         is_required_field: csv_header["required"],
         data_type: csv_header["data_type"].to_i,
-        csv_columns: csv[header_name],
-        position: index + 1,
+        csv_columns: csv_columns_hash,
         template_id: template.id
-      }
+      }.merge(id_hash).merge(csv_columns_hash).merge(position_hash)
+
     end
-    Header.insert_all(headers)
+    Header.upsert_all(headers)
 
     # TODO: render error and success case
     render :json => {:status => :ok}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Button from 'react-bootstrap/Button'
 import BreadCrumb from '../components/bread_crumb'
 import axios from 'axios'
 import { CellDataType } from '../components/types'
@@ -12,7 +11,7 @@ function MapTemplateColumn() {
   )
 
   useEffect(() => {
-    axios.get('api/csv_header').then(function (response) {
+    axios.get('api/header').then(function (response) {
       const data = response.data.data
       setHeaders(data.headers)
     })

@@ -28,7 +28,6 @@ function CleanAndFinalize() {
     const [cellValue, setCellValue] = useState('')
     const [error, setError] = useState('')
     const [dataType, setDataType] = useState(CellDataType.Text)
-    const [errorIndex, setErrorIndex] = useState(null)
 
     useEffect(() => {
       const index = props.cell.row.index
@@ -40,7 +39,6 @@ function CleanAndFinalize() {
       const dataTypeIndex = props.cell.column.id.replace('col', 'data_type')
       const cellDataType = dataObj[dataTypeIndex]
 
-      setErrorIndex(errorIdx)
       setError(error)
       setCellValue(value)
       setDataType(cellDataType)
@@ -54,7 +52,6 @@ function CleanAndFinalize() {
         return header.id === columnId
       }).Header
       setCellValue(newCellValue)
-      setData(props.data)
 
       const data = {}
       data['header_name'] = headerName
@@ -64,7 +61,7 @@ function CleanAndFinalize() {
 
       axios.post(url, data, {headers: {}}).
         then(response => {
-          props.data[props.cell.row.index][errorIndex] = response.data.error
+          setError(response.data.error)
           setShowToast(true)
         }).catch(err => {
           console.log('error')
@@ -102,7 +99,7 @@ function CleanAndFinalize() {
   }
 
   useEffect(() => {
-    axios.get('api/csv_content_and_validation').then(function (response) {
+    axios.get('api/content_and_validation').then(function (response) {
       const data = response.data.data
 
       const headerColumns = data.headers.map((header, index) => {

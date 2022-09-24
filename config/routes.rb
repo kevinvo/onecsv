@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   namespace :api do
     resources :file_uploaders
     resources :header_column
-    resources :csv_header
-    resources :csv_content_and_validation
-    resources :csv_template
+    resources :header
+    resources :content_and_validation
+    resources :template
   end
 
   root 'visitor#index'

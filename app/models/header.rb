@@ -3,7 +3,7 @@
 # Table name: headers
 #
 #  id                :bigint           not null, primary key
-#  csv_columns       :json
+#  csv_columns       :jsonb
 #  data_type         :integer
 #  is_required_field :boolean
 #  name              :string

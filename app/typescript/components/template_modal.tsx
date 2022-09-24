@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
@@ -43,7 +43,7 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
     }
 
     axios
-      .post('/api/csv_template', data)
+      .post('/api/template', data)
       .then(function (response) {
         setShow(false)
         onSave()
@@ -61,7 +61,7 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
     }
 
     axios
-      .post('/api/csv_header', data)
+      .post('/api/header', data)
       .then(function (response) {
         console.log(response)
       })
