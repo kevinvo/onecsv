@@ -24,7 +24,7 @@ class Api::HeaderController < ApiController
       end
     else
       template = current_user.templates.find_by(name: template_name)
-      header_map = template.headers.map do |header|
+      header_map = template.headers.sort_by_position.map do |header|
         {header_name: header.name,
          sample_values: header.csv_columns.sample(3),
          data_type: header.read_attribute_before_type_cast(:data_type),
