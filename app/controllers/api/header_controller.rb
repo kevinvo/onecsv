@@ -40,12 +40,17 @@ class Api::HeaderController < ApiController
   def create
     template_name = session[:template_name]
     template = current_user.templates.find_by(name: template_name)
+    header_names = params["csv_headers"].map{|csv_header| csv_header["header_name"]}
+    headers = Header.where(name: header_names, template_id: template.id)
 
+    header_hashes = headers.map { |header| [header.name, header.id] }.to_h
     uploaded_file_path = session[:uploaded_file_path]
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
 
     headers = params["csv_headers"].each_with_index.map do |csv_header, index|
       header_name = csv_header["header_name"]
+      id = header_hashes[header_name]
+      id_hash = id ? {id: id} : {}
       {
         name: header_name,
         is_required_field: csv_header["required"],
@@ -53,9 +58,9 @@ class Api::HeaderController < ApiController
         csv_columns: csv[header_name],
         position: index + 1,
         template_id: template.id
-      }
+      }.merge(id_hash)
     end
-    Header.insert_all(headers)
+    Header.upsert_all(headers)
 
     # TODO: render error and success case
     render :json => {:status => :ok}
