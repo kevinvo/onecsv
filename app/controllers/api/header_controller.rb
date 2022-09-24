@@ -53,7 +53,7 @@ class Api::HeaderController < ApiController
       id_hash = header ? {id: header.id} : {}
       csv_columns_hash = header ? {csv_columns: header.csv_columns} : {csv_columns: csv[header_name]}
       position_hash = header ? {position: header.position} : {position: index + 1}
-      
+
       {
         name: header_name,
         is_required_field: csv_header["required"],
