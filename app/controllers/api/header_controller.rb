@@ -52,14 +52,15 @@ class Api::HeaderController < ApiController
       header = header_hashes[header_name]
       id_hash = header ? {id: header.id} : {}
       csv_columns_hash = header ? {csv_columns: header.csv_columns} : {csv_columns: csv[header_name]}
+      position_hash = header ? {position: header.position} : {position: index + 1}
+      
       {
         name: header_name,
         is_required_field: csv_header["required"],
         data_type: csv_header["data_type"].to_i,
         csv_columns: csv_columns_hash,
-        position: index + 1,
         template_id: template.id
-      }.merge(id_hash).merge(csv_columns_hash)
+      }.merge(id_hash).merge(csv_columns_hash).merge(position_hash)
 
     end
     Header.upsert_all(headers)
