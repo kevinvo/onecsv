@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
@@ -11,25 +11,27 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
   const [templateId, setTemplateId] = useState()
   const [showNewTemplate, setShowNewTemplate] = useState(false)
   const handleClose = () => setShow(false)
-  const handleShow = () => {
-    setShow(true)
-    fetchListTemplates()
-  }
+  const handleShow = () => setShow(true)
   const handleShowNewTemplate = () => setShowNewTemplate(true)
   const navigate = useNavigate()
-  const fetchListTemplates = () => {
+
+  useEffect(() => {
     axios
-      .get('/api/csv_template')
+      .get('/api/template')
       .then(response => {
-        setTemplates(response.data.templates)
+        const templatesData = response.data.templates
+        setTemplates(templatesData)
+        // TODO: set default templateId value
+        setTemplateId(templatesData[0].id)
       })
       .catch(error => {
         console.log(error)
       })
-  }
+  }, [])
+
   const onUpdateTemplate = () => {
     axios
-      .put("/api/csv_template/" + templateId)
+      .put("/api/template/" + templateId)
       .then(response => {
         setShow(false)
         navigate('/clean-and-finalize')
@@ -46,7 +48,7 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
       .post('/api/template', data)
       .then(function (response) {
         setShow(false)
-        onSave()
+        onSaveHeaders()
         navigate('/clean-and-finalize')
       })
       .catch(function (error) {
@@ -55,7 +57,7 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
       })
   }
 
-  function onSave() {
+  function onSaveHeaders() {
     const data = {
       csv_headers: props.headers,
     }
@@ -91,16 +93,18 @@ const TemplateModal = ({ templateName, onInputTemplateName, ...props }) => {
                 <Form.Select aria-label="Default select template_name" onChange={(e) => handleChange(e)}>
                   {
                     templates.map((template, index) => (
-                      <option key={index} value={template.id}>{template.name}</option>
+                      <option key={index} value={template.id}>
+                        {template.name}
+                      </option>
                     ))
                   }
                 </Form.Select>
               ) : (
                 <Form.Control
-                    type='text'
-                    placeholder='Enter name'
-                    value={templateName}
-                    onChange={(event) => onInputTemplateName(event)}
+                  type='text'
+                  placeholder='Enter name'
+                  value={templateName}
+                  onChange={(event) => onInputTemplateName(event)}
                 />
               )}
             </Form.Group>
