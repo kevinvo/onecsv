@@ -43,22 +43,24 @@ class Api::HeaderController < ApiController
     header_names = params["csv_headers"].map{|csv_header| csv_header["header_name"]}
     headers = Header.where(name: header_names, template_id: template.id)
 
-    header_hashes = headers.map { |header| [header.name, header.id] }.to_h
+    header_hashes = headers.map { |header| [header.name, header] }.to_h
     uploaded_file_path = session[:uploaded_file_path]
     csv = CSV.read(uploaded_file_path, :headers=>true, encoding: CsvConstant::ENCODING)
 
     headers = params["csv_headers"].each_with_index.map do |csv_header, index|
       header_name = csv_header["header_name"]
-      id = header_hashes[header_name]
-      id_hash = id ? {id: id} : {}
+      header = header_hashes[header_name]
+      id_hash = header ? {id: header.id} : {}
+      csv_columns_hash = header ? {csv_columns: header.csv_columns} : {csv_columns: csv[header_name]}
       {
         name: header_name,
         is_required_field: csv_header["required"],
         data_type: csv_header["data_type"].to_i,
-        csv_columns: csv[header_name],
+        csv_columns: csv_columns_hash,
         position: index + 1,
         template_id: template.id
-      }.merge(id_hash)
+      }.merge(id_hash).merge(csv_columns_hash)
+
     end
     Header.upsert_all(headers)
 
