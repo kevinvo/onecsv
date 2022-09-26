@@ -1,8 +1,11 @@
 class Api::TemplateController < ApiController
   def create
     template_name = params[:template_name]
-    template = current_user.templates.create(name: template_name)
-    session[:template_name] = template_name
+    slug = "#{template_name}-#{Random.uuid()}".parameterize
+    template = current_user.templates.create(name: template_name,
+                                             created_by: Template.created_bies[:user],
+                                             slug: slug)
+    session[:template_id] = template.id
 
     msg = {:status => :created, :message => "Success!", :template => template}
     render :json => msg
@@ -18,7 +21,7 @@ class Api::TemplateController < ApiController
     template = current_user.templates.find_by(id: params[:id])
 
     if template
-      session[:template_name] = template.name
+      session[:template_id] = template.id
       template.touch
       msg = {:status => :updated, :message => "Updated!", :template => template}
     else
