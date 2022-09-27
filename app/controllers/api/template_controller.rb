@@ -13,7 +13,9 @@ class Api::TemplateController < ApiController
 
   def index
     templates = current_user.templates.order(updated_at: :desc)
-    msg = {:status => :ok, :templates => templates}
+    template = Template.find_by(id: session[:template_id])
+
+    msg = {:status => :ok, :templates => templates, :current_template => template}
     render :json => msg
   end
 

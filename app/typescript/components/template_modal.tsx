@@ -21,9 +21,9 @@ const TemplateModal = ({ headers }) => {
       .get('/api/template')
       .then(response => {
         const templatesData = response.data.templates
+        const currentTemplate = response.data.current_template
         setTemplates(templatesData)
-        // TODO: set default templateId value
-        setTemplateId(templatesData[0].id)
+        setTemplateId(currentTemplate.id)
       })
       .catch(error => {
         console.log(error)
