@@ -40,7 +40,7 @@ class Api::HeaderController < ApiController
   def create
     template_id = session[:template_id]
     template = Template.includes(:headers).find_by(id: template_id, user: current_user)
-    header_hashes = template.headers.map {|header| [header.id, header]}.to_h
+    header_hashes = template.headers.map {|header| [header.name, header]}.to_h
 
     headers = params["csv_headers"].each_with_index.map do |csv_header, index|
       header_name = csv_header["header_name"].to_s.strip

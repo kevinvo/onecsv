@@ -35,6 +35,7 @@ const TemplateModal = ({ headers }) => {
       .put("/api/template/" + templateId)
       .then(response => {
         setShow(false)
+        onSaveHeaders()
         navigate('/clean-and-finalize')
       })
       .catch(error => {console.log(error)})
