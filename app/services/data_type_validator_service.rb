@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 
-require "monetize"
-require "money"
-require "chronic"
+require 'monetize'
+require 'money'
+require 'chronic'
 
 class DataTypeValidatorService
-
   attr_reader :value
 
   def initialize(value)
@@ -12,7 +12,7 @@ class DataTypeValidatorService
   end
 
   def is_date
-    self.is_value_a_date(@value)
+    is_value_a_date(@value)
   end
 
   def is_email
@@ -20,7 +20,7 @@ class DataTypeValidatorService
   end
 
   def is_currency
-    Money::Currency.analyze(@value).length > 0 ? !!Monetize.parse(@value) : false
+    Money::Currency.analyze(@value).length.positive? ? !!Monetize.parse(@value) : false
   end
 
   def is_integer
@@ -36,5 +36,4 @@ class DataTypeValidatorService
   def is_value_a_date(val)
     !!Chronic.parse(val)
   end
-
 end

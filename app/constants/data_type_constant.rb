@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DataTypeConstant
   TEXT = 1
   NUMBER = 2
