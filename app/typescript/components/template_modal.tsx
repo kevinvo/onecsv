@@ -20,9 +20,9 @@ const TemplateModal = ({ headers }) => {
     axios
       .get('/api/template')
       .then(response => {
-        const templatesData = response.data.templates
+        const templates = response.data.templates
         const currentTemplate = response.data.current_template
-        setTemplates(templatesData)
+        setTemplates(templates)
         setTemplateId(currentTemplate.id)
       })
       .catch(error => {
