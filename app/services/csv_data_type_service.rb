@@ -9,13 +9,13 @@ class CsvDataTypeService < ApplicationService
   end
 
   def call
-    if is_email
+    if email?
       Header.data_types[:email]
-    elsif is_currency
+    elsif currency?
       Header.data_types[:currency]
-    elsif is_integer || is_float
+    elsif integer? || float?
       Header.data_types[:number]
-    elsif is_date
+    elsif date?
       Header.data_types[:date]
     else
       Header.data_types[:text]
@@ -24,23 +24,23 @@ class CsvDataTypeService < ApplicationService
 
   private
 
-  def is_date
-    @values.map { |value| DataTypeValidatorService.new(value).is_date }.select(&:itself).length > ACCURACY
+  def date?
+    @values.map { |value| DataTypeValidatorService.new(value).date? }.select(&:itself).length > ACCURACY
   end
 
-  def is_email
-    @values.map { |value| DataTypeValidatorService.new(value).is_email }.select(&:itself).length > ACCURACY
+  def email?
+    @values.map { |value| DataTypeValidatorService.new(value).email? }.select(&:itself).length > ACCURACY
   end
 
-  def is_currency
-    @values.map { |value| DataTypeValidatorService.new(value).is_currency }.select { |value| value }.length > ACCURACY
+  def currency?
+    @values.map { |value| DataTypeValidatorService.new(value).currency? }.select { |value| value }.length > ACCURACY
   end
 
-  def is_integer
-    @values.map { |value| DataTypeValidatorService.new(value).is_integer }.select(&:itself).length > ACCURACY
+  def integer?
+    @values.map { |value| DataTypeValidatorService.new(value).integer? }.select(&:itself).length > ACCURACY
   end
 
-  def is_float
-    @values.map { |value| DataTypeValidatorService.new(value).is_float }.select(&:itself).length > ACCURACY
+  def float?
+    @values.map { |value| DataTypeValidatorService.new(value).float? }.select(&:itself).length > ACCURACY
   end
 end

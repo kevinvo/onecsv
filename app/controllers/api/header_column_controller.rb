@@ -14,9 +14,9 @@ module Api
       template_header.save!
 
       header = template_header.header
-      type_validator_obj = TypeValidatorService.new(column_value = column_value,
-                                                    data_type = header.read_attribute_before_type_cast(:data_type),
-                                                    is_required_field = header.is_required_field).is_valid
+      type_validator_obj = TypeValidatorService.new(column_value,
+                                                    header.read_attribute_before_type_cast(:data_type),
+                                                    header.is_required_field).valid?
       render json: { status: :updated, error: type_validator_obj.error_message }
     end
   end

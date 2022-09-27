@@ -11,29 +11,29 @@ class DataTypeValidatorService
     @value = value
   end
 
-  def is_date
-    is_value_a_date(@value)
+  def date?
+    value_a_date?(@value)
   end
 
-  def is_email
+  def email?
     !!URI::MailTo::EMAIL_REGEXP.match(@value)
   end
 
-  def is_currency
+  def currency?
     Money::Currency.analyze(@value).length.positive? ? !!Monetize.parse(@value) : false
   end
 
-  def is_integer
+  def integer?
     !!Integer(value, exception: false)
   end
 
-  def is_float
+  def float?
     !!Float(value, exception: false)
   end
 
   private
 
-  def is_value_a_date(val)
+  def value_a_date?(val)
     !!Chronic.parse(val)
   end
 end

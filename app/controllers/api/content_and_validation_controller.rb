@@ -18,9 +18,9 @@ module Api
         template_header.column_values.map do |column_value|
           column_value = column_value.to_s.strip
           header = template_header.header
-          type_validator_obj = TypeValidatorService.new(column_value = column_value,
-                                                        data_type = header.read_attribute_before_type_cast(:data_type),
-                                                        is_required_field = header.is_required_field).is_valid
+          type_validator_obj = TypeValidatorService.new(column_value,
+                                                        header.read_attribute_before_type_cast(:data_type),
+                                                        header.is_required_field).valid?
           { value: column_value,
             data_type: data_type,
             error: type_validator_obj.error_message }

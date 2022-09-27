@@ -10,7 +10,7 @@ class TypeValidatorService
     @error_message = ''
   end
 
-  def is_valid
+  def valid?
     if @is_required_field && @value.to_s.empty?
       @error_message = 'This field is required.'
       return self
@@ -18,13 +18,13 @@ class TypeValidatorService
 
     case @data_type
     when Header.data_types[:email]
-      is_valid_email
+      valid_email?
     when Header.data_types[:currency]
-      is_valid_currency
+      valid_currency?
     when Header.data_types[:number]
-      is_valid_number
+      valid_number?
     when Header.data_types[:date]
-      is_valid_date
+      valid_date?
     else
       true
     end
@@ -34,26 +34,26 @@ class TypeValidatorService
 
   private
 
-  def is_valid_email
-    DataTypeValidatorService.new(@value).is_email.tap do |is_valid|
+  def valid_email?
+    DataTypeValidatorService.new(@value).email?.tap do |is_valid|
       @error_message = 'Invalid email.' unless is_valid
     end
   end
 
-  def is_valid_currency
-    DataTypeValidatorService.new(@value).is_currency.tap do |is_valid|
+  def valid_currency?
+    DataTypeValidatorService.new(@value).currency?.tap do |is_valid|
       @error_message = 'Invalid currency.' unless is_valid
     end
   end
 
-  def is_valid_number
-    (DataTypeValidatorService.new(@value).is_integer || DataTypeValidatorService.new(@value).is_float).tap do |is_valid|
+  def valid_number?
+    (DataTypeValidatorService.new(@value).integer? || DataTypeValidatorService.new(@value).float?).tap do |is_valid|
       @error_message = 'Invalid number.' unless is_valid
     end
   end
 
-  def is_valid_date
-    DataTypeValidatorService.new(@value).is_date.tap do |is_valid|
+  def valid_date?
+    DataTypeValidatorService.new(@value).date?.tap do |is_valid|
       @error_message = 'Invalid date.' unless is_valid
     end
   end
