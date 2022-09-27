@@ -3,19 +3,19 @@ require 'csv'
 class Api::ContentAndValidationController < ApiController
 
   def index
-    template_name = session[:template_name]
-    template = current_user.templates.find_by(name: template_name)
-    headers = template&.headers&.sort_by_position || []
-
-    header_map = headers.map do |header|
-      { header_name: header.name.to_s.strip,
-        data_type: header.read_attribute_before_type_cast(:data_type),
-        required: header.is_required_field }
+    template_id = session[:template_id]
+    template = Template.includes(template_headers: :header).find_by(id: template_id, user: current_user)
+    header_map = template.template_headers.map do |template_header|
+      header = template_header.header
+      {header_name: header.name,
+       data_type: header.read_attribute_before_type_cast(:data_type),
+       required: header.is_required_field}
     end
 
-    rows = headers.map do |header|
-      header.csv_columns.map do |column_value|
+    rows = template.template_headers.map do |template_header|
+      template_header.column_values.map do |column_value|
         column_value = column_value.to_s.strip
+        header = template_header.header
         type_validator_obj = TypeValidatorService.new(column_value=column_value,
                                                       data_type=header.read_attribute_before_type_cast(:data_type),
                                                       is_required_field=header.is_required_field).is_valid

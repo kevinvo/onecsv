@@ -74,6 +74,7 @@ function CleanAndFinalize() {
         placeholder=''
         className={className}
         name='input'
+        maxLength={20}
         debounceTimeout={500}
         onChange={onChangeHandle}
         value={cellValue}

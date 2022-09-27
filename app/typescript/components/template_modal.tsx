@@ -20,10 +20,10 @@ const TemplateModal = ({ headers }) => {
     axios
       .get('/api/template')
       .then(response => {
-        const templatesData = response.data.templates
-        setTemplates(templatesData)
-        // TODO: set default templateId value
-        setTemplateId(templatesData[0].id)
+        const templates = response.data.templates
+        const currentTemplate = response.data.current_template
+        setTemplates(templates)
+        setTemplateId(currentTemplate.id)
       })
       .catch(error => {
         console.log(error)
@@ -35,6 +35,7 @@ const TemplateModal = ({ headers }) => {
       .put("/api/template/" + templateId)
       .then(response => {
         setShow(false)
+        onSaveHeaders()
         navigate('/clean-and-finalize')
       })
       .catch(error => {console.log(error)})
