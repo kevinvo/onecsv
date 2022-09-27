@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: headers
@@ -22,13 +24,12 @@ class Header < ApplicationRecord
     number: 2,
     email: 3,
     date: 4,
-    currency: 5,
+    currency: 5
   }
 
-  scope :by_names, -> (header_names) { where(name: header_names) }
-  scope :by_template, -> (template_id) { joins(:template_headers).where(template_headers: {template_id: template_id}) }
-  scope :sort_by_position, -> {order('position')}
-  scope :required, -> { where(is_required_field: true ) }
-  scope :optional, -> { where(is_required_field: false ) }
-
+  scope :by_names, ->(header_names) { where(name: header_names) }
+  scope :by_template, ->(template_id) { joins(:template_headers).where(template_headers: { template_id: template_id }) }
+  scope :sort_by_position, -> { order('position') }
+  scope :required, -> { where(is_required_field: true) }
+  scope :optional, -> { where(is_required_field: false) }
 end

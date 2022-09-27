@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: templates
@@ -26,7 +28,6 @@ class Template < ApplicationRecord
 
   enum created_by: {
     user: 1,
-    automated: 2,
+    automated: 2
   }
-
 end

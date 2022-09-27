@@ -80,3 +80,5 @@ gem "money-heuristics"
 gem "devise-jwt"
 gem "chronic"
 gem "data_migrate"
+gem "rubocop", require: false
+gem "rubocop-rails", require: false
