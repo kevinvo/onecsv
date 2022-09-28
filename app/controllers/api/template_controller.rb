@@ -4,9 +4,12 @@ module Api
   class TemplateController < ApiController
     def create
       template_name = params[:template_name]
+
+      csv_filename = File.basename(session[:uploaded_file_path])
       slug = "#{template_name}-#{Random.uuid}".parameterize
       template = current_user.templates.create(name: template_name,
                                                created_by: Template.created_bies[:user],
+                                               csv_name: csv_filename,
                                                slug: slug)
       session[:template_id] = template.id
 

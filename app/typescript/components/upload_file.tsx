@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 export default function FileUploader() {
-  const [uploadSuccess, setUploadSuccess] = useState(false)
   const navigate = useNavigate()
 
   const handleOnFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,12 +13,10 @@ export default function FileUploader() {
     axios
       .post('api/file_uploaders', formData)
       .then(function (res) {
-        setUploadSuccess(true)
         navigate('/map-template-columns')
       })
       .catch(function (err) {
         if (err.response.status === 401) {
-          setUploadSuccess(false)
           navigate('/')
         }
       })
