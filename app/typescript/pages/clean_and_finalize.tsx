@@ -50,7 +50,7 @@ function CleanAndFinalize() {
       props.data[props.cell.row.index][columnId] = newCellValue
       const headerName = props.headers.find((header) => {
         return header.id === columnId
-      }).Header
+      }).header_name
       setCellValue(newCellValue)
 
       const data = {}
@@ -111,6 +111,7 @@ function CleanAndFinalize() {
             </div>
           ),
           accessor: 'col' + index,
+          header_name: header.header_name,
           Cell: renderEditable,
         }
       })
