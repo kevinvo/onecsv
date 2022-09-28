@@ -101,11 +101,15 @@ function CleanAndFinalize() {
 
   useEffect(() => {
     axios.get('api/content_and_validation').then(function (response) {
-      const data = response.data.data
+      const data = response.data
 
       const headerColumns = data.headers.map((header, index) => {
         return {
-          Header: header.header_name,
+          Header:  () => (
+            <div>
+              {header.header_name}  {header.total_errors > 0 ? (<span className='text-danger'>({header.total_errors})</span>) : null}
+            </div>
+          ),
           accessor: 'col' + index,
           Cell: renderEditable,
         }
