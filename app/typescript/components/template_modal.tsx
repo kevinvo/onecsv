@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom'
 const TemplateModal = ({ headers }) => {
   const [show, setShow] = useState(false)
   const [templates, setTemplates] = useState([])
-  const [templateId, setTemplateId] = useState()
+  const [currentTemplate, setCurrentTemplate] = useState(null)
   const [showNewTemplate, setShowNewTemplate] = useState(false)
+
+  // const [templateId, setTemplateId] = useState()
   const [templateName, setTemplateName] = useState("")
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -23,34 +25,40 @@ const TemplateModal = ({ headers }) => {
         const templates = response.data.templates
         const currentTemplate = response.data.current_template
         setTemplates(templates)
-        setTemplateId(currentTemplate.id)
+        setCurrentTemplate(currentTemplate)
       })
       .catch(error => {
         console.log(error)
       })
   }, [])
 
+  const saveAndContinueClick = () => {
+    if (currentTemplate) {
+      onUpdateTemplate()
+    } else {
+      onSaveTemplate()
+    }
+  }
+
   const onUpdateTemplate = () => {
+    const data = {csv_headers: headers}
     axios
-      .put("/api/template/" + templateId)
+      .put("/api/template/" + currentTemplate.id, data)
       .then(response => {
         setShow(false)
-        onSaveHeaders()
+        // onSaveHeaders()
         navigate('/clean-and-finalize')
       })
       .catch(error => {console.log(error)})
   }
 
   const onSaveTemplate = () => {
-    const data = {
-      template_name: templateName,
-    }
-
+    const data = {csv_headers: headers}
     axios
       .post('/api/template', data)
       .then(function (response) {
         setShow(false)
-        onSaveHeaders()
+        // onSaveHeaders()
         navigate('/clean-and-finalize')
       })
       .catch(function (error) {
@@ -74,71 +82,71 @@ const TemplateModal = ({ headers }) => {
       })
   }
 
-  const handleChange = (event) => {
-    setTemplateId(event.target.value)
-  }
+  // const handleChange = (event) => {
+  //   setTemplateId(event.target.value)
+  // }
 
-  const onInputTemplateName = (e) => {
-    const value = e.target.value
-    setTemplateName(value)
-  }
+  // const onInputTemplateName = (e) => {
+  //   const value = e.target.value
+  //   setTemplateName(value)
+  // }
 
   return (
     <>
-      <Button type='button' className='btn btn-md btn-primary' onClick={handleShow}>
+      <Button type='button' className='btn btn-md btn-primary' onClick={saveAndContinueClick}>
         Save & Continue
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Please input your template name</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className='mb-3' controlId='formBasicName'>
-              <Form.Label>Template Name</Form.Label>
-              { (templates.length > 0 && showNewTemplate === false) ? (
-                <Form.Select aria-label="Default select template_name" defaultValue={templates[0].id} onChange={(e) => handleChange(e)}>
-                  {
-                    templates.map((template, index) => (
-                      <option key={index} value={template.id}>
-                        {template.name}
-                      </option>
-                    ))
-                  }
-                </Form.Select>
-              ) : (
-                <Form.Control
-                  type='text'
-                  placeholder='Enter name'
-                  onChange={(event) => onInputTemplateName(event)}
-                />
-              )}
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
-            Close
-          </Button>
-          {
-            (templates.length > 0 && showNewTemplate === false) ?  (
-                <>
-                  <Button variant='primary' onClick={() => handleShowNewTemplate()}>
-                    Create New Template
-                  </Button>
-                  <Button variant='primary' onClick={() => onUpdateTemplate()}>
-                    Update Changes
-                  </Button>
-                </>
-              ) : (
-              <Button variant='primary' onClick={() => onSaveTemplate()}>
-                Save Changes
-              </Button>
-            )
-          }
-        </Modal.Footer>
-      </Modal>
+      {/*<Modal show={show} onHide={handleClose}>*/}
+      {/*  <Modal.Header closeButton>*/}
+      {/*    <Modal.Title>Please input your template_services name</Modal.Title>*/}
+      {/*  </Modal.Header>*/}
+      {/*  <Modal.Body>*/}
+      {/*    <Form>*/}
+      {/*      <Form.Group className='mb-3' controlId='formBasicName'>*/}
+      {/*        <Form.Label>Template Name</Form.Label>*/}
+      {/*        { (templates.length > 0 && showNewTemplate === false) ? (*/}
+      {/*          <Form.Select aria-label="Default select template_name" defaultValue={templates[0].id} onChange={(e) => handleChange(e)}>*/}
+      {/*            {*/}
+      {/*              templates.map((template_services, index) => (*/}
+      {/*                <option key={index} value={template_services.id}>*/}
+      {/*                  {template_services.name}*/}
+      {/*                </option>*/}
+      {/*              ))*/}
+      {/*            }*/}
+      {/*          </Form.Select>*/}
+      {/*        ) : (*/}
+      {/*          <Form.Control*/}
+      {/*            type='text'*/}
+      {/*            placeholder='Enter name'*/}
+      {/*            onChange={(event) => onInputTemplateName(event)}*/}
+      {/*          />*/}
+      {/*        )}*/}
+      {/*      </Form.Group>*/}
+      {/*    </Form>*/}
+      {/*  </Modal.Body>*/}
+      {/*  <Modal.Footer>*/}
+      {/*    <Button variant='secondary' onClick={handleClose}>*/}
+      {/*      Close*/}
+      {/*    </Button>*/}
+      {/*    {*/}
+      {/*      (templates.length > 0 && showNewTemplate === false) ?  (*/}
+      {/*          <>*/}
+      {/*            <Button variant='primary' onClick={() => handleShowNewTemplate()}>*/}
+      {/*              Create New Template*/}
+      {/*            </Button>*/}
+      {/*            <Button variant='primary' onClick={() => onUpdateTemplate()}>*/}
+      {/*              Update Changes*/}
+      {/*            </Button>*/}
+      {/*          </>*/}
+      {/*        ) : (*/}
+      {/*        <Button variant='primary' onClick={() => onSaveTemplate()}>*/}
+      {/*          Save Changes*/}
+      {/*        </Button>*/}
+      {/*      )*/}
+      {/*    }*/}
+      {/*  </Modal.Footer>*/}
+      {/*</Modal>*/}
     </>
   )
 }

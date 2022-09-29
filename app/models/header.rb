@@ -14,9 +14,9 @@
 #
 
 class Header < ApplicationRecord
-  # belongs_to :template #TODO: remove
+  # belongs_to :template_services #TODO: remove
 
-  has_many :template_headers
+  has_many :template_headers, dependent: :destroy
   has_many :templates, through: :template_headers
 
   enum data_type: {
@@ -32,4 +32,8 @@ class Header < ApplicationRecord
   scope :sort_by_position, -> { order('position') }
   scope :required, -> { where(is_required_field: true) }
   scope :optional, -> { where(is_required_field: false) }
+
+  validates :position, presence: true
+  validates :name, presence: true
+  validates :data_type, presence: true
 end

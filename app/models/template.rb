@@ -23,12 +23,15 @@
 #
 class Template < ApplicationRecord
   belongs_to :user
-  # has_many :headers, dependent: :destroy  #TODO: remove
-  has_many :template_headers
+
+  has_many :template_headers, dependent: :destroy
   has_many :headers, through: :template_headers
 
   enum created_by: {
     user: 1,
     automated: 2
   }
+
+  validates :csv_name, presence: true
+  validates :slug, presence: true
 end

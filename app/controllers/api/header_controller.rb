@@ -39,36 +39,6 @@ module Api
       msg = { status: :ok, data: data }
       render json: msg
     end
-
-    def create
-      template_id = session[:template_id]
-      template = Template.includes(:headers).find_by(id: template_id, user: current_user)
-      header_hashes = template.headers.index_by(&:name)
-
-      headers = params['csv_headers'].each_with_index.map do |csv_header, index|
-        header_name = csv_header['header_name'].to_s.strip
-        header = header_hashes[header_name]
-        id_hash = header ? { id: header.id } : {}
-        position_hash = header ? { position: header.position } : { position: index + 1 }
-        { name: header_name,
-          is_required_field: csv_header['required'],
-          data_type: csv_header['data_type'].to_i }.merge(id_hash).merge(position_hash)
-      end
-
-      header_objs = Header.upsert_all(headers, returning: %w[id name])
-
-      uploaded_file_path = session[:uploaded_file_path]
-      csv = CSV.read(uploaded_file_path, headers: true, encoding: CsvConstant::ENCODING)
-
-      template_headers = header_objs.map do |header_obj|
-        { template_id: template.id,
-          header_id: header_obj['id'],
-          column_values: csv[header_obj['name']] }
-      end
-      TemplateHeader.upsert_all(template_headers)
-
-      # TODO: render error and success case
-      render json: { status: :ok }
-    end
+    
   end
 end
