@@ -8,6 +8,13 @@ function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
 
   useEffect(() => {
+    axios.get('api/duplicate_check').then(function (response) {
+      const data = response.data
+      console.log("data = " + JSON.stringify(data))
+    })
+  }, [])
+
+  useEffect(() => {
     axios.get('api/header').then(function (response) {
       const data = response.data.data
       setHeaders(data.headers)

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :header
     resources :content_and_validation
     resources :template
+    resources :duplicate_check
   end
 
   root 'visitor#index'
