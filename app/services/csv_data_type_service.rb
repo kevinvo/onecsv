@@ -9,7 +9,9 @@ class CsvDataTypeService < ApplicationService
   end
 
   def call
-    if email?
+    if @values.length.zero?
+      Header.data_types[:text]
+    elsif email?
       Header.data_types[:email]
     elsif currency?
       Header.data_types[:currency]
