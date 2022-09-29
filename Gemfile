@@ -83,3 +83,4 @@ gem "data_migrate"
 gem "rubocop", require: false
 gem "rubocop-rails", require: false
 gem "virtus"
+gem 'bullet', group: 'development'
