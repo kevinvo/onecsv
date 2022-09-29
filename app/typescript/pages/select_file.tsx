@@ -5,7 +5,7 @@ import BreadCrumb from '../components/bread_crumb'
 function SelectFile() {
   return (
     <>
-      <BreadCrumb>
+      <BreadCrumb location_path="/">
         <FileUploader />
       </BreadCrumb>
     </>

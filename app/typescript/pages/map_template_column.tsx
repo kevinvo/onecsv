@@ -28,7 +28,7 @@ function MapTemplateColumn() {
 
   return (
     <>
-      <BreadCrumb>
+      <BreadCrumb location_path="/map-template-columns">
         <div className='d-flex py-2 justify-content-end'>
           <TemplateModal headers={headers} />
         </div>
