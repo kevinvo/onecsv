@@ -39,12 +39,11 @@ module TemplateServices
 
     def create_csv_headers
       @csv_headers.each_with_index.map do |csv_header, index|
-        header_name = csv_header['header_name'].to_s.strip
-        is_required_field = csv_header['required'] or false
+        header_name = csv_header.name.to_s.strip
         Header.create!(name: header_name,
-                       is_required_field: is_required_field,
+                       is_required_field: csv_header.required,
                        position: index + 1,
-                       data_type: csv_header['data_type'].to_i)
+                       data_type: csv_header.data_type.to_i)
       end
     end
   end

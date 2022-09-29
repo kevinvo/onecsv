@@ -39,6 +39,5 @@ module Api
       msg = { status: :ok, data: data }
       render json: msg
     end
-    
   end
 end
