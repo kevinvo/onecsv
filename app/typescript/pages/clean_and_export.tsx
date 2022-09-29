@@ -19,7 +19,7 @@ function OverlayToolTip(props) {
   return <>{props?.message?.length > 0 ? withOverlay : withoutOverlay}</>
 }
 
-function CleanAndFinalize() {
+function CleanAndExport() {
   const [columns, setColumns] = useState([])
   const [data, setData] = useState([])
   const [template, setTemplate] = useState(null)
@@ -149,4 +149,4 @@ function CleanAndFinalize() {
   )
 }
 
-export default CleanAndFinalize
+export default CleanAndExport
