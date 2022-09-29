@@ -6,11 +6,7 @@ module Api
   class ContentAndValidationController < ApiController
     def index
       template_id = session[:template_id]
-      template = Template.includes(template_headers: :header)
-                         .joins(template_headers: :header)
-                         .merge(Header.sort_by_position).find_by(
-                           id: template_id, user: current_user
-                         )
+      template = Template.by_template_and_user(template_id, current_user)
 
       column_value_error_message_lookup = {}
       header_map = template.template_headers.map do |template_header|

@@ -6,11 +6,8 @@ module Api
 
     def index
       templates = current_user.templates.order(updated_at: :desc)
-      template = Template.includes(template_headers: :header)
-                         .joins(template_headers: :header)
-                         .merge(Header.sort_by_position).find_by(
-                           id: session[:template_id], user: current_user
-                         )
+      template = Template.by_template_and_user(session[:template_id], current_user)
+
       header_map = template.template_headers.map do |template_header|
         header = template_header.header
         { header_name: header.name,

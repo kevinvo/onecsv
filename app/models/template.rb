@@ -31,6 +31,11 @@ class Template < ApplicationRecord
     user: 1,
     automated: 2
   }
+  scope :by_template_and_user, lambda { |template_id, user|
+                                 includes(template_headers: :header)
+                                   .joins(template_headers: :header)
+                                   .merge(Header.sort_by_position).find_by(id: template_id, user: user)
+                               }
 
   validates :csv_name, presence: true
   validates :slug, presence: true

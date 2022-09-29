@@ -28,7 +28,9 @@ class Header < ApplicationRecord
   }
 
   scope :by_names, ->(header_names) { where(name: header_names) }
-  scope :by_template, ->(template_id) { joins(:template_headers).where(template_headers: { template_id: template_id }) }
+  scope :by_template, lambda { |template_id|
+                        joins(:template_headers).where(template_headers: { template_id: template_id })
+                      }
   scope :sort_by_position, -> { order('position') }
   scope :required, -> { where(is_required_field: true) }
   scope :optional, -> { where(is_required_field: false) }
