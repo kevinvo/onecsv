@@ -3,7 +3,7 @@
 module TemplateServices
   class CreateService < ApplicationService
 
-    https://stackoverflow.com/a/9420531/1103087
+    #https://stackoverflow.com/a/9420531/1103087
     ENCODING_OPTIONS = {
       :invalid           => :replace,  # Replace invalid byte sequences
       :undef             => :replace,  # Replace anything not defined in ASCII
