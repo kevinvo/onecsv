@@ -8,7 +8,10 @@ module Api
       header_name = params['header_name']
       column_value_index = params['index']
 
-      header = Header.where(template_headers: { template_id: template_id }).includes(:template_headers).find_by(name: header_name)
+      header = Header.where(template_headers: { template_id: template_id },
+                            templates: { user: current_user })
+                     .joins(:templates)
+                     .find_by(name: header_name)
       template_header = TemplateHeader.find_by(template_id: template_id, header_id: header.id)
       template_header.column_values[column_value_index] = column_value
       template_header.save!
