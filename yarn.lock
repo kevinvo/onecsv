@@ -644,11 +644,6 @@ classnames@^2.3.1:
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
   integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
 
-clsx@^1.1.1:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/clsx/-/clsx-1.2.1.tgz"
-  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
-
 codepage@~1.15.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/codepage/-/codepage-1.15.0.tgz#2e00519024b39424ec66eeb3ec07227e692618ab"
@@ -1986,13 +1981,6 @@ react-bootstrap@^2.5.0:
     react-transition-group "^4.4.2"
     uncontrollable "^7.2.1"
     warning "^4.0.3"
-
-react-data-grid@^7.0.0-beta.15:
-  version "7.0.0-beta.16"
-  resolved "https://registry.npmjs.org/react-data-grid/-/react-data-grid-7.0.0-beta.16.tgz"
-  integrity sha512-OMBGWYoYSS3Hh2FyIAG29vi8QkPOJ4uFF+YWFF+ht9gEjFDiNI7yXvdingquovFVDFJMJDde9o/Jxcf1MmF2/Q==
-  dependencies:
-    clsx "^1.1.1"
 
 react-debounce-input@^3.3.0:
   version "3.3.0"
