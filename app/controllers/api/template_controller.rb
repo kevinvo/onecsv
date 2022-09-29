@@ -2,11 +2,21 @@
 
 module Api
   class TemplateController < ApiController
+
+    SAMPLE_TOTAL_LINES = 3
+
     def index
       templates = current_user.templates.order(updated_at: :desc)
-      template = Template.find_by(id: session[:template_id])
+      template = Template.includes(template_headers: :header).find_by(id: session[:template_id], user: current_user)
+      header_map = template.template_headers.map do |template_header|
+        header = template_header.header
+        { header_name: header.name,
+          sample_values: template_header.column_values.compact.sort.first(SAMPLE_TOTAL_LINES),
+          data_type: header.read_attribute_before_type_cast(:data_type),
+          required: header.is_required_field }
+      end
 
-      json = { status: :ok, templates: templates, current_template: template }
+      json = { status: :ok, templates: templates, current_template: template, headers: header_map }
       render json: json
     end
 

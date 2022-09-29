@@ -8,8 +8,8 @@ function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
 
   useEffect(() => {
-    axios.get('api/header').then(function (response) {
-      const data = response.data.data
+    axios.get('api/template').then(function (response) {
+      const data = response.data
       setHeaders(data.headers)
     })
   }, [])
