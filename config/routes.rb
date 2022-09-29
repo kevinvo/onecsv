@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   namespace :api do
     resources :file_uploaders
     resources :header_column
-    resources :header
     resources :content_and_validation
     resources :template
   end
