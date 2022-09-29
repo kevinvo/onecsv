@@ -8,6 +8,8 @@ import { CellDataType } from '../components/types'
 import ExportCsv from '../components/export_csv'
 import { DebounceInput } from 'react-debounce-input'
 import AutohideToast from '../components/auto_hide_toast'
+import { Circles } from  'react-loader-spinner'
+
 
 function OverlayToolTip(props) {
   const withOverlay = (
@@ -142,9 +144,17 @@ function CleanAndExport() {
               <TableContainer columns={columns} data={data} />
               <AutohideToast showToast={showToast} setShowToast={setShowToast} message="Successfully Saved!" />
             </>
-          ) : null}
+          ) :
+          ( <div className="d-flex justify-content-center">
+              <Circles height="80"
+                           width="80"
+                           color="#4fa94d"
+                           ariaLabel="circles-loading"
+                           wrapperStyle={{}}
+                           wrapperClass=""
+                           visible={true} />
+            </div>)}
         </BreadCrumb>
-
     </>
   )
 }
