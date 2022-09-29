@@ -3,14 +3,6 @@
 module TemplateServices
   class CreateService < ApplicationService
 
-    #https://stackoverflow.com/a/9420531/1103087
-    ENCODING_OPTIONS = {
-      :invalid           => :replace,  # Replace invalid byte sequences
-      :undef             => :replace,  # Replace anything not defined in ASCII
-      :replace           => '',        # Use a blank for those replacements
-      :universal_newline => true       # Always break lines with \n
-    }
-
     def initialize(uploaded_file_path, csv_headers, current_user, template_name = '')
       @uploaded_file_path = uploaded_file_path
       @csv_headers = csv_headers
@@ -48,7 +40,7 @@ module TemplateServices
 
     def create_csv_headers
       @csv_headers.each_with_index.map do |csv_header, index|
-        header_name = csv_header.name.to_s.strip.encode(Encoding.find('ASCII'), **ENCODING_OPTIONS)
+        header_name = StringService.new(csv_header.name).to_ascii
         Header.create!(name: header_name,
                        is_required_field: csv_header.required,
                        position: index + 1,
