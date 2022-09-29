@@ -8,8 +8,14 @@ export default function AutohideToast(props) {
   return (
     <Row>
       <Col xs={6}>
-        <ToastContainer position="top-end" className="p-3">
-          <Toast bg='success' onClose={() => props.setShowToast(false)} show={props.showToast} delay={2000} autohide>
+        <ToastContainer position='top-end' className='p-3'>
+          <Toast
+            bg='success'
+            onClose={() => props.setShowToast(false)}
+            show={props.showToast}
+            delay={2000}
+            autohide
+          >
             <Toast.Body>{props.message}</Toast.Body>
           </Toast>
         </ToastContainer>

@@ -8,8 +8,7 @@ import { CellDataType } from '../components/types'
 import ExportCsv from '../components/export_csv'
 import { DebounceInput } from 'react-debounce-input'
 import AutohideToast from '../components/auto_hide_toast'
-import { Circles } from  'react-loader-spinner'
-
+import { Circles } from 'react-loader-spinner'
 
 function OverlayToolTip(props) {
   const withOverlay = (
@@ -62,11 +61,13 @@ function CleanAndExport() {
       data['index'] = props.cell.row.index
       const url = '/api/header_column'
 
-      axios.post(url, data, {headers: {}}).
-        then(response => {
+      axios
+        .post(url, data, { headers: {} })
+        .then((response) => {
           setError(response.data.error)
           setShowToast(true)
-        }).catch(err => {
+        })
+        .catch((err) => {
           console.log('error')
         })
     }
@@ -109,9 +110,12 @@ function CleanAndExport() {
 
       const headerColumns = data.headers.map((header, index) => {
         return {
-          Header:  () => (
+          Header: () => (
             <div>
-              {header.header_name}  {header.total_errors > 0 ? (<span className='text-danger'>({header.total_errors})</span>) : null}
+              {header.header_name}{' '}
+              {header.total_errors > 0 ? (
+                <span className='text-danger'>({header.total_errors})</span>
+              ) : null}
             </div>
           ),
           accessor: 'col' + index,
@@ -137,24 +141,31 @@ function CleanAndExport() {
 
   return (
     <>
-      <BreadCrumb location_path="/clean-and-finalize">
-        {columns.length > 0 && data.length > 0 ?
-          ( <>
-              <ExportCsv data={data} columns={columns} csvName={template.csv_name}/>
-              <TableContainer columns={columns} data={data} />
-              <AutohideToast showToast={showToast} setShowToast={setShowToast} message="Successfully Saved!" />
-            </>
-          ) :
-          ( <div className="d-flex justify-content-center">
-              <Circles height="80"
-                           width="80"
-                           color="#4fa94d"
-                           ariaLabel="circles-loading"
-                           wrapperStyle={{}}
-                           wrapperClass=""
-                           visible={true} />
-            </div>)}
-        </BreadCrumb>
+      <BreadCrumb location_path='/clean-and-finalize'>
+        {columns.length > 0 && data.length > 0 ? (
+          <>
+            <ExportCsv data={data} columns={columns} csvName={template.csv_name} />
+            <TableContainer columns={columns} data={data} />
+            <AutohideToast
+              showToast={showToast}
+              setShowToast={setShowToast}
+              message='Successfully Saved!'
+            />
+          </>
+        ) : (
+          <div className='d-flex justify-content-center'>
+            <Circles
+              height='80'
+              width='80'
+              color='#4fa94d'
+              ariaLabel='circles-loading'
+              wrapperStyle={{}}
+              wrapperClass=''
+              visible={true}
+            />
+          </div>
+        )}
+      </BreadCrumb>
     </>
   )
 }

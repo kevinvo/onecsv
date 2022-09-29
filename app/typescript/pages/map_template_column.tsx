@@ -9,11 +9,11 @@ function MapTemplateColumn() {
   const [currentTemplate, setCurrentTemplate] = useState(null)
 
   async function fetchTemplate() {
-    const {data} = await axios.get('api/template')
+    const { data } = await axios.get('api/template')
     setHeaders(data.headers)
     setCurrentTemplate(data.current_template)
   }
-  
+
   useEffect(() => {
     axios.get('api/template').then(function (response) {
       const data = response.data
@@ -36,9 +36,9 @@ function MapTemplateColumn() {
 
   return (
     <>
-      <BreadCrumb location_path="/map-template-columns">
+      <BreadCrumb location_path='/map-template-columns'>
         <div className='d-flex py-2 justify-content-end'>
-          <TemplateModal headers={headers} currentTemplate={currentTemplate}/>
+          <TemplateModal headers={headers} currentTemplate={currentTemplate} />
         </div>
         <table className='table table-bordered table-sm'>
           <thead>

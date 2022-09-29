@@ -33,14 +33,16 @@ const TemplateModal = ({ headers, currentTemplate }) => {
   // }, [])
 
   const onUpdateTemplate = () => {
-    const data = {csv_headers: headers}
+    const data = { csv_headers: headers }
     axios
-      .put("/api/template/" + currentTemplate.id, data)
-      .then(response => {
+      .put('/api/template/' + currentTemplate.id, data)
+      .then((response) => {
         // setShow(false)
         navigate('/clean-and-finalize')
       })
-      .catch(error => {console.log(error)})
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   // const handleChange = (event) => {
@@ -58,7 +60,7 @@ const TemplateModal = ({ headers, currentTemplate }) => {
         Save & Continue
       </Button>
 
-      {/*<Modal show={show} onHide={handleClose}>*/}
+      {/* <Modal show={show} onHide={handleClose}>*/}
       {/*  <Modal.Header closeButton>*/}
       {/*    <Modal.Title>Please input your template_services name</Modal.Title>*/}
       {/*  </Modal.Header>*/}
@@ -107,7 +109,7 @@ const TemplateModal = ({ headers, currentTemplate }) => {
       {/*      )*/}
       {/*    }*/}
       {/*  </Modal.Footer>*/}
-      {/*</Modal>*/}
+      {/* </Modal>*/}
     </>
   )
 }
