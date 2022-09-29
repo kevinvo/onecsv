@@ -16,6 +16,11 @@ class TypeValidatorService
       return self
     end
 
+    if !@is_required_field && @value.to_s.empty?
+      @error_message = ''
+      return self
+    end
+
     case @data_type
     when Header.data_types[:email]
       valid_email?
