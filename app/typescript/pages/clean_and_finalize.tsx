@@ -50,7 +50,7 @@ function CleanAndFinalize() {
       props.data[props.cell.row.index][columnId] = newCellValue
       const headerName = props.headers.find((header) => {
         return header.id === columnId
-      }).Header
+      }).header_name
       setCellValue(newCellValue)
 
       const data = {}
@@ -101,12 +101,17 @@ function CleanAndFinalize() {
 
   useEffect(() => {
     axios.get('api/content_and_validation').then(function (response) {
-      const data = response.data.data
+      const data = response.data
 
       const headerColumns = data.headers.map((header, index) => {
         return {
-          Header: header.header_name,
+          Header:  () => (
+            <div>
+              {header.header_name}  {header.total_errors > 0 ? (<span className='text-danger'>({header.total_errors})</span>) : null}
+            </div>
+          ),
           accessor: 'col' + index,
+          header_name: header.header_name,
           Cell: renderEditable,
         }
       })
