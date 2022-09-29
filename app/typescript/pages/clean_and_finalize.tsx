@@ -22,6 +22,7 @@ function OverlayToolTip(props) {
 function CleanAndFinalize() {
   const [columns, setColumns] = useState([])
   const [data, setData] = useState([])
+  const [template, setTemplate] = useState(null)
   const [showToast, setShowToast] = useState(false)
 
   const renderEditable = (props) => {
@@ -102,6 +103,7 @@ function CleanAndFinalize() {
   useEffect(() => {
     axios.get('api/content_and_validation').then(function (response) {
       const data = response.data
+      setTemplate(data.template)
 
       const headerColumns = data.headers.map((header, index) => {
         return {
@@ -136,7 +138,7 @@ function CleanAndFinalize() {
       <BreadCrumb>
         {columns.length > 0 && data.length > 0 ?
           ( <>
-              <ExportCsv data={data} columns={columns} />
+              <ExportCsv data={data} columns={columns} csvName={template.csv_name}/>
               <TableContainer columns={columns} data={data} />
               <AutohideToast showToast={showToast} setShowToast={setShowToast} message="Successfully Saved!" />
             </>

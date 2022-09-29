@@ -2,10 +2,10 @@ import React from 'react'
 import * as XLSX from 'xlsx/xlsx.mjs'
 import Button from 'react-bootstrap/Button'
 
-function ExportCsv({ columns, data }) {
+function ExportCsv({ columns, data, csvName }) {
   const exportFile = (event) => {
     const accessorHeaderNameHash = columns.reduce(function (result, obj) {
-      result[obj['accessor']] = obj['Header']
+      result[obj['accessor']] = obj['header_name']
       return result
     }, {})
 
@@ -24,7 +24,7 @@ function ExportCsv({ columns, data }) {
     const worksheet = XLSX.utils.json_to_sheet(rows)
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, 'SheetJS')
-    XLSX.writeFile(workbook, 'csvfile.csv')
+    XLSX.writeFile(workbook, csvName + '.csv')
   }
 
   return (
