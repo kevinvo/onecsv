@@ -2,7 +2,6 @@
 
 module Api
   class TemplateController < ApiController
-
     SAMPLE_TOTAL_LINES = 3
 
     def index
@@ -21,7 +20,6 @@ module Api
     end
 
     def create
-      # template_name = params[:template_name]
       template_name = ''
       uploaded_file_path = session[:uploaded_file_path]
 

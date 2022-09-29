@@ -21,12 +21,12 @@ module Api
                                 data_type: CsvDataTypeService.new(clean_sample_values).call,
                                 name: header_name)
       end
+
       template_name = ''
       template = TemplateServices::CreateService.new(uploaded_file_path,
                                                      csv_header_data_objects,
                                                      current_user,
                                                      template_name).call
-
 
       session[:template_id] = template.id
       msg = { status: :created, message: 'Success!' }

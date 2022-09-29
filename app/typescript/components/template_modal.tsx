@@ -32,14 +32,6 @@ const TemplateModal = ({ headers }) => {
       })
   }, [])
 
-  const saveAndContinueClick = () => {
-    if (currentTemplate) {
-      onUpdateTemplate()
-    } else {
-      onSaveTemplate()
-    }
-  }
-
   const onUpdateTemplate = () => {
     const data = {csv_headers: headers}
     axios
@@ -50,36 +42,6 @@ const TemplateModal = ({ headers }) => {
         navigate('/clean-and-finalize')
       })
       .catch(error => {console.log(error)})
-  }
-
-  const onSaveTemplate = () => {
-    const data = {csv_headers: headers}
-    axios
-      .post('/api/template', data)
-      .then(function (response) {
-        setShow(false)
-        // onSaveHeaders()
-        navigate('/clean-and-finalize')
-      })
-      .catch(function (error) {
-        console.log(error)
-        setShow(true)
-      })
-  }
-
-  function onSaveHeaders() {
-    const data = {
-      csv_headers: headers,
-    }
-
-    axios
-      .post('/api/header', data)
-      .then(function (response) {
-        console.log(response)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
   }
 
   // const handleChange = (event) => {
@@ -93,7 +55,7 @@ const TemplateModal = ({ headers }) => {
 
   return (
     <>
-      <Button type='button' className='btn btn-md btn-primary' onClick={saveAndContinueClick}>
+      <Button type='button' className='btn btn-md btn-primary' onClick={onUpdateTemplate}>
         Save & Continue
       </Button>
 
