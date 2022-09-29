@@ -6,11 +6,19 @@ import TemplateModal from '../components/template_modal'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
+  const [currentTemplate, setCurrentTemplate] = useState(null)
 
+  async function fetchTemplate() {
+    const {data} = await axios.get('api/template')
+    setHeaders(data.headers)
+    setCurrentTemplate(data.current_template)
+  }
+  
   useEffect(() => {
     axios.get('api/template').then(function (response) {
       const data = response.data
       setHeaders(data.headers)
+      setCurrentTemplate(data.current_template)
     })
   }, [])
 
@@ -30,7 +38,7 @@ function MapTemplateColumn() {
     <>
       <BreadCrumb location_path="/map-template-columns">
         <div className='d-flex py-2 justify-content-end'>
-          <TemplateModal headers={headers} />
+          <TemplateModal headers={headers} currentTemplate={currentTemplate}/>
         </div>
         <table className='table table-bordered table-sm'>
           <thead>

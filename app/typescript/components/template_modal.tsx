@@ -5,40 +5,39 @@ import Form from 'react-bootstrap/Form'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-const TemplateModal = ({ headers }) => {
-  const [show, setShow] = useState(false)
-  const [templates, setTemplates] = useState([])
-  const [currentTemplate, setCurrentTemplate] = useState(null)
-  const [showNewTemplate, setShowNewTemplate] = useState(false)
+const TemplateModal = ({ headers, currentTemplate }) => {
+  // const [show, setShow] = useState(false)
+  // const [templates, setTemplates] = useState([])
+  // const [currentTemplate, setCurrentTemplate] = useState(null)
+  // const [showNewTemplate, setShowNewTemplate] = useState(false)
 
   // const [templateId, setTemplateId] = useState()
-  const [templateName, setTemplateName] = useState("")
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
-  const handleShowNewTemplate = () => setShowNewTemplate(true)
+  // const [templateName, setTemplateName] = useState("")
+  // const handleClose = () => setShow(false)
+  // const handleShow = () => setShow(true)
+  // const handleShowNewTemplate = () => setShowNewTemplate(true)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    axios
-      .get('/api/template')
-      .then(response => {
-        const templates = response.data.templates
-        const currentTemplate = response.data.current_template
-        setTemplates(templates)
-        setCurrentTemplate(currentTemplate)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get('/api/template')
+  //     .then(response => {
+  //       const templates = response.data.templates
+  //       const currentTemplate = response.data.current_template
+  //       setTemplates(templates)
+  //       setCurrentTemplate(currentTemplate)
+  //     })
+  //     .catch(error => {
+  //       console.log(error)
+  //     })
+  // }, [])
 
   const onUpdateTemplate = () => {
     const data = {csv_headers: headers}
     axios
       .put("/api/template/" + currentTemplate.id, data)
       .then(response => {
-        setShow(false)
-        // onSaveHeaders()
+        // setShow(false)
         navigate('/clean-and-finalize')
       })
       .catch(error => {console.log(error)})
