@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import FileUploader from '../components/upload_file'
 import BreadCrumb from '../components/bread_crumb'
 
 function SelectFile() {
+
+  useEffect(() => {
+    document.title = 'Import a file'
+  })
+
   return (
     <>
       <BreadCrumb location_path='/'>
