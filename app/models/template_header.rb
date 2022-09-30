@@ -18,6 +18,6 @@
 #  index_template_headers_on_template_id_and_header_id  (template_id,header_id) UNIQUE
 #
 class TemplateHeader < ApplicationRecord
-  belongs_to :header
+  belongs_to :header, dependent: :destroy
   belongs_to :template
 end
