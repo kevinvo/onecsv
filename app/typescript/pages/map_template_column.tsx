@@ -3,8 +3,7 @@ import BreadCrumb from '../components/bread_crumb'
 import axios from 'axios'
 import { CellDataType } from '../components/types'
 import TemplateModal from '../components/template_modal'
-import { Circles } from 'react-loader-spinner'
-import LoadingSpinner from "../components/loading_spinner";
+import LoadingSpinner from '../components/loading_spinner'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
@@ -37,8 +36,8 @@ function MapTemplateColumn() {
   return (
     <>
       <BreadCrumb location_path='/map-template-columns'>
-        {headers.length > 0 ?
-          (<>
+        {headers.length > 0 ? (
+          <>
             <div className='d-flex py-2 justify-content-end'>
               <TemplateModal headers={headers} currentTemplate={currentTemplate} />
             </div>
@@ -111,7 +110,10 @@ function MapTemplateColumn() {
                 ))}
               </tbody>
             </table>
-          </>) : <LoadingSpinner />}
+          </>
+        ) : (
+          <LoadingSpinner />
+        )}
       </BreadCrumb>
     </>
   )

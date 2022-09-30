@@ -40,8 +40,7 @@ module Api
         end
       end.transpose
 
-      msg = { status: :ok, headers: header_map, rows: rows, template: template }
-      render json: msg
+      render json: { status: :ok, headers: header_map, rows: rows, template: template }
     end
   end
 end

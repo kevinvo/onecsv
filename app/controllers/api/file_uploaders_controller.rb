@@ -27,8 +27,7 @@ module Api
                                                      template_name).call
 
       session[:template_id] = template.id
-      msg = { status: :created, message: 'Success!' }
-      render json: msg
+      render json: { status: :created, message: 'Success!' }
     end
   end
 end
