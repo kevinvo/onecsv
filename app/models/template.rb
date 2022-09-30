@@ -6,8 +6,8 @@
 #
 #  id         :bigint           not null, primary key
 #  created_by :integer          not null
-#  csv_name   :string
-#  name       :string
+#  csv_name   :string           not null
+#  name       :string           not null
 #  slug       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

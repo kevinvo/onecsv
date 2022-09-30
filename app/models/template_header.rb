@@ -5,7 +5,7 @@
 # Table name: template_headers
 #
 #  id            :bigint           not null, primary key
-#  column_values :jsonb
+#  column_values :jsonb            not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  header_id     :bigint

@@ -34,6 +34,6 @@ class DataTypeValidatorService
   private
 
   def value_a_date?(val)
-    !!Chronic.parse(val)
+    !!Chronic.parse(val) rescue false
   end
 end

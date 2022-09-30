@@ -9,7 +9,7 @@ class DateDirectiveDataObject
 
   def valid?(value)
     begin
-      Date.strptime(value.delete(' '), directive)
+      Date.strptime(value.to_s.strip, directive)
     rescue StandardError
       return false
     end
