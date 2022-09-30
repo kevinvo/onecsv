@@ -48,7 +48,7 @@ class TypeValidatorService
   def valid_currency?
     # This is done on purpose. When a value is a Currency, it should successfully parsed as a number
     # Currency is always being parsed as a Number when importing.
-    @error_message = valid_number? ? "" : 'Invalid currency. Consider removing any symbol.'
+    @error_message = valid_number? ? '' : 'Invalid currency. Consider removing any symbol.'
   end
 
   def valid_number?

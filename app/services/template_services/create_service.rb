@@ -2,7 +2,6 @@
 
 module TemplateServices
   class CreateService < ApplicationService
-
     def initialize(uploaded_file_path, csv_headers, current_user, template_name = '')
       @uploaded_file_path = uploaded_file_path
       @csv_headers = csv_headers

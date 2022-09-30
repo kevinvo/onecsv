@@ -1,13 +1,13 @@
+# frozen_string_literal: true
 
 class StringService
-
-  #https://stackoverflow.com/a/9420531/1103087
+  # https://stackoverflow.com/a/9420531/1103087
   ENCODING_OPTIONS = {
-    :invalid           => :replace,  # Replace invalid byte sequences
-    :undef             => :replace,  # Replace anything not defined in ASCII
-    :replace           => '',        # Use a blank for those replacements
-    :universal_newline => true       # Always break lines with \n
-  }
+    invalid: :replace, # Replace invalid byte sequences
+    undef: :replace, # Replace anything not defined in ASCII
+    replace: '', # Use a blank for those replacements
+    universal_newline: true       # Always break lines with \n
+  }.freeze
 
   attr_reader :value
 
