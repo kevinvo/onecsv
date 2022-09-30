@@ -34,6 +34,8 @@ class DataTypeValidatorService
   private
 
   def value_a_date?(val)
-    !!Chronic.parse(val) rescue false
+    (!!Chronic.parse(val) && !!DateValidatorService.new(val).call)
+  rescue StandardError
+    false
   end
 end

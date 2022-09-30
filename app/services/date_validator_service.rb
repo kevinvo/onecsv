@@ -17,10 +17,8 @@ class DateValidatorService
   end
 
   def call
-    if DataTypeValidatorService.new(@value).date?
-      DATE_DIRECTIVE.detect do |date_directive|
-        date_directive.valid?(@value)
-      end
+    DATE_DIRECTIVE.detect do |date_directive|
+      date_directive.valid?(@value)
     end
   end
 end
