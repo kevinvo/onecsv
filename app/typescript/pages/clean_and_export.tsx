@@ -27,7 +27,7 @@ function CleanAndExport() {
   const [showToast, setShowToast] = useState(false)
 
   useEffect(() => {
-    document.title = 'Clean and export'
+    document.title = 'Clean and Export'
   })
 
   const renderEditable = (props) => {

@@ -5,7 +5,7 @@ import BreadCrumb from '../components/bread_crumb'
 function SelectFile() {
 
   useEffect(() => {
-    document.title = 'Import a file'
+    document.title = 'Import a File'
   })
 
   return (

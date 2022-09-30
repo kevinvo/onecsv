@@ -9,7 +9,7 @@ function MapTemplateColumn() {
   const [currentTemplate, setCurrentTemplate] = useState(null)
 
   useEffect(() => {
-    document.title = 'Map template columns'
+    document.title = 'Map Template Columns'
   })
 
   useEffect(() => {
