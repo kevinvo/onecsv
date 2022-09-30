@@ -17,8 +17,7 @@ module Api
           required: header.is_required_field }
       end
 
-      json = { status: :ok, templates: templates, current_template: template, headers: header_map }
-      render json: json
+      render json: { status: :ok, templates: templates, current_template: template, headers: header_map }
     end
 
     def create
@@ -35,8 +34,7 @@ module Api
                                                      current_user,
                                                      template_name).call
       session[:template_id] = template.id
-      json = { status: :created, message: 'Success!', template: template }
-      render json: json
+      render json: { status: :created, message: 'Success!', template: template }
     end
 
     def update

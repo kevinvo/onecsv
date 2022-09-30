@@ -8,8 +8,7 @@ import { CellDataType } from '../components/types'
 import ExportCsv from '../components/export_csv'
 import { DebounceInput } from 'react-debounce-input'
 import AutohideToast from '../components/auto_hide_toast'
-import { Circles } from 'react-loader-spinner'
-import LoadingSpinner from "../components/loading_spinner";
+import LoadingSpinner from '../components/loading_spinner'
 
 function OverlayToolTip(props) {
   const withOverlay = (
@@ -157,7 +156,9 @@ function CleanAndExport() {
               message='Successfully Saved!'
             />
           </>
-        ) : <LoadingSpinner />}
+        ) : (
+          <LoadingSpinner />
+        )}
       </BreadCrumb>
     </>
   )

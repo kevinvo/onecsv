@@ -10,7 +10,6 @@ class CsvDataTypeService < ApplicationService
   end
 
   def call
-
     if @values.length.zero?
       has_date = @header_name.to_s.downcase.include? 'date'
       has_date ? Header.data_types[:date] : Header.data_types[:text]
