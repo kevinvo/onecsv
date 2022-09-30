@@ -16,7 +16,7 @@ module Api
         top_sample_values = csv[header_name].first(TOTAL_LINES)
         clean_sample_values = top_sample_values.compact.sort
         CsvHeaderDataObject.new(required: top_sample_values.length == clean_sample_values.length,
-                                data_type: CsvDataTypeService.new(clean_sample_values).call,
+                                data_type: CsvDataTypeService.new(clean_sample_values, header_name).call,
                                 name: header_name)
       end
 
