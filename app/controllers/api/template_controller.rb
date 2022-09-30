@@ -11,15 +11,6 @@ module Api
       header_map = template.template_headers.map do |template_header|
         header = template_header.header
         sample_values = template_header.column_values.compact.sort.first(SAMPLE_TOTAL_LINES)
-        # date_directive_data_objects = if header.date?
-        #                                 sample_values.map do |value|
-        #                                   DateValidatorService.new(value).call
-        #                                 end.compact
-        #                               else
-        #                                 []
-        #                               end
-        # sample_formats = date_directive_data_objects.map(&:sample_value)
-
         { header_name: header.name,
           sample_values: sample_values,
           data_type: header.read_attribute_before_type_cast(:data_type),
