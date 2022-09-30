@@ -8,11 +8,9 @@ function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
   const [currentTemplate, setCurrentTemplate] = useState(null)
 
-  async function fetchTemplate() {
-    const { data } = await axios.get('api/template')
-    setHeaders(data.headers)
-    setCurrentTemplate(data.current_template)
-  }
+  useEffect(() => {
+    document.title = 'Map template columns'
+  })
 
   useEffect(() => {
     axios.get('api/template').then(function (response) {

@@ -26,6 +26,10 @@ function CleanAndExport() {
   const [template, setTemplate] = useState(null)
   const [showToast, setShowToast] = useState(false)
 
+  useEffect(() => {
+    document.title = 'Clean and export'
+  })
+
   const renderEditable = (props) => {
     const [cellValue, setCellValue] = useState('')
     const [error, setError] = useState('')
