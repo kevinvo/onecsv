@@ -10,8 +10,9 @@ module Api
 
       header_map = template.template_headers.map do |template_header|
         header = template_header.header
+        sample_values = template_header.column_values.compact.sort.first(SAMPLE_TOTAL_LINES)
         { header_name: header.name,
-          sample_values: template_header.column_values.compact.sort.first(SAMPLE_TOTAL_LINES),
+          sample_values: sample_values,
           data_type: header.read_attribute_before_type_cast(:data_type),
           required: header.is_required_field }
       end

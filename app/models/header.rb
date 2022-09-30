@@ -4,13 +4,14 @@
 #
 # Table name: headers
 #
-#  id                :bigint           not null, primary key
-#  data_type         :integer
-#  is_required_field :boolean
-#  name              :string
-#  position          :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id                    :bigint           not null, primary key
+#  data_type             :integer          not null
+#  date_directive_format :string
+#  is_required_field     :boolean          not null
+#  name                  :string           not null
+#  position              :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
 #
 
 class Header < ApplicationRecord
@@ -38,4 +39,8 @@ class Header < ApplicationRecord
   validates :position, presence: true
   validates :name, presence: true
   validates :data_type, presence: true
+
+  def date?
+    read_attribute_before_type_cast(:data_type) == Header.data_types[:date]
+  end
 end

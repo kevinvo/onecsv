@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CsvDataTypeService < ApplicationService
-  ACCURACY = 1
+  ACCURACY = 0
   attr_reader :values
 
   def initialize(values)
