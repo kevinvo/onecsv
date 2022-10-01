@@ -20,23 +20,6 @@ module Api
       render json: { status: :ok, templates: templates, current_template: template, headers: header_map }
     end
 
-    def create
-      template_name = ''
-      uploaded_file_path = session[:uploaded_file_path]
-
-      csv_headers = params['csv_headers'].map do |csv_header|
-        CsvHeaderDataObject.new(required: csv_header['required'],
-                                data_type: csv_header['data_type'],
-                                name: csv_header['header_name'])
-      end
-      template = TemplateServices::CreateService.new(uploaded_file_path,
-                                                     csv_headers,
-                                                     current_user,
-                                                     template_name).call
-      session[:template_id] = template.id
-      render json: { status: :created, message: 'Success!', template: template }
-    end
-
     def update
       template = current_user.templates.find_by(id: params[:id])
       TemplateServices::UpdateService.new(template, params['csv_headers']).call

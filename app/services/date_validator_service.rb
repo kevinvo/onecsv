@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DateValidatorService < ApplicationService
-  attr_reader :value, :date_directive
-
   # https://www.shortcutfoo.com/app/dojos/ruby-date-format-strftime/cheatsheet
   DATE_DIRECTIVES = [
     DateDirectiveDataObject.new(directive: '%m/%d/%Y', sample_value: '02/17/2009', sample_format: 'MM/DD/YYYY'),
@@ -19,6 +17,8 @@ class DateValidatorService < ApplicationService
 
   ].freeze
 
+  attr_reader :value, :date_directive
+
   def initialize(value)
     @value = value
   end
@@ -29,9 +29,10 @@ class DateValidatorService < ApplicationService
     end
 
     begin
-      (!Chronic.parse(@value).nil? && !date_directive.nil?)
+      (!Chronic.parse(@value).nil? && !@date_directive.nil?)
     rescue StandardError
-      StandardError false
+      @date_directive = nil
+      false
     end
   end
 end

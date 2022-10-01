@@ -2,28 +2,30 @@
 
 class CsvDataTypeService < ApplicationService
   ACCURACY = 0
-  attr_reader :values
+  attr_reader :values, :header_name, :data_type
 
   def initialize(values, header_name)
     @values = values
     @header_name = header_name
+    @data_type = data_type
   end
 
   def call
     if @values.length.zero?
       has_date = @header_name.to_s.downcase.include? 'date'
-      has_date ? Header.data_types[:date] : Header.data_types[:text]
+      @data_type = has_date ? Header.data_types[:date] : Header.data_types[:text]
     elsif email?
-      Header.data_types[:email]
+      @data_type = Header.data_types[:email]
     elsif currency?
-      Header.data_types[:currency]
+      @data_type = Header.data_types[:currency]
     elsif integer? || float?
-      Header.data_types[:number]
+      @data_type = Header.data_types[:number]
     elsif date?
-      Header.data_types[:date]
+      @data_type = Header.data_types[:date]
     else
-      Header.data_types[:text]
+      @data_type = Header.data_types[:text]
     end
+    self
   end
 
   private
