@@ -6,7 +6,7 @@ import CleanAndExport from './pages/clean_and_export'
 import { hotjar } from 'react-hotjar'
 import ReactGA from 'react-ga'
 
-const TRACKING_ID = 'UA-243795161-2'
+const TRACKING_ID = 'UA-243778211-1'
 
 export default function App() {
   useEffect(() => {
