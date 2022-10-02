@@ -59,7 +59,7 @@ class TypeValidatorService
 
   def valid_date?
     DataTypeValidatorService.new(@value).date?.tap do |is_valid|
-      @error_message = 'Invalid date.' unless is_valid
+      @error_message = 'Invalid date format.' unless is_valid
     end
   end
 end
