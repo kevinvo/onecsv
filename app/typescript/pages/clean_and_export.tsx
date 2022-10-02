@@ -25,7 +25,7 @@ function CleanAndExport() {
   const [data, setData] = useState([])
   const [template, setTemplate] = useState(null)
   const [showToast, setShowToast] = useState(false)
-
+  const [reloadValidation, setReloadValidation] = useState(false)
   useEffect(() => {
     document.title = 'Clean and Export'
   })
@@ -70,6 +70,7 @@ function CleanAndExport() {
         .then((response) => {
           setError(response.data.error)
           setShowToast(true)
+          setReloadValidation(true)
         })
         .catch((err) => {
           console.log('error')
@@ -111,6 +112,7 @@ function CleanAndExport() {
     axios.get('api/content_and_validation').then(function (response) {
       const data = response.data
       setTemplate(data.template)
+      setReloadValidation(false)
 
       const headerColumns = data.headers.map((header, index) => {
         return {
@@ -141,7 +143,7 @@ function CleanAndExport() {
       })
       setData(rowData)
     })
-  }, [])
+  }, [reloadValidation])
 
   return (
     <>
