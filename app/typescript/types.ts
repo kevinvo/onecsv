@@ -10,7 +10,7 @@ type DateDirective = {
   id: number
   directive: string
   sample_format: string
-  sample_value: string
+  sample_date: string
 }
 
 type Header = {

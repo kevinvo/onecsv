@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'json'
 
 module Api
@@ -12,20 +13,9 @@ module Api
       header_map = template.template_headers.map do |template_header|
         header = template_header.header
         column_values = template_header.column_values.compact.sort
-
-        date_directive = if Header.data_types[:date] == header.read_attribute_before_type_cast(:data_type)
-                           column_values.map do |val|
-                             DateValidatorService.new(val).call.date_directive
-                           end.compact.group_by(&:id).values.max_by(&:size).to_a.first
-                         end
-
-        puts "date_directive = #{date_directive}"
-
-
         { header_name: header.name,
           sample_values: column_values.first(SAMPLE_TOTAL_LINES),
           data_type: header.read_attribute_before_type_cast(:data_type),
-          date_directive: date_directive,
           required: header.is_required_field }
       end
 

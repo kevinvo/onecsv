@@ -5,9 +5,9 @@ require 'csv'
 module Api
   class ContentAndValidationController < ApiController
     def index
-      header_mapping_service = HeaderMappingService.new(template, column_value_error_message_lookup)
-      header_mapping_service.call
-      header_map = header_mapping_service.data
+      header_mapping = HeaderMappingService.new(template).call
+      header_map = header_mapping.header_map
+      column_value_error_message_lookup = header_mapping.column_value_error_message_lookup
 
       rows = template.template_headers.map do |template_header|
         template_header.column_values.each_with_index.map do |column_value, index|
@@ -21,7 +21,6 @@ module Api
             error: error_message }
         end
       end.transpose
-
       render json: { status: :ok, headers: header_map, rows: rows, template: template }
     end
 
@@ -30,10 +29,6 @@ module Api
     def template
       template_id = session[:template_id]
       @template ||= Template.by_template_and_user(template_id, current_user)
-    end
-
-    def column_value_error_message_lookup
-      @column_value_error_message_lookup ||= {}
     end
   end
 end

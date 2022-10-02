@@ -4,12 +4,12 @@ import axios from 'axios'
 import { CellDataType } from '../components/types'
 import TemplateModal from '../components/template_modal'
 import LoadingSpinner from '../components/loading_spinner'
-import { TemplateIndex } from '../api_types'
-import { CSVHeaders } from '../types'
+import { TemplateIndexType } from '../api_types'
+import { CSVHeaders, Template } from '../types'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState<CSVHeaders>([])
-  const [currentTemplate, setCurrentTemplate] = useState<Template>(null)
+  const [currentTemplate, setCurrentTemplate] = useState<Template>()
 
   useEffect(() => {
     document.title = 'Map Template Columns'
@@ -17,8 +17,7 @@ function MapTemplateColumn() {
 
   useEffect(() => {
     axios.get('api/template').then(function (response) {
-      const templateIndex = response.data as TemplateIndex
-
+      const templateIndex = response.data as TemplateIndexType
       setHeaders(templateIndex.headers)
       setCurrentTemplate(templateIndex.current_template)
     })
