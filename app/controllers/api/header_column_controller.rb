@@ -13,13 +13,15 @@ module Api
                      .joins(:templates)
                      .find_by(name: header_name)
       template_header = TemplateHeader.find_by(template_id: template_id, header_id: header.id)
+      date_directive = DateValidatorService.from_values(template_header.column_values.compact)
       template_header.column_values[column_value_index] = column_value
       template_header.save!
 
       header = template_header.header
       type_validator_obj = TypeValidatorService.new(column_value,
                                                     header.read_attribute_before_type_cast(:data_type),
-                                                    header.is_required_field).valid?
+                                                    header.is_required_field,
+                                                    date_directive).valid?
       render json: { status: :updated, error: type_validator_obj.error_message }
     end
   end

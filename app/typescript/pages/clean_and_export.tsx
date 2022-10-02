@@ -26,6 +26,7 @@ function CleanAndExport() {
   const [template, setTemplate] = useState(null)
   const [showToast, setShowToast] = useState(false)
   const [reloadValidation, setReloadValidation] = useState(false)
+
   useEffect(() => {
     document.title = 'Clean and Export'
   })
@@ -143,7 +144,7 @@ function CleanAndExport() {
       })
       setData(rowData)
     })
-  }, [reloadValidation])
+  }, [])
 
   return (
     <>

@@ -14,6 +14,7 @@ module TemplateServices
         is_required_field = csv_header['required']
         header.update!(data_type: data_type, is_required_field: is_required_field)
       end
+      @template.touch
     end
 
     private

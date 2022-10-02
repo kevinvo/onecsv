@@ -11,7 +11,7 @@ module TemplateServices
 
     def call
       create_template.tap do |template|
-        csv_headers = create_csv_headers
+        csv_headers = create_headers
         create_template_headers(template, csv_headers)
       end
     end
@@ -31,20 +31,30 @@ module TemplateServices
     end
 
     def create_template_headers(template, csv_headers)
-      csv = CSV.read(@uploaded_file_path, headers: true, encoding: CsvConstant::ENCODING)
       csv_headers.map do |header|
         TemplateHeader.create(header: header, template: template, column_values: csv[header.name])
       end
     end
 
-    def create_csv_headers
+    def create_headers
       @csv_headers.each_with_index.map do |csv_header, index|
         header_name = StringService.new(csv_header.name).to_ascii
+        column_values = csv[csv_header.name]
+        date_directive_format = if Header.data_types[:date] == csv_header.data_type.to_i
+                                  date_directive = DateValidatorService.from_values(column_values)
+                                  date_directive ? date_directive.directive : nil
+                                end
+
         Header.create!(name: header_name,
                        is_required_field: csv_header.required,
                        position: index + 1,
+                       date_directive_format: date_directive_format,
                        data_type: csv_header.data_type.to_i)
       end
+    end
+
+    def csv
+      @csv ||= CSV.read(@uploaded_file_path, headers: true, encoding: CsvConstant::ENCODING)
     end
   end
 end

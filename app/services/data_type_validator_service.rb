@@ -34,6 +34,6 @@ class DataTypeValidatorService
   private
 
   def value_a_date?(val)
-    DateValidatorService.new(val).call
+    !!DateValidatorService.new(val).call.date_directive
   end
 end

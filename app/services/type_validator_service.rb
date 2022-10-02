@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class TypeValidatorService
-  attr_reader :value, :data_type, :is_required_field, :error_message
+  attr_reader :value, :data_type, :is_required_field, :error_message, :date_directive
 
-  def initialize(value, data_type, is_required_field)
+  def initialize(value, data_type, is_required_field, date_directive = nil )
     @value = value
     @data_type = data_type
     @is_required_field = is_required_field
     @error_message = ''
+    @date_directive = date_directive
   end
 
   def valid?
@@ -58,8 +59,9 @@ class TypeValidatorService
   end
 
   def valid_date?
-    DataTypeValidatorService.new(@value).date?.tap do |is_valid|
-      @error_message = 'Invalid date.' unless is_valid
+    is_date_directive_valid = @date_directive.present? ? @date_directive.valid?(@value) : true
+    (DataTypeValidatorService.new(@value).date? && is_date_directive_valid).tap do |is_valid|
+      @error_message = 'Invalid date format.' unless is_valid
     end
   end
 end

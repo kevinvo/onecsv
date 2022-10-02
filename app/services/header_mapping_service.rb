@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-class HeaderMappingService
-  attr_reader :data
+class HeaderMappingService < ApplicationService
+  attr_reader :header_map, :column_value_error_message_lookup
 
-  def initialize(template, column_value_error_message_lookup={})
+  def initialize(template)
     @template = template
-    @column_value_error_message_lookup = column_value_error_message_lookup
+    @column_value_error_message_lookup = {}
+    @header_map = {}
   end
 
   def call
-    header_map = @template.template_headers.map do |template_header|
+    @header_map = @template.template_headers.map do |template_header|
       header = template_header.header
       data_type = header.read_attribute_before_type_cast(:data_type)
       total_errors = template_header.column_values.each_with_index.map do |column_value, index|
@@ -28,9 +29,6 @@ class HeaderMappingService
         total_errors: total_errors
       }
     end
-
-    @data = header_map
-  rescue => e
-    Rails.logger.error(e)
+    self
   end
 end
