@@ -6,6 +6,7 @@ class HeaderMappingService < ApplicationService
   def initialize(template)
     @template = template
     @column_value_error_message_lookup = {}
+    @header_map = {}
   end
 
   def call
@@ -29,7 +30,5 @@ class HeaderMappingService < ApplicationService
       }
     end
     self
-  rescue StandardError => e
-    Rails.logger.error(e)
   end
 end

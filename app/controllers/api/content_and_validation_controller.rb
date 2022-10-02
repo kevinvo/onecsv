@@ -6,7 +6,6 @@ module Api
   class ContentAndValidationController < ApiController
     def index
       header_mapping = HeaderMappingService.new(template).call
-      header_map = header_mapping.header_map
       column_value_error_message_lookup = header_mapping.column_value_error_message_lookup
 
       rows = template.template_headers.map do |template_header|
@@ -21,7 +20,7 @@ module Api
             error: error_message }
         end
       end.transpose
-      render json: { status: :ok, headers: header_map, rows: rows, template: template }
+      render json: { status: :ok, headers: header_mapping.header_map, rows: rows, template: template }
     end
 
     private

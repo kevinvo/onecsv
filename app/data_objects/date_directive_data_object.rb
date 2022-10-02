@@ -10,10 +10,11 @@ class DateDirectiveDataObject
 
   def valid?(value)
     begin
-      Date.strptime(value.to_s.strip, directive)
+      date_from_directive = Date.strptime(value, directive).strftime(directive)
+      date_from_directive == value
     rescue StandardError
       return false
     end
-    true
+
   end
 end

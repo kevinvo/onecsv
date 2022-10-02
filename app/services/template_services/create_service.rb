@@ -41,11 +41,10 @@ module TemplateServices
         header_name = StringService.new(csv_header.name).to_ascii
         column_values = csv[csv_header.name]
         date_directive_format = if Header.data_types[:date] == csv_header.data_type.to_i
-                                  date_directive = column_values.map do |val|
-                                    DateValidatorService.new(val).call.date_directive
-                                  end.compact.group_by(&:id).values.max_by(&:size).to_a.first
+                                  date_directive = DateValidatorService.from_values(column_values)
                                   date_directive ? date_directive.directive : nil
                                 end
+
         Header.create!(name: header_name,
                        is_required_field: csv_header.required,
                        position: index + 1,

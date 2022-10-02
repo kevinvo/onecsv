@@ -47,6 +47,12 @@ class DateValidatorService < ApplicationService
     @value = value
   end
 
+  def self.from_values(column_values)
+    column_values.map do |val|
+      DateValidatorService.new(val).call.date_directive
+    end.compact.group_by(&:id).values.max_by(&:size).to_a.first
+  end
+
   def call
     match_date_directive = DATE_DIRECTIVES.detect do |date_directive|
       date_directive.valid?(@value)
