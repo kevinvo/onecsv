@@ -19,7 +19,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={<SelectFile />} />
         <Route path='/map-template-columns' element={<MapTemplateColumn />} />
-        <Route path='/clean-and-finalize' element={<CleanAndExport />} />
+        <Route path='/clean-and-export' element={<CleanAndExport />} />
       </Routes>
     </div>
   )

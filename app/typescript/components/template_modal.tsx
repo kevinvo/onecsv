@@ -37,7 +37,7 @@ const TemplateModal = ({ headers, currentTemplate }) => {
     axios
       .put('/api/template/' + currentTemplate.id, data)
       .then((response) => {
-        navigate('/clean-and-finalize')
+        navigate('/clean-and-export')
       })
       .catch((error) => {
         console.log(error)

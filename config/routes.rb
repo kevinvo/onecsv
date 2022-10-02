@@ -16,5 +16,5 @@ Rails.application.routes.draw do
 
   match "select-column-headers", to: "visitor#index", via: [:get]
   match "map-template-columns", to: "visitor#index", via: [:get]
-  match "clean-and-finalize", to: "visitor#index", via: [:get]
+  match "clean-and-export", to: "visitor#index", via: [:get]
 end

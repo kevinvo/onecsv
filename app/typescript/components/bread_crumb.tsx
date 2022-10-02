@@ -5,7 +5,7 @@ export default function BreadCrumb(props) {
   const items = [
     { href: '/', name: 'Import a file' },
     { href: '/map-template-columns', name: 'Map template columns' },
-    { href: '/clean-and-finalize', name: 'Clean and export' },
+    { href: '/clean-and-export', name: 'Clean and export' },
   ]
 
   return (

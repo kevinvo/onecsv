@@ -148,7 +148,7 @@ function CleanAndExport() {
 
   return (
     <>
-      <BreadCrumb location_path='/clean-and-finalize'>
+      <BreadCrumb location_path='/clean-and-export'>
         {columns.length > 0 && data.length > 0 ? (
           <>
             <ExportCsv data={data} columns={columns} csvName={template.csv_name} />
