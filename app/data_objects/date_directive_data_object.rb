@@ -3,6 +3,7 @@
 class DateDirectiveDataObject
   include Virtus.model
 
+  attribute :id, Integer
   attribute :directive, String # "%m/%d/%Y"
   attribute :sample_value, String # '02/17/2009'
   attribute :sample_format, String # MM/DD/YYYY
