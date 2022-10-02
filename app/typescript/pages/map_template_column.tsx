@@ -7,7 +7,7 @@ import LoadingSpinner from '../components/loading_spinner'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState([])
-  const [currentTemplate, setCurrentTemplate] = useState(null)
+  const [currentTemplate, setCurrentTemplate] = useState<Template>(null)
 
   useEffect(() => {
     document.title = 'Map Template Columns'

@@ -37,7 +37,6 @@ const TemplateModal = ({ headers, currentTemplate }) => {
     axios
       .put('/api/template/' + currentTemplate.id, data)
       .then((response) => {
-        // setShow(false)
         navigate('/clean-and-finalize')
       })
       .catch((error) => {
