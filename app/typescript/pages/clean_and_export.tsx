@@ -27,6 +27,9 @@ function CleanAndExport() {
   const [showToast, setShowToast] = useState(false)
   const [reloadValidation, setReloadValidation] = useState(false)
 
+  const [headers, setHeaders] = useState([])
+  const [rows, setRows] = useState([])
+
   useEffect(() => {
     document.title = 'Clean and Export'
   })
@@ -72,6 +75,7 @@ function CleanAndExport() {
           setError(response.data.error)
           setShowToast(true)
           setReloadValidation(true)
+          // headers[0] =
         })
         .catch((err) => {
           console.log('error')
@@ -114,37 +118,45 @@ function CleanAndExport() {
       const data = response.data
       setTemplate(data.template)
       setReloadValidation(false)
-
-      const headerColumns = data.headers.map((header, index) => {
-        return {
-          Header: () => (
-            <div>
-              {header.header_name}{' '}
-              {header.total_errors > 0 ? (
-                <span className='text-danger'>({header.total_errors})</span>
-              ) : null}
-            </div>
-          ),
-          accessor: 'col' + index,
-          header_name: header.header_name,
-          Cell: renderEditable,
-        }
-      })
-      setColumns(headerColumns)
-
-      const rowData = data.rows.map((row) => {
-        const obj = {}
-        row.forEach((rowObj, index) => {
-          const accessor = 'col' + index
-          obj[accessor] = rowObj.value
-          obj['error' + index] = rowObj.error
-          obj['data_type' + index] = rowObj.data_type
-        })
-        return obj
-      })
-      setData(rowData)
+      setHeaders(data.headers)
+      setRows(data.rows)
     })
   }, [])
+
+  useEffect(() => {
+    const headerColumns = headers.map((header, index) => {
+      return {
+        Header: () => (
+          <div>
+            {header.header_name}{' '}
+            {header.total_errors > 0 ? (
+              <span className='text-danger'>({header.total_errors})</span>
+            ) : null}
+          </div>
+        ),
+        accessor: 'col' + index,
+        header_name: header.header_name,
+        Cell: renderEditable,
+      }
+    })
+    setColumns(headerColumns)
+  }, [headers])
+
+  useEffect(() => {
+    const rowData = rows.map((row) => {
+      const obj = {}
+      row.forEach((rowObj, index) => {
+        const accessor = 'col' + index
+        obj[accessor] = rowObj.value
+        obj['error' + index] = rowObj.error // Error count
+        obj['data_type' + index] = rowObj.data_type
+      })
+      return obj
+    })
+    setData(rowData)
+  }, [rows])
+
+
 
   return (
     <>
