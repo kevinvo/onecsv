@@ -6,6 +6,7 @@ import TemplateModal from '../components/template_modal'
 import LoadingSpinner from '../components/loading_spinner'
 import { TemplateIndexType } from '../api_types'
 import { CSVHeaders, Template } from '../types'
+import { useQuery } from '@tanstack/react-query'
 
 function MapTemplateColumn() {
   const [headers, setHeaders] = useState<CSVHeaders>([])
@@ -15,13 +16,21 @@ function MapTemplateColumn() {
     document.title = 'Map Template Columns'
   })
 
-  useEffect(() => {
-    axios.get('api/template').then(function (response) {
-      const templateIndex = response.data as TemplateIndexType
-      setHeaders(templateIndex.headers)
-      setCurrentTemplate(templateIndex.current_template)
-    })
-  }, [])
+  function useTemplate() {
+    return useQuery(
+      ['template'],
+      async () => {
+        const { data } = await axios.get('api/template')
+        return data
+      },
+      {
+        onSuccess: (data) => {
+          setHeaders(data.headers)
+          setCurrentTemplate(data.current_template)
+        },
+      },
+    )
+  }
 
   function onRequiredChanged(event, index) {
     const newHeaders = [...headers]
@@ -35,10 +44,14 @@ function MapTemplateColumn() {
     setHeaders(newHeaders)
   }
 
+  const { status, data, error, isFetching } = useTemplate()
+
   return (
     <>
       <BreadCrumb location_path='/map-template-columns'>
-        {headers.length > 0 ? (
+        {isFetching ? (
+          <LoadingSpinner />
+        ) : (
           <>
             <div className='d-flex py-2 justify-content-end'>
               <TemplateModal headers={headers} currentTemplate={currentTemplate} />
@@ -113,8 +126,6 @@ function MapTemplateColumn() {
               </tbody>
             </table>
           </>
-        ) : (
-          <LoadingSpinner />
         )}
       </BreadCrumb>
     </>

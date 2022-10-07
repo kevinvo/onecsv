@@ -5,8 +5,10 @@ import MapTemplateColumn from './pages/map_template_column'
 import CleanAndExport from './pages/clean_and_export'
 import { hotjar } from 'react-hotjar'
 import ReactGA from 'react-ga'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const TRACKING_ID = 'UA-243778211-1'
+const queryClient = new QueryClient()
 
 export default function App() {
   useEffect(() => {
@@ -16,11 +18,13 @@ export default function App() {
 
   return (
     <div className='App'>
-      <Routes>
-        <Route path='/' element={<SelectFile />} />
-        <Route path='/map-template-columns' element={<MapTemplateColumn />} />
-        <Route path='/clean-and-export' element={<CleanAndExport />} />
-      </Routes>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path='/' element={<SelectFile />} />
+          <Route path='/map-template-columns' element={<MapTemplateColumn />} />
+          <Route path='/clean-and-export' element={<CleanAndExport />} />
+        </Routes>
+      </QueryClientProvider>
     </div>
   )
 }
