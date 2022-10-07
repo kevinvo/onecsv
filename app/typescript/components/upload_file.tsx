@@ -5,21 +5,13 @@ import { useNavigate } from 'react-router-dom'
 export default function FileUploader() {
   const navigate = useNavigate()
 
-  const handleOnFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  async function handleOnFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = event.target.files[0]
     const formData = new FormData()
     formData.append('file', selectedFile, selectedFile.name)
 
-    axios
-      .post('api/file_uploaders', formData)
-      .then(function (res) {
-        navigate('/map-template-columns')
-      })
-      .catch(function (err) {
-        if (err.response.status === 401) {
-          navigate('/')
-        }
-      })
+    await axios.post('api/file_uploaders', formData)
+    navigate('/map-template-columns')
   }
 
   return (
