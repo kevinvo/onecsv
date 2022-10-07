@@ -44,7 +44,7 @@ function MapTemplateColumn() {
     setHeaders(newHeaders)
   }
 
-  const { status, data, error, isFetching } = useTemplate()
+  const { isFetching } = useTemplate()
 
   return (
     <>
