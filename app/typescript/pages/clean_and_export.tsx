@@ -52,7 +52,7 @@ function CleanAndExport() {
       setDataType(cellDataType)
     }, [props.data])
 
-    const onChangeHandle = (event) => {
+    async function onChangeHandle(event) {
       const columnId = props.cell.column.id
       const newCellValue = event.target.value
       props.data[props.cell.row.index][columnId] = newCellValue
@@ -67,16 +67,9 @@ function CleanAndExport() {
       data['index'] = props.cell.row.index
       const url = '/api/header_column'
 
-      axios
-        .post(url, data, { headers: {} })
-        .then((response) => {
-          setError(response.data.error)
-          setShowToast(true)
-          setReloadValidation(true)
-        })
-        .catch((err) => {
-          console.log('error')
-        })
+      const response = await axios.post(url, data, { headers: {} })
+      setError(response.data.error)
+      setShowToast(true)
     }
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')
