@@ -1,0 +1,24 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file: .env
+  web:
+    image: "node:16"
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec ./bin/dev"
+    volumes:
+      - web:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file: .env
+    environment:
+      RAILS_ENV: development
+      RAILS_MAX_THREADS: 5
+volumes:
+  postgres:
+  web:
