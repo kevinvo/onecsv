@@ -119,6 +119,33 @@ function CleanAndExport() {
     )
   }
 
+  function handleHeaders(headers) {
+    const headerColumns = headers.map((header, index) => {
+      return {
+        Header: () => renderHeader(header),
+        accessor: 'col' + index,
+        header_name: header.header_name,
+        Cell: renderEditable,
+      }
+    })
+    setColumns(headerColumns)
+  }
+
+  function handleRows(rows) {
+    const rowData = rows.map((row) => {
+      const obj = {}
+      row.forEach((rowObj, index) => {
+        // The data being set here will be accessed inside method renderEditable.
+        const accessor = 'col' + index
+        obj[accessor] = rowObj.value
+        obj['error' + index] = rowObj.error // error message
+        obj['data_type' + index] = rowObj.data_type
+      })
+      return obj
+    })
+    setData(rowData)
+  }
+
   function useContentAndValidation() {
     return useQuery(
       ['content_and_validation'],
@@ -129,28 +156,8 @@ function CleanAndExport() {
       {
         onSuccess: (data) => {
           setTemplate(data.template)
-          const headerColumns = data.headers.map((header, index) => {
-            return {
-              Header: () => renderHeader(header),
-              accessor: 'col' + index,
-              header_name: header.header_name,
-              Cell: renderEditable,
-            }
-          })
-          setColumns(headerColumns)
-
-          const rowData = data.rows.map((row) => {
-            const obj = {}
-            row.forEach((rowObj, index) => {
-              // The data being set here will be accessed inside method renderEditable.
-              const accessor = 'col' + index
-              obj[accessor] = rowObj.value
-              obj['error' + index] = rowObj.error // error message
-              obj['data_type' + index] = rowObj.data_type
-            })
-            return obj
-          })
-          setData(rowData)
+          handleHeaders(data.headers)
+          handleRows(data.rows)
         },
       },
     )
