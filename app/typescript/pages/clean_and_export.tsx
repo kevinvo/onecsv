@@ -9,6 +9,7 @@ import ExportCsv from '../components/export_csv'
 import { DebounceInput } from 'react-debounce-input'
 import AutohideToast from '../components/auto_hide_toast'
 import LoadingSpinner from '../components/loading_spinner'
+import { useQuery } from '@tanstack/react-query'
 
 function OverlayToolTip(props) {
   const withOverlay = (
@@ -54,7 +55,7 @@ function CleanAndExport() {
       setDataType(cellDataType)
     }, [props.data])
 
-    const onChangeHandle = (event) => {
+    async function onChangeHandle(event) {
       const columnId = props.cell.column.id
       const newCellValue = event.target.value
       props.data[props.cell.row.index][columnId] = newCellValue
@@ -69,17 +70,9 @@ function CleanAndExport() {
       data['index'] = props.cell.row.index
       const url = '/api/header_column'
 
-      axios
-        .post(url, data, { headers: {} })
-        .then((response) => {
-          setError(response.data.error)
-          setShowToast(true)
-          setReloadValidation(true)
-          // headers[0] =
-        })
-        .catch((err) => {
-          console.log('error')
-        })
+      const response = await axios.post(url, data, { headers: {} })
+      setError(response.data.error)
+      setShowToast(true)
     }
 
     const className = 'text-center ' + (error ? 'border border-danger' : '')
@@ -113,15 +106,49 @@ function CleanAndExport() {
     )
   }
 
-  useEffect(() => {
-    axios.get('api/content_and_validation').then(function (response) {
-      const data = response.data
-      setTemplate(data.template)
-      setReloadValidation(false)
-      setHeaders(data.headers)
-      setRows(data.rows)
-    })
-  }, [])
+  function useContentAndValidation() {
+    return useQuery(
+      ['content_and_validation'],
+      async () => {
+        const { data } = await axios.get('api/content_and_validation')
+        return data
+      },
+      {
+        onSuccess: (data) => {
+          setTemplate(data.template)
+          const headerColumns = data.headers.map((header, index) => {
+            return {
+              Header: () => (
+                <div>
+                  {header.header_name}{' '}
+                  {header.total_errors > 0 ? (
+                    <span className='text-danger'>({header.total_errors})</span>
+                  ) : null}
+                </div>
+              ),
+              accessor: 'col' + index,
+              header_name: header.header_name,
+              Cell: renderEditable,
+            }
+          })
+          setColumns(headerColumns)
+
+          const rowData = data.rows.map((row) => {
+            const obj = {}
+            row.forEach((rowObj, index) => {
+              const accessor = 'col' + index
+              obj[accessor] = rowObj.value
+              obj['error' + index] = rowObj.error
+              obj['data_type' + index] = rowObj.data_type
+            })
+            return obj
+          })
+          setData(rowData)
+        },
+      },
+    )
+  }
+  const { isFetching } = useContentAndValidation()
 
   useEffect(() => {
     const headerColumns = headers.map((header, index) => {
@@ -161,7 +188,9 @@ function CleanAndExport() {
   return (
     <>
       <BreadCrumb location_path='/clean-and-export'>
-        {columns.length > 0 && data.length > 0 ? (
+        {isFetching ? (
+          <LoadingSpinner />
+        ) : (
           <>
             <ExportCsv data={data} columns={columns} csvName={template.csv_name} />
             <TableContainer columns={columns} data={data} />
@@ -171,8 +200,6 @@ function CleanAndExport() {
               message='Successfully Saved!'
             />
           </>
-        ) : (
-          <LoadingSpinner />
         )}
       </BreadCrumb>
     </>
