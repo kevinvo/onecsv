@@ -12,12 +12,12 @@ function TableContainer({ columns, data }) {
       <table {...getTableProps()} className='table table-bordered '>
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
               <th scope='col' className='text-center'>
                 #
               </th>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()} className='text-center' scope='col'>
+                <th key={column.id} {...column.getHeaderProps()} className='text-center' scope='col'>
                   {column.render('Header')}
                 </th>
               ))}
@@ -29,7 +29,7 @@ function TableContainer({ columns, data }) {
           {rows.map((row, outerIndex) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <tr key={row.id} {...row.getRowProps()}>
                 <th scope='row' className='align-middle text-center'>
                   {outerIndex + 1}
                 </th>

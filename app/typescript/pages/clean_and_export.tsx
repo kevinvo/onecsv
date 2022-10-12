@@ -142,7 +142,7 @@ function CleanAndExport() {
           const rowData = data.rows.map((row) => {
             const obj = {}
             row.forEach((rowObj, index) => {
-              //The data being set here will be accessed inside method renderEditable.
+              // The data being set here will be accessed inside method renderEditable.
               const accessor = 'col' + index
               obj[accessor] = rowObj.value
               obj['error' + index] = rowObj.error // error message
@@ -164,7 +164,7 @@ function CleanAndExport() {
           <LoadingSpinner />
         ) : (
           <>
-            <ExportCsv data={data} columns={columns} csvName={template.csv_name} />
+            <ExportCsv data={data} columns={columns} csvName={template?.csv_name} />
             <TableContainer columns={columns} data={data} />
             <AutohideToast
               showToast={showToast}
