@@ -8,8 +8,14 @@ import ReactGA from 'react-ga'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const TRACKING_ID = 'UA-243778211-1'
-const queryClient = new QueryClient()
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 export default function App() {
   useEffect(() => {
     ReactGA.initialize(TRACKING_ID)
