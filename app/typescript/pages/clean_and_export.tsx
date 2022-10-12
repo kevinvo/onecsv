@@ -26,7 +26,6 @@ function CleanAndExport() {
   const [data, setData] = useState([])
   const [template, setTemplate] = useState(null)
   const [showToast, setShowToast] = useState(false)
-  const [reloadValidation, setReloadValidation] = useState(false)
 
   const [headers, setHeaders] = useState([])
   const [rows, setRows] = useState([])
@@ -64,14 +63,17 @@ function CleanAndExport() {
       }).header_name
       setCellValue(newCellValue)
 
-      const data = {}
-      data['header_name'] = headerName
-      data['value'] = newCellValue
-      data['index'] = props.cell.row.index
-      const url = '/api/header_column'
-
-      const response = await axios.post(url, data, { headers: {} })
-      setError(response.data.error)
+      const postData = {}
+      postData['header_name'] = headerName
+      postData['value'] = newCellValue
+      postData['index'] = props.cell.row.index
+      const { data } = await axios.post('/api/header_column', postData, { headers: {} })
+      setError(data.error)
+      setHeaders((prevHeaders) =>
+        prevHeaders.map((prevHeader, index) =>
+          prevHeader.position === data.header.position ? data.header : prevHeader,
+        ),
+      )
       setShowToast(true)
     }
 
@@ -106,6 +108,17 @@ function CleanAndExport() {
     )
   }
 
+  function renderHeader(header) {
+    return (
+      <div>
+        {header.header_name}{' '}
+        {header.total_errors > 0 ? (
+          <span className='text-danger'>({header.total_errors})</span>
+        ) : null}
+      </div>
+    )
+  }
+
   function useContentAndValidation() {
     return useQuery(
       ['content_and_validation'],
@@ -118,14 +131,7 @@ function CleanAndExport() {
           setTemplate(data.template)
           const headerColumns = data.headers.map((header, index) => {
             return {
-              Header: () => (
-                <div>
-                  {header.header_name}{' '}
-                  {header.total_errors > 0 ? (
-                    <span className='text-danger'>({header.total_errors})</span>
-                  ) : null}
-                </div>
-              ),
+              Header: () => renderHeader(header),
               accessor: 'col' + index,
               header_name: header.header_name,
               Cell: renderEditable,
@@ -136,9 +142,10 @@ function CleanAndExport() {
           const rowData = data.rows.map((row) => {
             const obj = {}
             row.forEach((rowObj, index) => {
+              //The data being set here will be accessed inside method renderEditable.
               const accessor = 'col' + index
               obj[accessor] = rowObj.value
-              obj['error' + index] = rowObj.error
+              obj['error' + index] = rowObj.error // error message
               obj['data_type' + index] = rowObj.data_type
             })
             return obj
@@ -149,41 +156,6 @@ function CleanAndExport() {
     )
   }
   const { isFetching } = useContentAndValidation()
-
-  useEffect(() => {
-    const headerColumns = headers.map((header, index) => {
-      return {
-        Header: () => (
-          <div>
-            {header.header_name}{' '}
-            {header.total_errors > 0 ? (
-              <span className='text-danger'>({header.total_errors})</span>
-            ) : null}
-          </div>
-        ),
-        accessor: 'col' + index,
-        header_name: header.header_name,
-        Cell: renderEditable,
-      }
-    })
-    setColumns(headerColumns)
-  }, [headers])
-
-  useEffect(() => {
-    const rowData = rows.map((row) => {
-      const obj = {}
-      row.forEach((rowObj, index) => {
-        const accessor = 'col' + index
-        obj[accessor] = rowObj.value
-        obj['error' + index] = rowObj.error // Error count
-        obj['data_type' + index] = rowObj.data_type
-      })
-      return obj
-    })
-    setData(rowData)
-  }, [rows])
-
-
 
   return (
     <>
