@@ -9,12 +9,9 @@ class DateDirectiveDataObject
   attribute :sample_format, String # MM/DD/YYYY
 
   def valid?(value)
-    begin
-      date_from_directive = Date.strptime(value, directive).strftime(directive)
-      date_from_directive == value
-    rescue StandardError
-      return false
-    end
-
+    date_from_directive = Date.strptime(value, directive).strftime(directive)
+    date_from_directive == value
+  rescue StandardError
+    false
   end
 end

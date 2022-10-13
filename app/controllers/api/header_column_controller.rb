@@ -22,7 +22,10 @@ module Api
                                                     header.read_attribute_before_type_cast(:data_type),
                                                     header.is_required_field,
                                                     date_directive).valid?
-      render json: { status: :updated, error: type_validator_obj.error_message }
+
+      header_mapping = HeaderMappingService.new([template_header]).call
+      render json: { status: :updated, error: type_validator_obj.error_message,
+                     header: header_mapping.header_map.first }
     end
   end
 end
