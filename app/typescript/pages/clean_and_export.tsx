@@ -11,14 +11,19 @@ import AutohideToast from '../components/auto_hide_toast'
 import LoadingSpinner from '../components/loading_spinner'
 import { useQuery } from '@tanstack/react-query'
 
-function OverlayToolTip(props) {
+type OverlayProps = {
+  message: string,
+  children: JSX.Element
+}
+
+function OverlayToolTip({ children, message }: OverlayProps) {
   const withOverlay = (
-    <OverlayTrigger key='right' placement='right' overlay={<Tooltip>{props.message}</Tooltip>}>
-      {props.children}
+    <OverlayTrigger key='right' placement='right' overlay={<Tooltip>{message}</Tooltip>}>
+      {children}
     </OverlayTrigger>
   )
-  const withoutOverlay = <>{props.children}</>
-  return <>{props?.message?.length > 0 ? withOverlay : withoutOverlay}</>
+  const withoutOverlay = <>{children}</>
+  return <>{message?.length > 0 ? withOverlay : withoutOverlay}</>
 }
 
 function CleanAndExport() {
