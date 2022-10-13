@@ -10,9 +10,10 @@ import { DebounceInput } from 'react-debounce-input'
 import AutohideToast from '../components/auto_hide_toast'
 import LoadingSpinner from '../components/loading_spinner'
 import { useQuery } from '@tanstack/react-query'
+import { useHeaderStore } from '../store'
 
 type OverlayProps = {
-  message: string,
+  message: string
   children: JSX.Element
 }
 
@@ -32,8 +33,8 @@ function CleanAndExport() {
   const [template, setTemplate] = useState(null)
   const [showToast, setShowToast] = useState(false)
 
-  const [headers, setHeaders] = useState([])
-  const [rows, setRows] = useState([])
+  const replaceHeader = useHeaderStore((state) => state.replaceHeader)
+  const setHeaders = useHeaderStore((state) => state.setHeaders)
 
   useEffect(() => {
     document.title = 'Clean and Export'
@@ -74,11 +75,7 @@ function CleanAndExport() {
       postData['index'] = props.cell.row.index
       const { data } = await axios.post('/api/header_column', postData, { headers: {} })
       setError(data.error)
-      setHeaders((prevHeaders) =>
-        prevHeaders.map((prevHeader, index) =>
-          prevHeader.position === data.header.position ? data.header : prevHeader,
-        ),
-      )
+      replaceHeader(data.header)
       setShowToast(true)
     }
 
@@ -114,11 +111,16 @@ function CleanAndExport() {
   }
 
   function renderHeader(header) {
+    const headers = useHeaderStore((state) => state.headers)
+    const foundHeader = headers.find(element => {
+      return element.position === header.position
+    })
+
     return (
       <div>
-        {header.header_name}{' '}
-        {header.total_errors > 0 ? (
-          <span className='text-danger'>({header.total_errors})</span>
+        {foundHeader.header_name}{' '}
+        {foundHeader.total_errors > 0 ? (
+          <span className='text-danger'>({foundHeader.total_errors})</span>
         ) : null}
       </div>
     )
@@ -163,6 +165,7 @@ function CleanAndExport() {
           setTemplate(data.template)
           handleHeaders(data.headers)
           handleRows(data.rows)
+          setHeaders(data.headers)
         },
       },
     )
