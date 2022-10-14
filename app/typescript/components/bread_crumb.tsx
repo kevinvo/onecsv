@@ -1,7 +1,12 @@
 import React from 'react'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 
-export default function BreadCrumb(props) {
+type BreadCrumbProps = {
+  locationPath: string
+  children: JSX.Element
+}
+
+export default function BreadCrumb({ locationPath, children }: BreadCrumbProps) {
   const items = [
     { href: '/', name: 'Import a file' },
     { href: '/map-template-columns', name: 'Map template columns' },
@@ -13,7 +18,7 @@ export default function BreadCrumb(props) {
       <div style={{ margin: '60px' }}>
         <Breadcrumb>
           {items.map((item, index) =>
-            item.href === props.location_path ? (
+            item.href === locationPath ? (
               <Breadcrumb.Item key={0} href={item.href} active>
                 {item.name}
               </Breadcrumb.Item>
@@ -24,7 +29,7 @@ export default function BreadCrumb(props) {
             ),
           )}
         </Breadcrumb>
-        {props.children}
+        {children}
       </div>
     </>
   )

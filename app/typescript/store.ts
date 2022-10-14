@@ -1,6 +1,4 @@
 import create from 'zustand'
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 
 export const useHeaderStore = create((set, get) => ({
   headers: [],

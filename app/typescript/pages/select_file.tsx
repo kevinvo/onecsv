@@ -9,7 +9,7 @@ function SelectFile() {
 
   return (
     <>
-      <BreadCrumb location_path='/'>
+      <BreadCrumb locationPath='/'>
         <FileUploader />
       </BreadCrumb>
     </>
