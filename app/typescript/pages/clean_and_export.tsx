@@ -27,7 +27,14 @@ const ErrorCount = styled.span`
   margin-left: 8px;
   margin-right: 8px;
 `
-
+const NoWrapText = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  width: 100%;
+  min-width: 1px;
+`
 type OverlayProps = {
   message: string
   children: JSX.Element
@@ -134,7 +141,9 @@ function CleanAndExport() {
 
     return (
       <div>
-        {foundHeader.header_name}{' '}
+        <NoWrapText>
+          <span>{foundHeader.header_name}{' '}</span>
+
         {foundHeader.total_errors > 0 ? (
           <span className='text-danger'>
             <Circle>
@@ -142,6 +151,7 @@ function CleanAndExport() {
             </Circle>
           </span>
         ) : null}
+        </NoWrapText>
       </div>
     )
   }
