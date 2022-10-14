@@ -11,6 +11,22 @@ import AutohideToast from '../components/auto_hide_toast'
 import LoadingSpinner from '../components/loading_spinner'
 import { useQuery } from '@tanstack/react-query'
 import { useHeaderStore } from '../store'
+import styled from 'styled-components'
+
+const Circle = styled.span`
+  display: inline-block;
+  line-height: 0px;
+  border-radius: 50%;
+  border: 2px solid;
+  font-size: 14px;
+`
+const ErrorCount = styled.span`
+  display: inline-block;
+  padding-top: 50%;
+  padding-bottom: 50%;
+  margin-left: 8px;
+  margin-right: 8px;
+`
 
 type OverlayProps = {
   message: string
@@ -112,7 +128,7 @@ function CleanAndExport() {
 
   function renderHeader(header) {
     const headers = useHeaderStore((state) => state.headers)
-    const foundHeader = headers.find(element => {
+    const foundHeader = headers.find((element) => {
       return element.position === header.position
     })
 
@@ -120,7 +136,11 @@ function CleanAndExport() {
       <div>
         {foundHeader.header_name}{' '}
         {foundHeader.total_errors > 0 ? (
-          <span className='text-danger'>({foundHeader.total_errors})</span>
+          <span className='text-danger'>
+            <Circle>
+              <ErrorCount>{foundHeader.total_errors}</ErrorCount>
+            </Circle>
+          </span>
         ) : null}
       </div>
     )
