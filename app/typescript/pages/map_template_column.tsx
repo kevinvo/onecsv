@@ -48,7 +48,7 @@ function MapTemplateColumn() {
 
   return (
     <>
-      <BreadCrumb location_path='/map-template-columns'>
+      <BreadCrumb locationPath='/map-template-columns'>
         {isFetching ? (
           <LoadingSpinner />
         ) : (

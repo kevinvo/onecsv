@@ -142,15 +142,15 @@ function CleanAndExport() {
     return (
       <div>
         <NoWrapText>
-          <span>{foundHeader.header_name}{' '}</span>
+          <span>{foundHeader.header_name} </span>
 
-        {foundHeader.total_errors > 0 ? (
-          <span className='text-danger'>
-            <Circle>
-              <ErrorCount>{foundHeader.total_errors}</ErrorCount>
-            </Circle>
-          </span>
-        ) : null}
+          {foundHeader.total_errors > 0 ? (
+            <span className='text-danger'>
+              <Circle>
+                <ErrorCount>{foundHeader.total_errors}</ErrorCount>
+              </Circle>
+            </span>
+          ) : null}
         </NoWrapText>
       </div>
     )
@@ -204,7 +204,7 @@ function CleanAndExport() {
 
   return (
     <>
-      <BreadCrumb location_path='/clean-and-export'>
+      <BreadCrumb locationPath='/clean-and-export'>
         {isFetching ? (
           <LoadingSpinner />
         ) : (
