@@ -10,15 +10,44 @@ import { DebounceInput } from 'react-debounce-input'
 import AutohideToast from '../components/auto_hide_toast'
 import LoadingSpinner from '../components/loading_spinner'
 import { useQuery } from '@tanstack/react-query'
+import { useHeaderStore } from '../store'
+import styled from 'styled-components'
 
-function OverlayToolTip(props) {
+const Circle = styled.span`
+  display: inline-block;
+  line-height: 0px;
+  border-radius: 50%;
+  border: 2px solid;
+  font-size: 14px;
+`
+const ErrorCount = styled.span`
+  display: inline-block;
+  padding-top: 50%;
+  padding-bottom: 50%;
+  margin-left: 8px;
+  margin-right: 8px;
+`
+const NoWrapText = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  width: 100%;
+  min-width: 1px;
+`
+type OverlayProps = {
+  message: string
+  children: JSX.Element
+}
+
+function OverlayToolTip({ children, message }: OverlayProps) {
   const withOverlay = (
-    <OverlayTrigger key='right' placement='right' overlay={<Tooltip>{props.message}</Tooltip>}>
-      {props.children}
+    <OverlayTrigger key='right' placement='right' overlay={<Tooltip>{message}</Tooltip>}>
+      {children}
     </OverlayTrigger>
   )
-  const withoutOverlay = <>{props.children}</>
-  return <>{props?.message?.length > 0 ? withOverlay : withoutOverlay}</>
+  const withoutOverlay = <>{children}</>
+  return <>{message?.length > 0 ? withOverlay : withoutOverlay}</>
 }
 
 function CleanAndExport() {
@@ -26,7 +55,9 @@ function CleanAndExport() {
   const [data, setData] = useState([])
   const [template, setTemplate] = useState(null)
   const [showToast, setShowToast] = useState(false)
-  const [reloadValidation, setReloadValidation] = useState(false)
+
+  const replaceHeader = useHeaderStore((state) => state.replaceHeader)
+  const setHeaders = useHeaderStore((state) => state.setHeaders)
 
   useEffect(() => {
     document.title = 'Clean and Export'
@@ -61,14 +92,13 @@ function CleanAndExport() {
       }).header_name
       setCellValue(newCellValue)
 
-      const data = {}
-      data['header_name'] = headerName
-      data['value'] = newCellValue
-      data['index'] = props.cell.row.index
-      const url = '/api/header_column'
-
-      const response = await axios.post(url, data, { headers: {} })
-      setError(response.data.error)
+      const postData = {}
+      postData['header_name'] = headerName
+      postData['value'] = newCellValue
+      postData['index'] = props.cell.row.index
+      const { data } = await axios.post('/api/header_column', postData, { headers: {} })
+      setError(data.error)
+      replaceHeader(data.header)
       setShowToast(true)
     }
 
@@ -103,6 +133,56 @@ function CleanAndExport() {
     )
   }
 
+  function renderHeader(header) {
+    const headers = useHeaderStore((state) => state.headers)
+    const foundHeader = headers.find((element) => {
+      return element.position === header.position
+    })
+
+    return (
+      <div>
+        <NoWrapText>
+          <span>{foundHeader.header_name} </span>
+
+          {foundHeader.total_errors > 0 ? (
+            <span className='text-danger'>
+              <Circle>
+                <ErrorCount>{foundHeader.total_errors}</ErrorCount>
+              </Circle>
+            </span>
+          ) : null}
+        </NoWrapText>
+      </div>
+    )
+  }
+
+  function handleHeaders(headers) {
+    const headerColumns = headers.map((header, index) => {
+      return {
+        Header: () => renderHeader(header),
+        accessor: 'col' + index,
+        header_name: header.header_name,
+        Cell: renderEditable,
+      }
+    })
+    setColumns(headerColumns)
+  }
+
+  function handleRows(rows) {
+    const rowData = rows.map((row) => {
+      const obj = {}
+      row.forEach((rowObj, index) => {
+        // The data being set here will be accessed inside method renderEditable.
+        const accessor = 'col' + index
+        obj[accessor] = rowObj.value
+        obj['error' + index] = rowObj.error // error message
+        obj['data_type' + index] = rowObj.data_type
+      })
+      return obj
+    })
+    setData(rowData)
+  }
+
   function useContentAndValidation() {
     return useQuery(
       ['content_and_validation'],
@@ -113,49 +193,23 @@ function CleanAndExport() {
       {
         onSuccess: (data) => {
           setTemplate(data.template)
-          const headerColumns = data.headers.map((header, index) => {
-            return {
-              Header: () => (
-                <div>
-                  {header.header_name}{' '}
-                  {header.total_errors > 0 ? (
-                    <span className='text-danger'>({header.total_errors})</span>
-                  ) : null}
-                </div>
-              ),
-              accessor: 'col' + index,
-              header_name: header.header_name,
-              Cell: renderEditable,
-            }
-          })
-          setColumns(headerColumns)
-
-          const rowData = data.rows.map((row) => {
-            const obj = {}
-            row.forEach((rowObj, index) => {
-              const accessor = 'col' + index
-              obj[accessor] = rowObj.value
-              obj['error' + index] = rowObj.error
-              obj['data_type' + index] = rowObj.data_type
-            })
-            return obj
-          })
-          setData(rowData)
+          handleHeaders(data.headers)
+          handleRows(data.rows)
+          setHeaders(data.headers)
         },
       },
     )
   }
-
   const { isFetching } = useContentAndValidation()
 
   return (
     <>
-      <BreadCrumb location_path='/clean-and-export'>
+      <BreadCrumb locationPath='/clean-and-export'>
         {isFetching ? (
           <LoadingSpinner />
         ) : (
           <>
-            <ExportCsv data={data} columns={columns} csvName={template.csv_name} />
+            <ExportCsv data={data} columns={columns} csvName={template?.csv_name} />
             <TableContainer columns={columns} data={data} />
             <AutohideToast
               showToast={showToast}

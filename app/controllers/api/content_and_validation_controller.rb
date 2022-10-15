@@ -5,7 +5,7 @@ require 'csv'
 module Api
   class ContentAndValidationController < ApiController
     def index
-      header_mapping = HeaderMappingService.new(template).call
+      header_mapping = HeaderMappingService.new(template.template_headers).call
       column_value_error_message_lookup = header_mapping.column_value_error_message_lookup
 
       rows = template.template_headers.map do |template_header|

@@ -3,7 +3,7 @@
 class TypeValidatorService
   attr_reader :value, :data_type, :is_required_field, :error_message, :date_directive
 
-  def initialize(value, data_type, is_required_field, date_directive = nil )
+  def initialize(value, data_type, is_required_field, date_directive = nil)
     @value = value
     @data_type = data_type
     @is_required_field = is_required_field
