@@ -12,14 +12,19 @@ module Api
         template_header.column_values.each_with_index.map do |column_value, index|
           column_value = column_value.to_s.strip
           header = template_header.header
-          data_type = header.read_attribute_before_type_cast(:data_type)
           error_message = column_value_error_message_lookup[header.id.to_s + index.to_s]
 
-          { value: column_value,
-            data_type: data_type,
+          { header_id: header.id,
+            header_name: header.name,
+            value_index: index,
+            value: column_value,
+            data_type: header.read_attribute_before_type_cast(:data_type),
             error: error_message }
         end
       end.transpose
+      row_groups_by = rows.flatten.group_by{|row| row[:header_name]}
+      puts "row_groups_by = #{row_groups_by}"
+
       render json: { status: :ok, headers: header_mapping.header_map, rows: rows, template: template }
     end
 
