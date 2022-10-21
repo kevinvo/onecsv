@@ -7,6 +7,11 @@ RUN apt-get update -qq && apt-get install -y curl build-essential libpq-dev \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update && apt-get install -y nodejs yarn
 
+ENV LANG=C.UTF-8 \
+  BUNDLE_JOBS=4 \
+  BUNDLE_RETRY=3 \
+  RAILS_ENV=production
+
 RUN gem update --system && gem install bundler
 
 WORKDIR /app
