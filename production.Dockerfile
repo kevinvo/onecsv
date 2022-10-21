@@ -12,7 +12,16 @@ RUN gem update --system && gem install bundler
 WORKDIR /app
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
-RUN gem install bundler foreman && bundle install
+RUN bundle config frozen true \
+ && bundle config jobs 4 \
+ && bundle config deployment true \
+ && bundle config without 'development test' \
+ && bundle install
+
+COPY . .
+
+ARG SECRET_KEY_BASE=fakekeyforassets
+RUN bin/rails assets:clobber && bundle exec rails assets:precompile
 
 EXPOSE 3000
-ENTRYPOINT ["./entrypoint.sh"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
