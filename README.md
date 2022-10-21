@@ -29,7 +29,9 @@ $ Final step
 1. Local
 
 ```
-$ ./bin/dev
+$ docker compose build
+$ docker compose run --rm web bin/rails db:setup
+$ docker compose up
 ```
 
 ## Deployment

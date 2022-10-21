@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'csv'
-
 module Api
   class ContentAndValidationController < ApiController
     def index
