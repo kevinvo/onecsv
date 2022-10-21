@@ -9,16 +9,8 @@ services:
     build: .
     stdin_open: true
     tty: true
-    command:
-      - /bin/bash
-      - -c
-      - |
-        rm -f tmp/pids/server.pid
-        bundle exec rails s -p 3000 -b '0.0.0.0'
-        yarn build --watch
-        yarn build:css --watch
     volumes:
-      - web:/app
+      - .:/app
     ports:
       - "3000:3000"
     depends_on:
@@ -27,7 +19,9 @@ services:
     environment:
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5
+
 volumes:
   postgres:
-  web:
+
+
 

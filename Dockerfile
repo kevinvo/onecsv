@@ -7,15 +7,12 @@ RUN apt-get update -qq && apt-get install -y curl build-essential libpq-dev \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update && apt-get install -y nodejs yarn
 
-ADD . /app
+RUN gem update --system && gem install bundler
+
 WORKDIR /app
-
 COPY Gemfile /app/Gemfile
-RUN bundle install
+COPY Gemfile.lock /app/Gemfile.lock
+RUN gem install bundler foreman && bundle install
 
-COPY package.json /app/package.json
-RUN yarn install
-
-COPY . .
 EXPOSE 3000
-CMD ["rails","server","-b","0.0.0.0"]
+ENTRYPOINT ["./entrypoint.sh"]
