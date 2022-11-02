@@ -21,8 +21,25 @@ services:
     environment:
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5
+  sidekiq:
+    depends_on:
+      - 'db'
+      - 'redis'
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - '.:/project'
+    env_file: .env
+  redis:
+    image: 'redis:7-alpine'
+    command: redis-server
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis:/data'
 
 volumes:
+  redis:
   postgres:
 
 
