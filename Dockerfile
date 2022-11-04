@@ -12,8 +12,7 @@ COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 RUN gem update --system && gem install bundler && gem install bundler foreman && bundle install
 
-COPY entrypoint-app.sh entrypoint-worker.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint-app.sh
-RUN chmod +x /usr/bin/entrypoint-worker.sh
+COPY ./entrypoints/entrypoint-app.sh ./entrypoints/entrypoint-worker.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint-app.sh /usr/bin/entrypoint-worker.sh
 
 EXPOSE 3000

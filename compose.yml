@@ -22,7 +22,7 @@ services:
     environment:
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5
-    entrypoint: ./entrypoint-app.sh
+    entrypoint: ./entrypoints/entrypoint-app.sh
   worker:
     depends_on:
       - web
@@ -35,7 +35,7 @@ services:
     volumes:
       - .:/app
     env_file: .env
-    entrypoint: ./entrypoint-worker.sh
+    entrypoint: ./entrypoints/entrypoint-worker.sh
   redis:
     image: 'redis:7-alpine'
     command: redis-server
