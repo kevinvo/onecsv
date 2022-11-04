@@ -86,6 +86,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.10)
+    connection_pool (2.3.0)
     crass (1.0.6)
     cssbundling-rails (1.1.1)
       railties (>= 6.0.0)
@@ -273,6 +274,10 @@ GEM
       rubocop (>= 1.33.0, < 2.0)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
+    sidekiq (6.5.7)
+      connection_pool (>= 2.2.5)
+      rack (~> 2.0)
+      redis (>= 4.5.0, < 5)
     sixarm_ruby_unaccent (1.2.0)
     sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
@@ -340,6 +345,7 @@ DEPENDENCIES
   redis (~> 4.0)
   rubocop
   rubocop-rails
+  sidekiq (< 7)
   sprockets-rails
   tzinfo-data
   virtus

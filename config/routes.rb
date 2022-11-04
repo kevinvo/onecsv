@@ -1,8 +1,11 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :users, controllers: {
     sessions: "users/sessions",
     omniauth_callbacks: "users/omniauth_callbacks"
   }
+  mount Sidekiq::Web => '/sidekiq'
 
   namespace :api do
     resources :file_uploaders

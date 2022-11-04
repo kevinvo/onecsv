@@ -85,3 +85,4 @@ gem "rubocop", require: false
 gem "rubocop-rails", require: false
 gem "virtus"
 gem "foreman"
+gem "sidekiq", "<7"
