@@ -31,7 +31,8 @@
     "build:css": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
     "lint": "eslint app/typescript/**/*.{ts,tsx}",
     "lint:fix": "eslint --fix 'app/typescript/**/*.{ts,tsx}'",
-    "format": "prettier --write 'app/typescript/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write 'app/typescript/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "cp:open": "cypress open"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.37.0",
