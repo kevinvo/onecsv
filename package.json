@@ -8,6 +8,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.2.1",
     "bootstrap-icons": "^1.9.1",
+    "cypress": "^10.11.0",
     "esbuild": "^0.15.7",
     "esbuild-wasm": "^0.15.7",
     "eslint": "^8.23.1",
