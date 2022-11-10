@@ -19,7 +19,7 @@ const queryClient = new QueryClient({
 export default function App() {
   useEffect(() => {
     ReactGA.initialize(TRACKING_ID)
-    hotjar.initialize(3181232, 6)
+    hotjar.initialize(3242383, 6)
   }, [])
 
   return (
