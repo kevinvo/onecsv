@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CsvDataTypeService < ApplicationService
-  ACCURACY = 0
   attr_reader :values, :header_name, :data_type
 
   def initialize(values, header_name)
@@ -30,23 +29,27 @@ class CsvDataTypeService < ApplicationService
 
   private
 
+  def accuracy
+    @accurancy ||= [(@values.length / 2) - 1, 0].max
+  end
+
   def date?
-    @values.map { |value| DataTypeValidatorService.new(value).date? }.select(&:itself).length > ACCURACY
+    @values.map { |value| DataTypeValidatorService.new(value).date? }.select(&:itself).length > accuracy
   end
 
   def email?
-    @values.map { |value| DataTypeValidatorService.new(value).email? }.select(&:itself).length > ACCURACY
+    @values.map { |value| DataTypeValidatorService.new(value).email? }.select(&:itself).length > accuracy
   end
 
   def currency?
-    @values.map { |value| DataTypeValidatorService.new(value).currency? }.select { |value| value }.length > ACCURACY
+    @values.map { |value| DataTypeValidatorService.new(value).currency? }.select { |value| value }.length > accuracy
   end
 
   def integer?
-    @values.map { |value| DataTypeValidatorService.new(value).integer? }.select(&:itself).length > ACCURACY
+    @values.map { |value| DataTypeValidatorService.new(value).integer? }.select(&:itself).length > accuracy
   end
 
   def float?
-    @values.map { |value| DataTypeValidatorService.new(value).float? }.select(&:itself).length > ACCURACY
+    @values.map { |value| DataTypeValidatorService.new(value).float? }.select(&:itself).length > accuracy
   end
 end
