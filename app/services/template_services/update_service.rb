@@ -2,7 +2,7 @@
 
 module TemplateServices
   class UpdateService < ApplicationService
-    def initialize(template, csv_headers)
+    def initialize(template:, csv_headers:)
       @template = template
       @csv_headers = csv_headers
     end

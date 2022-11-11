@@ -24,7 +24,7 @@ module Api
 
     def update
       template = current_user.templates.find_by(id: params[:id])
-      TemplateServices::UpdateService.new(template, params['csv_headers']).call
+      TemplateServices::UpdateService.new(template: template, csv_headers: params['csv_headers']).call
       json = { status: :error, message: 'Error.' }
       if template
         session[:template_id] = template.id

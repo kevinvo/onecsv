@@ -42,7 +42,7 @@ class CsvDataTypeService < ApplicationService
   end
 
   def currency?
-    @values.map { |value| DataTypeValidatorService.new(value).currency? }.select { |value| value }.length > accuracy
+    @values.map { |value| DataTypeValidatorService.new(value).currency? }.select(&:itself).length > accuracy
   end
 
   def integer?
