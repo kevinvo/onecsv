@@ -1,6 +1,7 @@
 version: '3.9'
 services:
   db:
+    container_name: db
     image: postgres
     ports:
       - '5432:5432'
@@ -8,6 +9,7 @@ services:
       - postgres:/var/lib/postgresql/data
     env_file: .env
   web:
+    container_name: web
     build: .
     stdin_open: true
     tty: true
@@ -24,6 +26,7 @@ services:
       RAILS_MAX_THREADS: 5
     entrypoint: ./entrypoints/entrypoint-app.sh
   worker:
+    container_name: worker
     depends_on:
       - web
       - db
@@ -37,6 +40,7 @@ services:
     env_file: .env
     entrypoint: ./entrypoints/entrypoint-worker.sh
   redis:
+    container_name: redis
     image: 'redis:7-alpine'
     command: redis-server
     ports:
