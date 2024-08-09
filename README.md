@@ -8,6 +8,7 @@
 $ docker compose build
 $ docker compose run --rm web bin/rails db:setup
 $ docker compose up
+$ docker exec -it web  bundle exec rails db:migrate
 ```
 
 http://localhost:3000/
