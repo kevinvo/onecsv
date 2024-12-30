@@ -6,6 +6,8 @@
 
 ```
 $ docker compose build
+
+Open Up 3 terminals and run the following commands in each terminal
 $ docker compose run --rm web bin/rails db:setup
 $ docker compose up
 $ docker exec -it web  bundle exec rails db:migrate
